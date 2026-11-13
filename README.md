@@ -14,7 +14,7 @@ cd playwright-apresentacao
 ## O que tem aqui
 
 ```text
-apresentacao/   os 46 slides (HTML + deck.json), com notas do apresentador e os clipes de execução
+apresentacao/   os 46 slides, o visualizador (index.html), as notas do apresentador e os clipes
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
   tatu-api/     Spring Boot 3.5 + Playwright Java + WireMock
@@ -51,11 +51,39 @@ Serve uma página mínima própria para os testes de tela. Não precisa do Angul
 
 Cada pasta tem um README com variações, solução de problemas e o mapa do que cada teste ensina. O README em `exemplos/` descreve a história do banco fictício, o contrato da API e um roteiro de estudo.
 
+## Como abrir a apresentação
+
+O repositório já traz um visualizador pronto, sem dependências. Depois de clonar:
+
+```bash
+# opção 1: abrir o arquivo direto no navegador
+#   macOS:   open apresentacao/index.html
+#   Linux:   xdg-open apresentacao/index.html
+#   Windows: start apresentacao\index.html
+
+# opção 2: servir por HTTP (qualquer um dos dois)
+cd apresentacao
+python3 -m http.server 8000      # depois abra http://localhost:8000
+npx serve .                      # alternativa com Node
+```
+
+Teclas: setas, espaço e Enter navegam; **F** liga a tela cheia; **N** mostra as notas do apresentador; Home e End vão ao primeiro e ao último slide. Clicar na lateral esquerda volta e no resto avança, e no celular dá para arrastar. O número do slide fica na URL (por exemplo `index.html#18`).
+
+Os slides usam as fontes IBM Plex Sans e JetBrains Mono do Google Fonts. Sem internet, o navegador usa fontes de reserva e a apresentação continua funcionando, só com outra aparência. Os clipes de execução tocam sozinhos nos slides "Ao vivo".
+
+### Editou um slide?
+
+Os slides são os arquivos de `apresentacao/slides/` e a ordem está em `apresentacao/deck.json`. Depois de mexer, gere o visualizador de novo:
+
+```bash
+node apresentacao/gerar-visualizador.mjs
+```
+
 ## Sobre os slides
 
-Os slides estão no formato de apresentação em HTML e CSS com um subset fixo de elementos, resolução 1920 por 1080. Cada arquivo em `apresentacao/slides/` é um slide; a ordem e as seções estão em `apresentacao/deck.json`. As notas do apresentador ficam dentro de cada slide, na tag `aside`.
+Os slides estão em HTML e CSS com um subset fixo de elementos, resolução 1920 por 1080. Cada arquivo em `apresentacao/slides/` é um slide, e as notas do apresentador ficam dentro dele, na tag `aside`.
 
-Os slides com vídeo referenciam os clipes por identificador do editor de slides. Os mesmos clipes, em MP4, estão em `apresentacao/midia/` e em `exemplos/tatu-web/docs/`:
+Os clipes, em MP4, estão em `apresentacao/midia/` e em `exemplos/tatu-web/docs/`:
 
 - `terminal.mp4`: `npm run e2e` rodando os testes (3x mais rápido que o real);
 - `login.mp4`: o teste de login no navegador, com a legenda do código;

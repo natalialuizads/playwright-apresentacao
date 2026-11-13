@@ -1,0 +1,1588 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Playwright: o robô que clica por você</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: #0E1117; overflow: hidden; font-family: 'IBM Plex Sans', Arial, sans-serif; }
+  #palco { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; }
+  #tela { width: 1920px; height: 1080px; position: relative; flex: none; transform-origin: center center; background: #000; }
+  #tela > section { position: absolute; inset: 0; width: 1920px; height: 1080px; overflow: hidden; }
+  #tela > section:not(.ativo) { display: none !important; }
+  #tela p, #tela h1, #tela h2, #tela h3 { margin: 0; }
+  #tela aside { display: none; }
+  #tela table { border-collapse: collapse; }
+  #tela th { text-align: left; padding: 14px 18px; border-bottom: 2px solid #161A22; font-weight: 600; }
+  #tela td { padding: 14px 18px; border-bottom: 1px solid #DDD7CB; vertical-align: top; }
+  #barra { position: fixed; left: 0; bottom: 0; height: 4px; background: #F2905F; width: 0; transition: width .2s; z-index: 5; }
+  #contador { position: fixed; right: 16px; bottom: 12px; color: #9AA0AC; font: 600 14px 'IBM Plex Sans', Arial, sans-serif; z-index: 5; }
+  #notas { position: fixed; left: 0; right: 0; bottom: 0; max-height: 36vh; overflow: auto; padding: 18px 28px 26px; background: rgba(14,17,23,.96); color: #E8E4DA; font: 20px/1.5 'IBM Plex Sans', Arial, sans-serif; display: none; z-index: 6; border-top: 1px solid #2A3040; }
+  #notas.aberto { display: block; }
+  #notas b { color: #F2905F; letter-spacing: 1px; font-size: 13px; text-transform: uppercase; display: block; margin-bottom: 6px; }
+  #ajuda { position: fixed; top: 12px; right: 16px; color: #6B7384; font: 13px 'IBM Plex Sans', Arial, sans-serif; z-index: 5; transition: opacity .6s; }
+</style>
+</head>
+<body>
+<div id="palco"><div id="tela">
+<section id="cover" data-transition="fade" style="display:flex; flex-direction:column; justify-content:space-between; padding:128px; background:#161a22">
+  <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:24px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:#f2905f">Testes de ponta a ponta · Angular e Java</p>
+  <div style="display:flex; flex-direction:column; gap:40px">
+    <h1 style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:104px; font-weight:600; line-height:1.05; letter-spacing:-1px; color:#f5f2ec">Playwright: o robô<br>que clica por você</h1>
+    <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:36px; line-height:1.4; color:#c9c4b8">Conceitos, exemplos e boas práticas para o front em Angular e o back em Java.</p>
+  </div>
+  <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:24px; color:#9aa0ac">Natália Luiza - 13/11/2026</p>
+  <aside>Abertura. A promessa: sair daqui sabendo escrever o primeiro teste, tanto no front em Angular quanto no back em Java. Vou sempre seguir o mesmo ritmo: primeiro o conceito, depois o código.</aside>
+</section>
+<section id="agenda" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Roteiro</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro paradas, do conceito ao pipeline</h2>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">01</p>
+<p style="font-size:36px;font-weight:600;width:380px">Conceitos</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Browser, context e page; locators, assertions, auto-wait e a comparação com o Cypress.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">02</p>
+<p style="font-size:36px;font-weight:600;width:380px">Frontend Angular</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Setup, primeiro teste, mocks a fundo, Shadow DOM, Page Objects e login reaproveitado.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">03</p>
+<p style="font-size:36px;font-weight:600;width:380px">Backend Java</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">JUnit 5, testes de API, de tela, mocks com WireMock e integração com Spring Boot.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">04</p>
+<p style="font-size:36px;font-weight:600;width:380px">Dia a dia</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Boas práticas, CI, novidades de 2026 e os projetos de exemplo.</p>
+</div>
+</div>
+<aside>Quatro blocos. Os conceitos valem para as duas linguagens: a API é a mesma, muda só a sintaxe. Por isso quem é de backend não deve pular a parte de Angular, e vice-versa.</aside>
+</section>
+<section id="o-que-e" data-section="Conceitos: o que é, onde entra, como pensa um teste Playwright" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que é o Playwright</h2>
+</div>
+<p style="font-size:44px;line-height:1.3;color:#161A22">Uma biblioteca que controla navegadores de verdade por código: clica, digita, navega e confere a tela como um usuário faria.</p>
+<div style="display:flex;gap:32px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600;color:#2C5F9E">3 motores</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Chromium, Firefox e WebKit (a base do Safari), com a mesma API.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600;color:#2C5F9E">4 linguagens</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">TypeScript, Java, Python e .NET. O que você aprende num vale no outro.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600;color:#2C5F9E">Open source</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Mantido pela Microsoft, com versão nova a cada um ou dois meses.</p>
+</div>
+</div>
+<aside>A frase-chave: navegador de verdade, dirigido por código. Não é um simulador de DOM como o jsdom: é o Chromium, o Firefox ou o WebKit rodando de fato, com rede, CSS e JavaScript reais. A versão mais recente, a 1.65, saiu em 5 de novembro de 2026.</aside>
+</section>
+<section id="piramide" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Onde ele entra na pirâmide de testes</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:360px;background:#B4471B;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Ponta a ponta</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Playwright com navegador.</b> Poucos testes, só fluxos críticos: login, Pix, pagamento.</p>
+</div>
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:620px;background:#2C5F9E;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Integração e API</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Playwright sem navegador</b> e Spring Boot Test. Contratos entre front, BFF e serviços.</p>
+</div>
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:880px;background:#161A22;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Unitários</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Muitos e rápidos. Jest, Vitest ou Karma no Angular; JUnit e Mockito no Java.</p>
+</div>
+</div>
+<aside>Playwright não substitui teste unitário. Ele cobre os dois andares de cima: o fluxo completo pelo navegador e as chamadas de API sem navegador. Quanto mais alto na pirâmide, mais caro e mais lento, então guardamos o topo para o que não pode quebrar em produção.</aside>
+</section>
+<section id="browser-context-page" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · analogia</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Browser, Context e Page: pense num prédio</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="width:960px;border:3px solid #161A22;border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:24px;background:#FBFAF6">
+<p style="font-size:28px;font-weight:600">Browser · o prédio</p>
+<div style="display:flex;gap:24px">
+<div style="flex:1;border:2px dashed #2C5F9E;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;background:#E9EFF6">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Context A</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Apartamento do teste 1: cookies e login só dele</p>
+<p style="font-size:24px;background:#161A22;color:#F5F2EC;padding:12px 20px;border-radius:10px">Page · /login</p>
+<p style="font-size:24px;background:#161A22;color:#F5F2EC;padding:12px 20px;border-radius:10px">Page · /extrato</p>
+</div>
+<div style="flex:1;border:2px dashed #2C5F9E;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px;background:#E9EFF6">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Context B</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Apartamento do teste 2: começa do zero</p>
+<p style="font-size:24px;background:#161A22;color:#F5F2EC;padding:12px 20px;border-radius:10px">Page · /pix</p>
+</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Browser</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Abrir é caro, então abre uma vez para vários testes.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600;color:#2C5F9E">Context</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Barato e isolado. Um teste nunca herda o login do outro.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Page</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Uma aba. É nela que você clica, digita e confere.</p>
+</div>
+</div>
+</div>
+<aside>Essa é a analogia que destrava tudo. O browser é o prédio: caro de construir. Cada context é um apartamento com a sua própria chave: cookies, localStorage e sessão separados. A page é um cômodo, uma aba. Como cada teste ganha um apartamento novo, dá para rodar dezenas em paralelo sem um sujar o outro.</aside>
+</section>
+<section id="pilares" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Todo teste é a mesma frase em quatro partes</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">1 · Como encontrar</p>
+<h3 style="font-size:36px;font-weight:600">Locator</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Uma receita para achar o elemento, avaliada só na hora da ação.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">getByRole</span>(<span style="color:#2F7A3A">'button'</span>, { name: <span style="color:#2F7A3A">'Entrar'</span> })</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">2 · O que fazer</p>
+<h3 style="font-size:36px;font-weight:600">Ação</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">click, fill, check, selectOption, press: o que o usuário faria.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> botao.<span style="color:#2C5F9E">click</span>();</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">3 · O que conferir</p>
+<h3 style="font-size:36px;font-weight:600">Assertion</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Tenta de novo até a condição ser verdade ou o tempo acabar.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> <span style="color:#2C5F9E">expect</span>(page).<span style="color:#2C5F9E">toHaveURL</span>(/inicio/);</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">4 · Quando agir</p>
+<h3 style="font-size:36px;font-weight:600">Auto-wait</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Antes de cada ação, espera o elemento ficar pronto. Sozinho.</p>
+<p style="font-size:24px;color:#2C5F9E">Sem sleep e sem waitFor manual</p>
+</div>
+</div>
+<aside>Se a pessoa lembrar de um slide só, que seja este. Achar, agir, conferir, e o Playwright cuida do quando. Repare que o locator é preguiçoso: ele não procura o elemento quando você o cria, só quando vai usar. Por isso dá para guardar locators em variáveis e em Page Objects sem medo.</aside>
+</section>
+<section id="auto-wait" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Auto-wait: o checklist antes de cada clique</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="width:620px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Antes de clicar, o Playwright confere se o elemento está:</p>
+<div style="display:flex;gap:20px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#2C5F9E;width:40px;height:40px;flex:none"><path d="M4 12.5l5 5L20 6.5"/></svg><p style="font-size:28px"><b>Anexado</b> ao DOM</p></div>
+<div style="display:flex;gap:20px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#2C5F9E;width:40px;height:40px;flex:none"><path d="M4 12.5l5 5L20 6.5"/></svg><p style="font-size:28px"><b>Visível</b> na tela</p></div>
+<div style="display:flex;gap:20px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#2C5F9E;width:40px;height:40px;flex:none"><path d="M4 12.5l5 5L20 6.5"/></svg><p style="font-size:28px"><b>Estável</b>, sem animação</p></div>
+<div style="display:flex;gap:20px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#2C5F9E;width:40px;height:40px;flex:none"><path d="M4 12.5l5 5L20 6.5"/></svg><p style="font-size:28px"><b>Habilitado</b>, não disabled</p></div>
+<div style="display:flex;gap:20px;align-items:center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="color:#2C5F9E;width:40px;height:40px;flex:none"><path d="M4 12.5l5 5L20 6.5"/></svg><p style="font-size:28px"><b>Livre</b>, sem nada por cima</p></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Antes: frágil</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">waitForTimeout</span>(<span style="color:#F2B482">3000</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">click</span>(<span style="color:#9CD08F">'.btn-primary'</span>);</p>
+<p><span style="color:#8C95A8">// e se o BFF levar 4 segundos?</span></p>
+</div>
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Com Playwright: só a intenção</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Pagar'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+</div>
+</div>
+</div>
+<aside>Esse é o motivo número um de testes instáveis sumirem quando se migra para o Playwright. Ele faz esse checklist em toda ação. Se algo não fica pronto dentro do timeout, o teste falha com uma mensagem dizendo qual verificação não passou, por exemplo: elemento coberto por outro.</aside>
+</section>
+<section id="sem-sleep" data-transition="fade" style="background:#B4471B;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#FBEDE4">Regra de ouro</p>
+<h2 style="font-size:88px;font-weight:600;line-height:1.1;color:#F5F2EC">Não espere por tempo.<br>Espere por estado.</h2>
+<p style="font-size:36px;line-height:1.4;color:#FBEDE4">Um sleep de 3 segundos passa na sua máquina e quebra no CI. Uma assertion espera só o necessário: até 5 segundos, por padrão.</p>
+<aside>Pausa dramática aqui. Todo time que sofre com teste instável tem sleep espalhado pela suíte. Tempo fixo é uma aposta: ou sobra e o teste fica lento, ou falta e o teste quebra. Esperar por estado, como “o botão apareceu” ou “a URL mudou”, é determinístico.</aside>
+</section>
+<section id="locators" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Locators: procure como o usuário procura</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">Locator</th><th style="width:42%">Exemplo</th><th style="width:36%">Quando usar</th></tr>
+<tr style="background:#E9EFF6"><td>getByRole</td><td>getByRole('button', { name: 'Entrar' })</td><td>Primeira escolha: é como o usuário vê</td></tr>
+<tr><td>getByLabel</td><td>getByLabel('CPF')</td><td>Campos de formulário com rótulo</td></tr>
+<tr><td>getByText</td><td>getByText('Saldo disponível')</td><td>Textos que não são botões nem links</td></tr>
+<tr><td>getByTestId</td><td>getByTestId('card-saldo')</td><td>Sem papel nem texto estável</td></tr>
+<tr style="background:#F7E3D8"><td>locator(css)</td><td>locator('.mat-mdc-row')</td><td>Último recurso: quebra com o layout</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Dica:</b> no Codegen e no modo UI, o próprio Playwright sugere o melhor locator para o elemento que você aponta.</p>
+<aside>A ordem da tabela é a ordem de preferência. getByRole usa a árvore de acessibilidade, a mesma que o leitor de tela usa. Então ele ganha duas coisas de brinde: resiste a mudanças de CSS e denuncia problemas de acessibilidade. Se o getByRole não acha o botão, provavelmente o leitor de tela também não acha.</aside>
+</section>
+<section id="assertions" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Assertions web-first: conferir com paciência</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Certo: espera o estado chegar</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">'Aprovado'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p><span style="color:#8C95A8">// tenta de novo até passar</span></p>
+<p><span style="color:#8C95A8">// ou estourar o timeout</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Errado: olha uma vez só</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> ok = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">'Aprovado'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">isVisible</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(ok).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+<p><span style="color:#8C95A8">// se a API atrasar, falha</span></p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600">As que você mais vai usar</p>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toBeVisible</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveText</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveURL</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveCount</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toBeEnabled</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveScreenshot</p>
+</div>
+</div>
+<aside>A diferença é sutil no código e enorme no resultado. O expect com await recebe o locator e fica tentando até a condição bater. A versão da direita tira uma foto do instante: se o elemento aparecer 100 milissegundos depois, o teste já falhou. Regra prática: o await vai antes do expect, não dentro dele.</aside>
+</section>
+<section id="fixtures" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Fixtures: o kit que cada teste recebe pronto</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:40px 48px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { test, expect } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p>&#160;</p>
+<p>test.<span style="color:#7FB5F0">beforeEach</span>(<span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/'</span>);</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'mostra o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// page novinha: sem cookies de outro teste</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">1</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>test</b> e <b>expect</b> vêm do Playwright Test, o runner oficial.</p>
+</div>
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">2</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>{ page }</b> é uma fixture: montada antes e desmontada depois de cada teste.</p>
+</div>
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">3</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Cada teste ganha um context novo, então todos podem rodar em paralelo.</p>
+</div>
+</div>
+</div>
+<aside>Fixture é o que o teste pede na assinatura e o runner entrega pronto. Você pede page e recebe uma aba num context limpo; pede request e recebe um cliente HTTP. Também dá para criar fixtures próprias, por exemplo um cliente já logado ou uma conta com saldo, e o runner cuida de montar e limpar.</aside>
+</section>
+<section id="ferramentas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro ferramentas que vêm na caixa</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Codegen</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Grava seus cliques e escreve o teste. Ótimo ponto de partida.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright codegen localhost:<span style="color:#B4471B">4200</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Modo UI</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Roda, pausa e volta no tempo passo a passo, com a tela de cada um.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright test <span style="color:#2C5F9E">--ui</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Trace Viewer</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O raio-x da falha: DOM, rede, console e tela em cada passo.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright show-trace trace.zip</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Relatório HTML</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O que passou, o que falhou e por quê, com o trace anexado.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright show-report</p>
+</div>
+</div>
+<aside>Demo ao vivo sugerida: abrir o Codegen na aplicação local, gravar um login de 20 segundos e mostrar que ele já escolhe getByRole e getByLabel. Depois rodar com --ui. No Java, o Codegen roda pelo Maven: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="codegen localhost:4200".</aside>
+</section>
+<section id="vs-cypress" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · comparação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">E o Cypress? As diferenças que importam</h2>
+</div>
+<table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">Aspecto</th><th style="width:39%">Playwright</th><th style="width:39%">Cypress</th></tr>
+<tr><td>Onde roda</td><td>Fora do navegador, por protocolo</td><td>Dentro do navegador, junto da página</td></tr>
+<tr><td>Linguagens</td><td>TypeScript, Java, Python e .NET</td><td>JavaScript e TypeScript</td></tr>
+<tr><td>Navegadores</td><td>Chromium, Firefox e WebKit</td><td>Chromium e Firefox; WebKit experimental</td></tr>
+<tr><td>Abas e janelas</td><td>Várias abas, janelas e contextos</td><td>Uma aba; outra origem com cy.origin</td></tr>
+<tr><td>Paralelismo</td><td>Grátis, até dentro do mesmo arquivo</td><td>Um arquivo por vez; dividir exige Cloud pago</td></tr>
+<tr><td>Mock de rede</td><td>page.route</td><td>cy.intercept</td></tr>
+<tr><td>Estilo</td><td>async e await</td><td>Comandos encadeados numa fila</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Leitura honesta:</b> o Cypress é ótimo de aprender e tem um runner interativo excelente. <b>O problema é a esteira:</b> sem paralelismo nativo, ele roda um arquivo de cada vez, e dividir a suíte entre máquinas exige o Cypress Cloud, que é pago. No Playwright, workers e --shard vêm de graça.</p>
+<aside>Os dois são boas ferramentas; a diferença está na arquitetura. O Cypress roda dentro do navegador, o que dá uma experiência de depuração muito boa, mas limita abas, janelas e linguagens. O Playwright controla o navegador de fora, o que libera várias abas, WebKit e Java. Paralelismo é o ponto que mais pesa na esteira: o runner gratuito do Cypress executa os arquivos em sequência numa máquina, e a divisão entre várias máquinas depende do Cypress Cloud ou de ferramentas de terceiros. Com uma suíte grande, isso vira minutos a mais em cada PR. No Playwright, os workers rodam em paralelo na mesma máquina e o --shard divide entre máquinas, tudo no runner gratuito. Dado de 2026: o Cypress 16 saiu em setembro e o component testing dele passou a suportar só Angular 21 em diante.</aside>
+</section>
+<section id="vs-cypress-codigo" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · comparação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O mesmo teste nos dois</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600;color:#4A4F5C">Cypress</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">it</span>(<span style="color:#9CD08F">'mostra erro do extrato'</span>, () =&gt; {</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">intercept</span>(<span style="color:#9CD08F">'GET'</span>, <span style="color:#9CD08F">'/api/extrato'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;statusCode: <span style="color:#F2B482">500</span>,</p>
+<p>&#160;&#160;}).<span style="color:#7FB5F0">as</span>(<span style="color:#9CD08F">'extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">visit</span>(<span style="color:#9CD08F">'/extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">wait</span>(<span style="color:#9CD08F">'@extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">'[role=alert]'</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">should</span>(<span style="color:#9CD08F">'contain'</span>, <span style="color:#9CD08F">'Não foi possível'</span>);</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Playwright</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'mostra erro do extrato'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, (r) =&gt;</p>
+<p>&#160;&#160;&#160;&#160;r.<span style="color:#7FB5F0">fulfill</span>({ status: <span style="color:#F2B482">500</span> }));</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/extrato'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'Não foi possível'</span>);</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:48px">
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Sem await no Cypress:</b> os comandos entram numa fila e rodam depois.</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Migrar é quase linha a linha:</b> intercept vira route, should vira expect.</p>
+</div>
+<aside>Mesmo cenário dos dois lados: mockar o extrato com erro 500 e conferir a mensagem. Repare no cy.wait com alias: no Cypress é comum sincronizar com a rede explicitamente. No Playwright, a própria assertion espera. Para quem já tem suíte em Cypress, a migração costuma ser mecânica, e dá para fazer por partes, rodando os dois em paralelo por um tempo.</aside>
+</section>
+<section id="div-angular" data-section="Frontend em Angular: setup, primeiro teste, mocks, Page Objects e login" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Parte 2</p>
+<h2 style="font-size:104px;font-weight:600;line-height:1.05;color:#F5F2EC">Frontend em Angular</h2>
+<p style="font-size:36px;line-height:1.4;color:#C9C4B8">Do ng add ao Page Object, com o BFF sob controle.</p>
+<aside>Agora a parte prática do front. Tudo aqui é TypeScript com o Playwright Test, o runner oficial.</aside>
+</section>
+<section id="setup-angular" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · setup</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Do zero ao ng e2e em um comando</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:560px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">1 · Instale</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">ng</span> add playwright-ng-schematics</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Instala o Playwright Test e liga o ng e2e.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">2 · Rode</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">ng</span> e2e <span style="color:#2C5F9E">--ui</span></p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O webServer sobe o ng serve antes dos testes.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">Sem o schematic</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">npm</span> init playwright<span style="color:#9A6A00">@latest</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">playwright.config.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { defineConfig } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>({</p>
+<p>&#160;&#160;testDir: <span style="color:#9CD08F">'./e2e'</span>,</p>
+<p>&#160;&#160;retries: process.env.CI ? <span style="color:#F2B482">2</span> : <span style="color:#F2B482">0</span>,</p>
+<p>&#160;&#160;use: {</p>
+<p>&#160;&#160;&#160;&#160;baseURL: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;&#160;&#160;&#160;trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;&#160;},</p>
+<p>&#160;&#160;webServer: {</p>
+<p>&#160;&#160;&#160;&#160;command: <span style="color:#9CD08F">'npm start'</span>,</p>
+<p>&#160;&#160;&#160;&#160;url: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;&#160;&#160;&#160;reuseExistingServer: !process.env.CI,</p>
+<p>&#160;&#160;},</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<aside>O schematic da comunidade é o caminho mais curto num projeto Angular 18 ou mais novo: ele integra com o ng e2e. Os três campos que mais importam na configuração: baseURL, para escrever page.goto('/login') sem repetir o host; trace on-first-retry, para ganhar o raio-x quando algo falhar no CI; e webServer, que sobe a aplicação sozinho e reaproveita a que já estiver rodando na sua máquina.</aside>
+</section>
+<section id="primeiro-teste" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · primeiro teste</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Login em três atos: preparar, agir, conferir</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1080px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'cliente entra e vê o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Arrange: chega na tela</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/login'</span>);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Act: faz o que o usuário faria</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'123.456.789-09'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'segredo123'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Entrar'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Assert: confere o resultado</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page).<span style="color:#7FB5F0">toHaveURL</span>(/inicio/);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'heading'</span>, { name: /<span style="color:#E8C56A">Olá</span>/ }))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<div style="border-left:6px solid #161A22;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600">Arrange</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Leva o teste ao ponto de partida.</p>
+</div>
+<div style="border-left:6px solid #2C5F9E;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Act</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Preenche e clica pelos rótulos e papéis que o usuário vê.</p>
+</div>
+<div style="border-left:6px solid #B4471B;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Assert</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Confere o efeito: a URL mudou e o título apareceu.</p>
+</div>
+</div>
+</div>
+<aside>Primeiro teste completo. Note que não há nenhum id, classe CSS ou espera manual. Se amanhã o botão Entrar trocar de componente, de cor ou de posição, o teste continua passando, porque procura pelo que o usuário enxerga. O padrão Arrange, Act, Assert vale para qualquer teste, unitário ou de ponta a ponta.</aside>
+</section>
+<section id="demo-terminal" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · terminal</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">npm run e2e: 41 testes na tela</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/terminal.mp4" poster="midia/terminal.png" aria-label="Terminal rodando npm run e2e e listando 41 testes passando" muted loop playsinline style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Cada linha é um teste:</b> projeto, arquivo, linha, nome e tempo.</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>O primeiro é o setup:</b> faz o login uma vez e salva a sessão para os demais.</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Gravação real, 3x mais rápida.</b> A suíte inteira levou 36 segundos neste ambiente.</p><div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> run e2e</p>
+<p><span style="color:#F2B482">npm</span> run e2e:smoke</p>
+<p><span style="color:#F2B482">npm</span> run e2e:ui</p>
+</div>
+</div>
+</div>
+<aside>Este clipe é a saída real do comando, reproduzida três vezes mais rápido. Mostre que o resultado é uma lista legível: cada teste tem o arquivo e a linha, então quando falha dá para ir direto ao código. O setup do login aparece primeiro, e todos os outros já começam logados. No fim, o resumo: 41 passed. O clipe repete sozinho enquanto o slide está aberto.</aside>
+</section>
+<section id="demo-login" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · navegador</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O teste de login rodando de verdade</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/login.mp4" poster="midia/login.png" aria-label="Navegador preenchendo CPF e senha e abrindo a tela inicial da Ana" muted loop playsinline style="width:960px;height:540px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'123.456.789-09'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'segredo123'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>,</p>
+<p>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'Entrar'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'heading'</span>,</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'Olá, Ana'</span> })).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+</div><p style="font-size:28px;line-height:1.4;color:#4A4F5C">A legenda no vídeo mostra a linha que está executando. O círculo é o ponteiro do mouse.</p>
+</div>
+</div>
+<aside>Aqui é o navegador de verdade, em modo visível. O teste preenche o CPF pelo rótulo, a senha, clica no botão pelo papel e confere o título da tela inicial. Repare que não existe nenhuma espera: o Playwright aguarda cada elemento ficar pronto. O mesmo teste em modo headless roda sem janela, que é o que acontece no CI.</aside>
+</section>
+<section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · conceito</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock nas bordas: onde cortar o fio</h2>
+</div>
+<div style="display:flex;align-items:center;gap:16px">
+<div style="flex:1;background:#161A22;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Navegador</p>
+<p style="font-size:24px;color:#C9C4B8;text-align:center">Angular</p>
+</div>
+<div style="width:240px;display:flex;flex-direction:column;align-items:center;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">page.route</p>
+<div style="width:120px;height:48px;background:#B4471B;flex:none;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)"></div>
+</div>
+<div style="flex:1;background:#2C5F9E;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">BFF</p>
+<p style="font-size:24px;color:#DCE6F2;text-align:center">Spring Boot</p>
+</div>
+<div style="width:240px;display:flex;flex-direction:column;align-items:center;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">WireMock</p>
+<div style="width:120px;height:48px;background:#B4471B;flex:none;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)"></div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:2px dashed #9AA0AC;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;text-align:center">Terceiro</p>
+<p style="font-size:24px;color:#4A4F5C;text-align:center">Cotação, antifraude</p>
+</div>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Front isolado</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">page.route responde no lugar do BFF. Testa todo estado de tela.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Back isolado</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">WireMock no lugar do terceiro. Testa erro, timeout e contrato.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Ponta a ponta</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Nada mockado. Poucos testes, só os fluxos críticos.</p>
+</div>
+</div>
+<aside>Antes do código, a pergunta: onde eu corto o fio? Mock é trocar uma dependência por uma resposta controlada. A regra é cortar nas bordas do que você está testando. Testando a tela? Corte entre o navegador e o BFF com page.route. Testando o BFF? Corte entre o BFF e o serviço de terceiro com WireMock. E mantenha alguns poucos testes sem nenhum mock para garantir que as peças encaixam.</aside>
+</section>
+<section id="mock-api" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · mock do BFF</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">page.route: a tela em qualquer estado</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:40px 48px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'avisa quando o BFF falha'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, route =&gt;</p>
+<p>&#160;&#160;&#160;&#160;route.<span style="color:#7FB5F0">fulfill</span>({ status: <span style="color:#F2B482">500</span> }));</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/extrato'</span>);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'Não foi possível'</span>);</p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;font-weight:600">Estados que você força em uma linha</p>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;color:#4A4F5C">Lista vazia</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">route.<span style="color:#2C5F9E">fulfill</span>({ json: [] })</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;color:#4A4F5C">Erro no servidor</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">route.<span style="color:#2C5F9E">fulfill</span>({ status: <span style="color:#B4471B">500</span> })</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;color:#4A4F5C">Rede lenta</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">setTimeout</span>(() =&gt; route.<span style="color:#2C5F9E">continue</span>(), <span style="color:#B4471B">3000</span>)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;color:#4A4F5C">Resposta real, um campo trocado</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">const</span> res = <span style="color:#7A3FB0">await</span> route.<span style="color:#2C5F9E">fetch</span>();</p>
+</div>
+</div>
+</div>
+<aside>Esse é o superpoder do Playwright para o front. Testar o estado de erro, de lista vazia ou de lentidão contra um ambiente real é quase impossível: você teria que derrubar o BFF. Com page.route a requisição é interceptada no navegador e você devolve o que quiser. Regra: mock nas bordas. Use para estados difíceis de reproduzir, não para tudo.</aside>
+</section>
+<section id="demo-mocks" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · mocks</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Um extrato, cinco situações: tudo com page.route</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/mocks.mp4" poster="midia/mocks.png" aria-label="Tela de extrato mostrando lista inventada, vazia, erro 500, carregando e sem rede" muted loop playsinline style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> JSON inventado pelo teste</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> Lista vazia</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> Erro 500 e, no clique, o servidor real</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> Rede lenta: aparece o carregando</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>5.</b> Rede fora do ar</p>
+</div>
+</div>
+<aside>Esta é a vantagem de mockar: situações difíceis de provocar no servidor viram uma linha de código. O mesmo extrato aparece com lançamentos inventados, vazio, com erro 500, lento e sem rede, e o teste confere a mensagem certa em cada caso. Na terceira, a primeira chamada falha e a segunda segue para o BFF de verdade, simulando o botão Tentar novamente.</aside>
+</section>
+<section id="mock-respostas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · page.route</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">As quatro respostas de um route</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:28%">Chamada</th><th style="width:32%">O que faz</th><th style="width:40%">Use para</th></tr>
+<tr><td>route.fulfill()</td><td>Você responde</td><td>Lista, vazio, erro 500, erro 422</td></tr>
+<tr><td>route.abort()</td><td>Derruba a conexão</td><td>Rede caiu, servidor inalcançável</td></tr>
+<tr><td>route.continue()</td><td>Segue para o servidor</td><td>Atrasar, trocar header ou URL</td></tr>
+<tr><td>route.fetch()</td><td>Busca a real e te entrega</td><td>Mudar um campo da resposta real</td></tr>
+</table>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:28px 32px">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:#B4471B;width:40px;height:40px;flex:none"><path d="M12 3L2 21h20L12 3z"/><path d="M12 10v5M12 18.2v.1"/></svg>
+<p style="flex:1;font-size:28px;line-height:1.4"><b>Regra de ouro:</b> registre o route antes do goto. Senão a chamada sai antes de o mock existir.</p>
+</div>
+<aside>Todo mock de rede no Playwright é um desses quatro. fulfill é o mais comum: você devolve status, JSON e headers. abort simula falha de rede, diferente de um 500, porque o navegador nem recebe resposta. continue deixa passar, opcionalmente com atraso ou com outro header. fetch é o mais esperto: busca a resposta de verdade e deixa você editar antes de entregar à tela. No projeto de exemplo, o arquivo 02-mock-basico.spec.ts tem um teste para cada um.</aside>
+</section>
+<section id="mock-avancado" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · avançado</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Editar a resposta e conferir o pedido</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Troca só o saldo, o resto é real</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/conta'</span>, <span style="color:#C49BEA">async</span> (r) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> res = <span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">fetch</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> conta = <span style="color:#C49BEA">await</span> res.<span style="color:#7FB5F0">json</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">fulfill</span>({</p>
+<p>&#160;&#160;&#160;&#160;response: res,</p>
+<p>&#160;&#160;&#160;&#160;json: { ...conta, saldo: <span style="color:#F2B482">0</span> },</p>
+<p>&#160;&#160;});</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Confere o que o front enviou</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> req = page.<span style="color:#7FB5F0">waitForRequest</span>(<span style="color:#9CD08F">'**/api/pix'</span>);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">enviarPix</span>(<span style="color:#9CD08F">'mae@tatu.com.br'</span>, <span style="color:#F2B482">150</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">expect</span>((<span style="color:#C49BEA">await</span> req).<span style="color:#7FB5F0">postDataJSON</span>()).<span style="color:#7FB5F0">toEqual</span>({</p>
+<p>&#160;&#160;chave: <span style="color:#9CD08F">'mae@tatu.com.br'</span>,</p>
+<p>&#160;&#160;valor: <span style="color:#F2B482">150</span>,</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:48px">
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Ótimo para saldo zerado, nome gigante ou campo nulo.</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Comece a esperar <b>antes</b> do clique, não depois.</p>
+</div>
+<aside>Dois truques que resolvem muita coisa. À esquerda: route.fetch busca a resposta real e você muda só um campo, então o teste não fica preso a um JSON inteiro que pode desatualizar. À direita: o teste confere o corpo que o Angular mandou para a API. É assim que a gente pega bug de contrato, como valor indo como texto em vez de número. A espera começa antes do clique para não perder a requisição.</aside>
+</section>
+<section id="mock-har" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · organização</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Gravar respostas reais e mockar sem repetição</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">HAR: grava uma vez, reproduz sempre</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeFromHAR</span>(<span style="color:#9CD08F">'e2e/hars/extrato.har'</span>, {</p>
+<p>&#160;&#160;url: <span style="color:#9CD08F">'**/api/extrato'</span>,</p>
+<p>&#160;&#160;update: !!process.env.HAR_UPDATE,</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># grava com o BFF real no ar</span></p>
+<p>HAR_UPDATE=<span style="color:#F2B482">1</span> npx playwright test</p>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O arquivo vai para o Git. Depois, o teste roda sem o BFF.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Fixture: atalhos de mock</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">const</span> test = base.<span style="color:#7FB5F0">extend</span>({</p>
+<p>&#160;&#160;bff: <span style="color:#C49BEA">async</span> ({ page }, use) =&gt;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">use</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Bff</span>(page)),</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'vazio'</span>, <span style="color:#C49BEA">async</span> ({ bff, extrato }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> bff.<span style="color:#7FB5F0">json</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, []);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> extrato.<span style="color:#7FB5F0">abrir</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(extrato.vazio).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<aside>Duas formas de não espalhar JSON pelo código. O HAR é uma gravação da rede: você roda uma vez com o BFF real e o Playwright salva as respostas num arquivo; nas próximas execuções ele responde a partir do arquivo. A fixture bff é uma classe pequena que esconde o page.route: o teste fica dizendo o quê, não o como. As duas estão no projeto de exemplo, em 04-har.spec.ts e fixtures.ts.</aside>
+</section>
+<section id="mock-armadilhas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · armadilhas</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro jeitos de um mock mentir para você</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Chegou tarde</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Route depois do goto: a primeira chamada já passou sem mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(...) antes de page.<span style="color:#2C5F9E">goto</span>(...)</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Não casou com a URL</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O glob não pega query string: ?mes=11 escapa do mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2F7A3A">'**/api/extrato*'</span> ou /\/api\/extrato/</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Desatualizou</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O back mudou o contrato e o mock não. Tudo verde, produção quebrada.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">HAR regravado + teste de contrato no back</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Mockou o alvo</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Se você mocka o que está testando, só testa o próprio mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">mock só nas bordas</p>
+</div>
+</div>
+<aside>Mock é poderoso e perigoso. O item mais caro é o terceiro: o contrato do back muda, o JSON fixo no teste do front continua o mesmo e a suíte fica verde enquanto produção quebra. Duas defesas: regravar o HAR com o BFF real de tempos em tempos e manter no back um teste de contrato contra o ambiente, como o ContratoAmbienteIT do projeto Java. Bônus: se dois routes casam com a mesma URL, vale o registrado por último. Um route genérico registrado depois esconde o específico.</aside>
+</section>
+<section id="page-object" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · organização</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Page Object: a tela vira uma classe</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:860px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">e2e/pages/login.page.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { <span style="color:#E8C56A">Page</span> } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">class</span> <span style="color:#E8C56A">LoginPage</span> {</p>
+<p>&#160;&#160;<span style="color:#7FB5F0">constructor</span>(<span style="color:#C49BEA">private</span> page: <span style="color:#E8C56A">Page</span>) {}</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> <span style="color:#7FB5F0">entrar</span>(cpf: string, senha: string) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">const</span> p = <span style="color:#C49BEA">this</span>.page;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/login'</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>).<span style="color:#7FB5F0">fill</span>(cpf);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>).<span style="color:#7FB5F0">fill</span>(senha);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Entrar'</span> })</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">e2e/saldo.spec.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'vê o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> login = <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">LoginPage</span>(page);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> login.<span style="color:#7FB5F0">entrar</span>(<span style="color:#9CD08F">'12345678909'</span>, <span style="color:#9CD08F">'s3nha'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<p style="font-size:36px;font-weight:600;line-height:1.3;padding:24px 0 0">A tela mudou? Você ajusta um arquivo, não quarenta testes.</p>
+</div>
+</div>
+<aside>Page Object é o mesmo princípio de um service no Angular: esconder o como e expor o quê. O teste fala a língua do negócio, login.entrar, e o detalhe de qual campo preencher fica num lugar só. Para fluxos maiores, dá para ter um Page Object por tela ou por componente compartilhado, como o cabeçalho.</aside>
+</section>
+<section id="login-uma-vez" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · autenticação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Faça login uma vez, reaproveite em todos</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1040px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// e2e/auth.setup.ts</span></p>
+<p><span style="color:#C49BEA">import</span> { test <span style="color:#C49BEA">as</span> setup } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p><span style="color:#7FB5F0">setup</span>(<span style="color:#9CD08F">'autentica'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">LoginPage</span>(page).<span style="color:#7FB5F0">entrar</span>(CPF, SENHA);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">context</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">storageState</span>({ path: <span style="color:#9CD08F">'.auth/cliente.json'</span> });</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p>projects: [</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'setup'</span>, testMatch: /auth\.setup\.ts/ },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'app'</span>, dependencies: [<span style="color:#9CD08F">'setup'</span>],</p>
+<p>&#160;&#160;&#160;&#160;use: { storageState: <span style="color:#9CD08F">'.auth/cliente.json'</span> } },</p>
+<p>],</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1</p>
+<p style="flex:1;font-size:28px;line-height:1.4">O projeto setup faz login uma vez.</p>
+</div>
+<div style="width:28px;height:36px;background:#9AA0AC;align-self:center;flex:none;clip-path:polygon(30% 0,70% 0,70% 55%,100% 55%,50% 100%,0 55%,30% 55%)"></div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">2</p>
+<p style="flex:1;font-size:28px;line-height:1.4">Salva cookies e storage num arquivo.</p>
+</div>
+<div style="width:28px;height:36px;background:#9AA0AC;align-self:center;flex:none;clip-path:polygon(30% 0,70% 0,70% 55%,100% 55%,50% 100%,0 55%,30% 55%)"></div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">3</p>
+<p style="flex:1;font-size:28px;line-height:1.4">Os outros testes já nascem logados.</p>
+</div>
+<div style="display:flex;gap:16px;align-items:start;padding:16px 0 0">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:#B4471B;width:36px;height:36px;flex:none"><path d="M12 3L2 21h20L12 3z"/><path d="M12 10v5M12 18.2v.1"/></svg>
+<p style="flex:1;font-size:24px;line-height:1.4;color:#4A4F5C"><b>Atenção:</b> coloque .auth/ no .gitignore. São credenciais de teste.</p>
+</div>
+</div>
+</div>
+<aside>Logar pela tela em todo teste é o jeito mais rápido de ter uma suíte lenta. O projeto setup roda primeiro, faz o login de verdade e grava o estado do navegador. Os demais projetos dependem dele e já começam com a sessão carregada. Em banco isso é ainda mais importante por causa de MFA e de limites de tentativa de login.</aside>
+</section>
+<section id="shadow-o-que-e" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Shadow DOM · conceito</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Shadow DOM: um cômodo com porta própria</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="width:840px;background:#1E232E;border-radius:16px;padding:36px 40px;display:flex;flex-direction:column;gap:14px;font-family:'JetBrains Mono', 'Courier New', monospace">
+<p style="font-size:26px;color:#E8E4DA">document</p>
+<div style="border-left:2px solid #4A5163;padding:0 0 0 28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">tatu-cartao-saldo</span>&gt; <span style="color:#8C95A8">host</span></p>
+<div style="border:2px dashed #F2905F;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;color:#F2905F">#shadow-root (open)</p>
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">p</span> <span style="color:#E8C56A">data-testid</span>=<span style="color:#9CD08F">"saldo"</span>&gt;</p>
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">button</span>&gt;Ocultar saldo</p>
+</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">O que é</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Uma árvore de DOM escondida dentro de um elemento, com CSS isolado.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Onde aparece</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">ViewEncapsulation.ShadowDom, design systems e MFEs exportados como Web Component.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Por que dói</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">document.querySelector não enxerga lá dentro. Outras ferramentas exigem entrar no shadowRoot na mão.</p>
+</div>
+</div>
+</div>
+<aside>Analogia do prédio de novo: o Shadow DOM é um cômodo com porta própria dentro do apartamento. O que está lá dentro não vaza para fora, nem o CSS. Ótimo para isolamento, ruim para quem testa com seletores comuns. No nosso mundo isso aparece em componentes Angular com encapsulamento ShadowDom, em design systems feitos com Web Components e em microfrontends entregues como Web Component.</aside>
+</section>
+<section id="shadow-pratica" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Shadow DOM · na prática</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O Playwright atravessa sozinho</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// nada de entrar no shadowRoot na mão</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'1.520,75'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Ocultar saldo'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'tatu-cartao-saldo .valor'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// escopo: procure só dentro do componente</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'tatu-pix-favoritos'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Mãe'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// Java: igual</span></p>
+<p><span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">"saldo"</span>)).<span style="color:#7FB5F0">containsText</span>(<span style="color:#9CD08F">"1.520,75"</span>);</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600">Atravessa o shadow root?</p>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#2C5F9E;padding:6px 16px;border-radius:999px">Sim</p>
+<p style="flex:1;font-size:28px">getByRole, getByText, getByLabel, getByTestId</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#2C5F9E;padding:6px 16px;border-radius:999px">Sim</p>
+<p style="flex:1;font-size:28px">Seletores CSS</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#B4471B;padding:6px 16px;border-radius:999px">Não</p>
+<p style="flex:1;font-size:28px">XPath</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#B4471B;padding:6px 16px;border-radius:999px">Não</p>
+<p style="flex:1;font-size:28px">Shadow root fechado (mode: 'closed')</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C;padding:12px 0 0">Componente do seu time com root fechado? Peça open: fica testável e acessível.</p>
+</div>
+</div>
+<aside>Este é o alívio para quem trabalha com Web Components e MFEs. Os locators recomendados e o CSS enxergam dentro de shadow roots abertos, sem nenhuma sintaxe especial. As duas exceções: XPath não atravessa, mais um motivo para evitá-lo, e shadow root fechado não é suportado. No projeto de exemplo, 05-shadow-dom.spec.ts prova cada linha desta tabela, inclusive que o XPath não acha o saldo.</aside>
+</section>
+<section id="dicas-angular" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · pegadinhas</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro dicas para o nosso tipo de front</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Material tem papéis</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">mat-select é um combobox e cada mat-option é um option.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByRole</span>(<span style="color:#2F7A3A">'combobox'</span>, { name: <span style="color:#2F7A3A">'Conta'</span> })</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Fuja do que o Angular gera</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">_ngcontent-*, ng-star-inserted e ids automáticos mudam a cada build.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByTestId</span>(<span style="color:#2F7A3A">'btn-transferir'</span>)</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Web Components e MFEs</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Locators atravessam Shadow DOM aberto, sem configuração extra.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByLabel</span>(<span style="color:#2F7A3A">'Valor'</span>) <span style="color:#6B7384">// dentro do componente</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Remote fora do ar</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira se o shell mostra o fallback.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(<span style="color:#2F7A3A">'**/remoteEntry.js'</span>, r =&gt; r.<span style="color:#2C5F9E">abort</span>())</p>
+</div>
+</div>
+<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E com Module Federation dá para simular um remote indisponível e validar o fallback do shell, um cenário que quase ninguém testa.</aside>
+</section>
+<section id="div-java" data-section="Backend em Java: JUnit 5, testes de API, de UI e com Spring Boot" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Parte 3</p>
+<h2 style="font-size:104px;font-weight:600;line-height:1.05;color:#F5F2EC">Backend em Java</h2>
+<p style="font-size:36px;line-height:1.4;color:#C9C4B8">A mesma API, agora com Maven e JUnit 5.</p>
+<aside>Para quem é de backend: tudo o que vimos de conceito continua valendo. Muda a sintaxe, e ganhamos um uso que no Java brilha muito: testar API sem abrir navegador.</aside>
+</section>
+<section id="setup-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · setup</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Uma dependência no pom e pronto</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:1000px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">pom.xml</p>
+<div style="background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>&lt;dependency&gt;</p>
+<p>&#160;&#160;&lt;groupId&gt;com.microsoft.playwright&lt;/groupId&gt;</p>
+<p>&#160;&#160;&lt;artifactId&gt;playwright&lt;/artifactId&gt;</p>
+<p>&#160;&#160;&lt;version&gt;<span style="color:#F2B482">1.59.0</span>&lt;/version&gt;</p>
+<p>&#160;&#160;&lt;scope&gt;test&lt;/scope&gt;</p>
+<p>&lt;/dependency&gt;</p>
+</div>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C;padding:12px 0 0">terminal ou CI</p>
+<div style="background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># baixa os navegadores antes dos testes</span></p>
+<p><span style="color:#F2B482">mvn</span> exec:java <span style="color:#8DB6E8">-e</span> \</p>
+<p>&#160;&#160;<span style="color:#8DB6E8">-D</span> exec.mainClass=com.microsoft.playwright.CLI \</p>
+<p>&#160;&#160;<span style="color:#8DB6E8">-D</span> exec.args=<span style="color:#9CD08F">"install --with-deps"</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Mesmos conceitos:</b> Playwright, Browser, BrowserContext, Page e Locator.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Síncrono:</b> nada de async e await.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>@UsePlaywright</b> integra ao JUnit 5 e injeta as fixtures.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Na sua máquina</b>, a primeira execução baixa os navegadores sozinha.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Confira a versão mais recente no Maven Central antes de fixar.</p>
+</div>
+</div>
+<aside>Uma dependência só, com escopo de teste. O pacote traz o driver e os navegadores são baixados na primeira execução. No CI vale rodar o install antes, com --with-deps, para instalar também as bibliotecas do sistema. A integração com JUnit via @UsePlaywright surgiu na versão 1.42 e a documentação ainda a marca como experimental. Antes de apresentar, confirme no Maven Central qual é a versão mais recente.</aside>
+</section>
+<section id="api-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · testes de API</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">APIRequestContext: Playwright sem navegador</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@UsePlaywright</span>(<span style="color:#E8C56A">ContasApiTest</span>.Opcoes.class)</p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">ContasApiTest</span> {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">public</span> <span style="color:#C49BEA">static</span> <span style="color:#C49BEA">class</span> <span style="color:#E8C56A">Opcoes</span> <span style="color:#C49BEA">implements</span> <span style="color:#E8C56A">OptionsFactory</span> {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">@Override</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">public</span> <span style="color:#E8C56A">Options</span> <span style="color:#7FB5F0">getOptions</span>() {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">return</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Options</span>().<span style="color:#7FB5F0">setApiRequestOptions</span>(</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">APIRequest</span>.<span style="color:#E8C56A">NewContextOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBaseURL</span>(<span style="color:#9CD08F">"http://localhost:8080"</span>));</p>
+<p>&#160;&#160;&#160;&#160;}</p>
+<p>&#160;&#160;}</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">listaContas</span>(<span style="color:#E8C56A">APIRequestContext</span> request) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIResponse</span> resp = request.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/contas?cliente=42"</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(resp).<span style="color:#7FB5F0">isOK</span>();</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertTrue</span>(resp.<span style="color:#7FB5F0">text</span>().<span style="color:#7FB5F0">contains</span>(<span style="color:#9CD08F">"saldo"</span>));</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Só HTTP.</b> Rápido como um teste de integração.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>OptionsFactory</b> define baseURL e headers, como o token, uma vez.</p>
+<p style="font-size:28px;font-weight:600;padding:8px 0 0">E um POST?</p>
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>request.<span style="color:#7FB5F0">post</span>(<span style="color:#9CD08F">"/api/pix"</span>,</p>
+<p>&#160;&#160;<span style="color:#E8C56A">RequestOptions</span>.<span style="color:#7FB5F0">create</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setData</span>(<span style="color:#E8C56A">Map</span>.<span style="color:#7FB5F0">of</span>(<span style="color:#9CD08F">"valor"</span>, <span style="color:#F2B482">150</span>)));</p>
+</div>
+</div>
+</div>
+<aside>Aqui o Playwright vira um cliente HTTP com asserções prontas. O APIRequestContext chega como parâmetro do teste, do mesmo jeito que a page chegava no TypeScript. A OptionsFactory configura tudo uma vez: base URL, headers, certificado. O isOK confere status de 200 a 299. E o mesmo request também serve para preparar dados antes de um teste de tela, por exemplo criar uma conta pela API e só depois abrir o navegador.</aside>
+</section>
+<section id="ui-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · teste de tela</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O mesmo login, agora em Java</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@UsePlaywright</span></p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">LoginE2ETest</span> {</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">clienteEntraEVeOSaldo</span>(<span style="color:#E8C56A">Page</span> page) {</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">navigate</span>(<span style="color:#9CD08F">"http://localhost:4200/login"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">"CPF"</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">"123.456.789-09"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">"Senha"</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">"segredo123"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#E8C56A">AriaRole</span>.BUTTON,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Page</span>.<span style="color:#E8C56A">GetByRoleOptions</span>().<span style="color:#7FB5F0">setName</span>(<span style="color:#9CD08F">"Entrar"</span>)).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(page).<span style="color:#7FB5F0">hasURL</span>(<span style="color:#E8C56A">Pattern</span>.<span style="color:#7FB5F0">compile</span>(<span style="color:#9CD08F">"inicio"</span>));</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">"saldo"</span>)).<span style="color:#7FB5F0">isVisible</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600">Do TypeScript para o Java</p>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;page.goto(url)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> page.<span style="color:#2C5F9E">navigate</span>(url)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;await expect(l).toBeVisible()</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> <span style="color:#2C5F9E">assertThat</span>(l).<span style="color:#2C5F9E">isVisible</span>()</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;{ name: 'Entrar' }</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> .<span style="color:#2C5F9E">setName</span>(<span style="color:#2F7A3A">"Entrar"</span>)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;await l.click()</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> l.<span style="color:#2C5F9E">click</span>()</p>
+</div>
+</div>
+</div>
+<aside>Mesmo teste do slide de Angular, linha por linha. As diferenças são só de linguagem: opções viram objetos com setters, o expect vira assertThat e não existe await. Isso abre uma porta interessante: o time de backend pode escrever o teste de ponta a ponta do fluxo que passa pelo BFF dele. Para rodar em paralelo, habilite o paralelismo do JUnit no junit-platform.properties; cada teste ganha seu próprio context.</aside>
+</section>
+<section id="mock-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · mock</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock no Java: tela e serviço de terceiro</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Na tela: o mesmo page.route</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">"**/api/cotacao"</span>, route -&gt;</p>
+<p>&#160;&#160;route.<span style="color:#7FB5F0">fulfill</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Route</span>.<span style="color:#E8C56A">FulfillOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setStatus</span>(<span style="color:#F2B482">200</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setContentType</span>(<span style="color:#9CD08F">"application/json"</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBody</span>(<span style="color:#9CD08F">"{\"valor\": 4.99}"</span>)));</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">entrar</span>(page);</p>
+<p><span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">"Dólar hoje"</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">containsText</span>(<span style="color:#9CD08F">"4,99"</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">No back: WireMock no lugar do terceiro</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@DynamicPropertySource</span></p>
+<p><span style="color:#C49BEA">static</span> <span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">props</span>(<span style="color:#E8C56A">DynamicPropertyRegistry</span> r) {</p>
+<p>&#160;&#160;r.<span style="color:#7FB5F0">add</span>(<span style="color:#9CD08F">"cotacao.url"</span>, wiremock::baseUrl);</p>
+<p>}</p>
+<p>&#160;</p>
+<p>wiremock.<span style="color:#7FB5F0">stubFor</span>(<span style="color:#7FB5F0">get</span>(<span style="color:#7FB5F0">urlEqualTo</span>(CAMINHO))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">willReturn</span>(<span style="color:#7FB5F0">okJson</span>(json)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">withFixedDelay</span>(<span style="color:#F2B482">3_000</span>)));</p>
+<p>&#160;</p>
+<p><span style="color:#E8C56A">APIResponse</span> r = api.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/cotacao"</span>, <span style="color:#7FB5F0">comToken</span>());</p>
+<p><span style="color:#7FB5F0">assertEquals</span>(<span style="color:#F2B482">503</span>, r.<span style="color:#7FB5F0">status</span>());</p>
+</div>
+</div>
+</div>
+<aside>No Java temos dois tipos de mock. À esquerda, o page.route da API Java, idêntico ao do TypeScript: serve para os testes de tela. À direita, o WireMock sobe um servidor falso no lugar do serviço de cotação, e o DynamicPropertySource aponta a aplicação para ele. Assim testamos o que o nosso BFF faz quando o terceiro demora três segundos: aqui, ele estoura o timeout de um segundo e devolve 503 em vez de travar. Tudo isso está em CotacaoWireMockIT e LoginUiIT no projeto tatu-api.</aside>
+</section>
+<section id="spring-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · Spring Boot</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Aplicação de verdade, porta aleatória</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)</p>
+<p><span style="color:#E8C56A">@UsePlaywright</span></p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">ExtratoIT</span> {</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@LocalServerPort</span> int porta;</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">extratoVazio</span>(<span style="color:#E8C56A">Playwright</span> pw) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIRequestContext</span> api = pw.<span style="color:#7FB5F0">request</span>().<span style="color:#7FB5F0">newContext</span>(</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">APIRequest</span>.<span style="color:#E8C56A">NewContextOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBaseURL</span>(<span style="color:#9CD08F">"http://localhost:"</span> + porta));</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIResponse</span> r = api.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/extrato?cliente=99"</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(r).<span style="color:#7FB5F0">isOK</span>();</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertEquals</span>(<span style="color:#9CD08F">"[]"</span>, r.<span style="color:#7FB5F0">text</span>());</p>
+<p>&#160;&#160;&#160;&#160;api.<span style="color:#7FB5F0">dispose</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Sobe de verdade</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Spring Boot inicia a aplicação numa porta livre.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Fala por HTTP</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Playwright chama a API como um cliente chamaria.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Dependências reais</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Com Testcontainers, banco e fila também são de verdade.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Sufixo IT</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Failsafe roda essas classes no mvn verify.</p>
+</div>
+</div>
+</div>
+<aside>Aqui juntamos os dois mundos. O SpringBootTest sobe a aplicação inteira numa porta aleatória e o Playwright conversa com ela por HTTP. O teste passa por controller, serviço, repositório e serialização: tudo o que o mock não pega. Como criamos o context manualmente, fechamos com dispose no final. Combinado com Testcontainers, vira um teste de integração bem próximo de produção.</aside>
+</section>
+<section id="boas-praticas" data-section="Dia a dia: boas práticas, CI e novidades de 2026" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Evite isto, prefira aquilo</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:44%">Evite</th><th style="width:56%">Prefira</th></tr>
+<tr><td>waitForTimeout(3000)</td><td>Uma assertion que espera o estado: toBeVisible, toHaveURL</td></tr>
+<tr><td>CSS do layout: .col-md-6 &gt; div</td><td>getByRole, getByLabel ou getByTestId</td></tr>
+<tr><td>Um teste que depende do anterior</td><td>Cada teste prepara os próprios dados, de preferência pela API</td></tr>
+<tr><td>Login pela tela em todo teste</td><td>storageState salvo uma vez no projeto setup</td></tr>
+<tr><td>Tudo em ponta a ponta</td><td>Pirâmide: navegador só nos fluxos críticos</td></tr>
+<tr><td>Bater em serviço de terceiro</td><td>Mock nas bordas com page.route</td></tr>
+</table>
+<aside>Se alguém sair só com este slide, já evita a maior parte da dor. Destaque o item três: teste dependente de outro é o que impede rodar em paralelo e transforma uma falha em dez. Criar dados pela API, com o request que vimos no Java, é muito mais rápido do que criar pela tela.</aside>
+</section>
+<section id="nao-fazer" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · cuidado</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que não fazer</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Dormir no teste</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">waitForTimeout</span>(<span style="color:#F2B482">3000</span>);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Lento quando sobra, quebra quando falta.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Olhar uma vez só</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> ok = <span style="color:#C49BEA">await</span></p>
+<p>&#160;&#160;el.<span style="color:#7FB5F0">isVisible</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(ok).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Não espera nada. Use expect(el).toBeVisible().</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Seletor de layout</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'.col-md-6 &gt; div a'</span>)</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Quebra no próximo redesign. Prefira papel ou testid.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Forçar o clique</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> btn.<span style="color:#7FB5F0">click</span>(</p>
+<p>&#160;&#160;{ force: <span style="color:#C49BEA">true</span> });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Esconde bug real: botão coberto ou desabilitado.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Testes encadeados</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'cria a conta'</span>, ...);</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'usa a conta'</span>, ...);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Um falha e dez falham. E não roda em paralelo.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Esquecer o .only</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>test.<span style="color:#7FB5F0">only</span>(<span style="color:#9CD08F">'meu teste'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> () =&gt; { ... });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">No CI só ele roda. Barre com forbidOnly: true.</p>
+</div>
+</div>
+<aside>Seis erros que aparecem em quase toda suíte que dá dor de cabeça. Os três primeiros causam testes instáveis: esperar por tempo, olhar o estado uma vez só e depender de seletor de layout. O force true silencia a checagem de ação do Playwright e deixa o bug passar. Teste que depende de outro impede o paralelismo. E o test.only esquecido faz o CI rodar um único teste e ficar verde, o pior tipo de falso positivo.</aside>
+</section>
+<section id="boas-praticas-codigo" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · hábitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Boas práticas, em código</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Papel primeiro</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>,</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'Pagar'</span> })</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Resiste a mudanças de CSS e ainda cobra acessibilidade.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Dados pela API</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">post</span>(</p>
+<p>&#160;&#160;<span style="color:#9CD08F">'/api/contas'</span>, { data });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Criar pela API é muito mais rápido do que pela tela.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Passos com nome</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'paga'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> () =&gt; { ... });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O relatório e o trace mostram cada etapa.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Etiquetas</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'Pix'</span>,</p>
+<p>&#160;&#160;{ tag: <span style="color:#9CD08F">'@smoke'</span> },</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> ({ page }) =&gt; {...});</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Rode só o essencial: --grep @smoke.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Retry com trace</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>retries: <span style="color:#F2B482">2</span>,</p>
+<p>trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A falha chega com o raio-x, sem rodar tudo gravando.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Mock nas bordas</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/cotacao'</span>,</p>
+<p>&#160;&#160;r =&gt; r.<span style="color:#7FB5F0">fulfill</span>({ json }));</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Serviço de terceiro fora do teste, o seu back de verdade dentro.</p>
+</div>
+</div>
+<aside>O espelho do slide anterior: cada hábito com o trecho de código que o resume. Papel primeiro, dados criados pela API, passos nomeados com test.step, etiquetas para rodar só o essencial, retries com trace e mocks só nas bordas do sistema. Todos esses trechos estão no projeto tatu-web e rodam na suíte.</aside>
+</section>
+<section id="relatorios" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Como configurar o relatório</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;display:flex;flex-direction:column;gap:24px">
+<div style="background:#F5F2EC;padding:0;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#4A4F5C;white-space:nowrap">
+<p>playwright.ci.config.ts</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>(base, {</p>
+<p>&#160;&#160;workers: process.env[<span style="color:#9CD08F">'CI'</span>] ? <span style="color:#F2B482">4</span> : <span style="color:#C49BEA">undefined</span>,</p>
+<p>&#160;&#160;reporter: [</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'list'</span>],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'html'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;open: <span style="color:#9CD08F">'never'</span>,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFolder: <span style="color:#9CD08F">'relatorio'</span> }],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'junit'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFile: <span style="color:#9CD08F">'resultados/junit.xml'</span> }],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'json'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFile: <span style="color:#9CD08F">'resultados/resultado.json'</span> }],</p>
+<p>&#160;&#160;],</p>
+<p>});</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:20px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> run e2e:ci</p>
+<p><span style="color:#F2B482">npx</span> playwright show-report relatorio</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<table style="width:100%;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:24%">Reporter</th><th>Para quê</th></tr>
+<tr><td>list</td><td>Log legível no terminal e no CI</td></tr>
+<tr><td>html</td><td>Relatório navegável, com trace e capturas</td></tr>
+<tr><td>junit</td><td>XML que Jenkins, GitLab e Azure entendem</td></tr>
+<tr><td>json</td><td>Dados crus para dashboards próprios</td></tr>
+<tr><td>blob</td><td>Pedaços de cada shard, para juntar depois</td></tr>
+</table>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> publique a pasta relatorio mesmo quando os testes falham.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Com shards:</b> cada máquina gera um blob; no fim, <b>npx playwright merge-reports</b> junta tudo num HTML só.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No Java:</b> o Maven grava o XML em target/failsafe-reports.</p>
+</div>
+</div>
+<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. Quando a suíte é dividida em shards, cada máquina gera um blob, e o merge-reports junta todos num relatório único. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
+</section>
+<section id="axe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · acessibilidade</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Acessibilidade com axe, no mesmo teste</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;display:flex;flex-direction:column;gap:24px">
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> <span style="color:#E8C56A">AxeBuilder</span> <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@axe-core/playwright'</span>;</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'/pix sem violações A e AA'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/pix'</span>);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> resultado = <span style="color:#C49BEA">await</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">AxeBuilder</span>({ page })</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">withTags</span>([<span style="color:#9CD08F">'wcag2a'</span>, <span style="color:#9CD08F">'wcag2aa'</span>])</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">analyze</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#7FB5F0">expect</span>(resultado.violations).<span style="color:#7FB5F0">toEqual</span>([]);</p>
+<p>});</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:24px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">new</span> <span style="color:#E8C56A">AxeBuilder</span>({ page })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">include</span>(<span style="color:#9CD08F">'tatu-cartao-saldo'</span>) <span style="color:#8C95A8">// só um trecho</span></p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">disableRules</span>([<span style="color:#9CD08F">'color-contrast'</span>])</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">analyze</span>();</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">O que o axe pega</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C">Imagem sem alt, botão sem nome, campo sem rótulo, contraste baixo, papéis ARIA errados.</p>
+<p style="font-size:28px;font-weight:600;color:#B4471B">O que ele não pega</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C">Ordem do foco, texto que faz sentido no leitor de tela, uso real com teclado. Automação cobre só uma parte; o resto é teste manual.</p>
+<p style="font-size:28px;font-weight:600">Instalação</p>
+<p style="font-size:24px;color:#2C5F9E;font-family:'JetBrains Mono', 'Courier New', monospace">npm i -D @axe-core/playwright</p>
+<p style="font-size:28px;font-weight:600">Cada violação traz</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>id</b> da regra, <b>impact</b> (de minor a critical), <b>nodes</b> com o elemento e <b>helpUrl</b> com a correção.</p>
+</div>
+</div>
+<aside>O axe-core é o motor de acessibilidade mais usado, e o pacote oficial para Playwright expõe o AxeBuilder. Você abre a página, analisa e espera uma lista de violações vazia. Com withTags dá para escolher o nível: wcag2a e wcag2aa cobrem o que a maioria das normas exige. Dá para limitar a análise a um trecho com include, ignorar um trecho com exclude e desligar uma regra conhecida com disableRules, de preferência com um comentário dizendo por quê. No projeto de exemplo, o teste anexa o JSON das violações ao relatório HTML, e há um teste que prova que o axe realmente detecta uma imagem sem alt e um botão sem nome. O axe também entra em Shadow DOM aberto. Lembrete: ele encontra uma parte dos problemas; teste manual com teclado e leitor de tela continua necessário.</aside>
+</section>
+<section id="ci" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · pipeline</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">No CI: quatro passos e um raio-x</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:36px;font-weight:600">Dependências</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Instala o projeto como no build.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:36px;font-weight:600">Navegadores</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Baixa só os que a suíte usa.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:36px;font-weight:600">Testes</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Em paralelo, divididos em shards.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:36px;font-weight:600">Relatório</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Publicado sempre, com o trace.</p>
+</div>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># Angular</span></p>
+<p><span style="color:#F2B482">npm</span> ci</p>
+<p><span style="color:#F2B482">npx</span> playwright install <span style="color:#8DB6E8">--with-deps</span> chromium</p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--shard=1/4</span></p>
+<p><span style="color:#8C95A8"># Java</span></p>
+<p><span style="color:#F2B482">mvn</span> <span style="color:#8DB6E8">-B</span> verify</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Retry com trace:</b> a falha já chega com o raio-x anexado.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Imagem Docker oficial:</b> o mesmo navegador em qualquer agente.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Desde a 1.65:</b> relatórios só com as falhas.</p>
+</div>
+</div>
+<aside>Os comandos valem para qualquer ferramenta de CI, seja GitHub Actions, GitLab, Jenkins ou Azure. O passo quatro precisa rodar mesmo quando os testes falham, senão o relatório some justamente quando mais importa. Com retries no CI e trace on-first-retry, toda falha chega com o trace pronto para abrir no Trace Viewer. A versão 1.65 trouxe a opção onlyFailures nos reporters HTML, JSON e JUnit.</aside>
+</section>
+<section id="novidades" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · 2026</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que mudou nos últimos meses</h2>
+</div>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:32px;align-items:center;padding:22px 0;border-top:1px solid #D8D2C6">
+<div style="width:220px;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1.61</p>
+<p style="font-size:24px;color:#4A4F5C">junho</p>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4">Passkeys (WebAuthn) e acesso à Web Storage API nos testes.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:center;padding:22px 0;border-top:1px solid #D8D2C6">
+<div style="width:220px;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1.63</p>
+<p style="font-size:24px;color:#4A4F5C">setembro</p>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4">Test locks: testes que mexem no mesmo recurso não rodam ao mesmo tempo.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:center;padding:22px 0;border-top:1px solid #D8D2C6">
+<div style="width:220px;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1.64</p>
+<p style="font-size:24px;color:#4A4F5C">outubro</p>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4">locator.within(), execução embaralhada e WebMCP para testar ferramentas expostas a agentes de IA.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:center;padding:22px 0;border-top:1px solid #D8D2C6">
+<div style="width:220px;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1.65</p>
+<p style="font-size:24px;color:#4A4F5C">novembro</p>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4">Roda com Bun, relatórios só com falhas e fim dos testes no Node 20. Tem mudanças que quebram: leia antes de atualizar.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:center;padding:22px 0;border-top:1px solid #D8D2C6;border-bottom:1px solid #D8D2C6">
+<div style="width:220px;display:flex;flex-direction:column;gap:2px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#2C5F9E">MCP</p>
+<p style="font-size:24px;color:#4A4F5C">para agentes</p>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4">Playwright MCP: um agente de IA abre o navegador, navega e investiga a tela por você.</p>
+</div>
+</div>
+<aside>Um panorama rápido, não precisa decorar. Os destaques para nós: test locks resolvem aquela briga de dois testes alterando a mesma configuração em paralelo; a 1.65 tem várias mudanças que quebram, então a atualização deve ser um PR revisado. E o Playwright MCP é a ponte com IA: agentes como o Claude conseguem dirigir o navegador para reproduzir um bug ou rascunhar um teste. Fonte: notas de versão oficiais em playwright.dev.</aside>
+</section>
+<section id="exemplos" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mão na massa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Projetos de exemplo: o Banco Tatu</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:600">tatu-web</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Angular + Playwright. Login, mocks, HAR e Shadow DOM.</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> install</p>
+<p><span style="color:#F2B482">npx</span> playwright install chromium</p>
+<p><span style="color:#F2B482">npm</span> run e2e</p>
+<p><span style="color:#8C95A8"># com interface visual</span></p>
+<p><span style="color:#F2B482">npm</span> run e2e:ui</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:600">tatu-api</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Spring Boot + Playwright Java. API, tela e WireMock.</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">mvn</span> test&#160;&#160;&#160;&#160;<span style="color:#8C95A8"># unitários</span></p>
+<p><span style="color:#F2B482">mvn</span> verify&#160;&#160;<span style="color:#8C95A8"># API, tela e mocks</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># vendo o navegador</span></p>
+<p><span style="color:#F2B482">mvn</span> verify <span style="color:#8DB6E8">-Dheaded=true</span></p>
+</div>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Juntos:</b> suba o tatu-api na porta 8080 e o tatu-web passa a usar o back real no lugar do mock em Node.</p>
+<aside>Os dois projetos seguem a mesma história do banco fictício: login, saldo, extrato, Pix e cotação do dólar. O front sobe sozinho um BFF de mentira em Node, então roda sem Java. O back sobe uma página mínima própria para os testes de tela, então roda sem Angular. Cada pasta tem um README com o passo a passo e a lista do que cada teste ensina.</aside>
+</section>
+<section id="recap" data-section="Resumo e perguntas" data-transition="fade" style="background:#EAE6DD;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Para levar</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Cinco frases que resumem tudo</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;gap:32px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:36px;font-weight:600;color:#B4471B;width:64px">1</p>
+<p style="flex:1;font-size:36px;line-height:1.3">Locator, ação e assertion: todo teste é uma frase.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:36px;font-weight:600;color:#B4471B;width:64px">2</p>
+<p style="flex:1;font-size:36px;line-height:1.3">Espere por estado, nunca por tempo.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:36px;font-weight:600;color:#B4471B;width:64px">3</p>
+<p style="flex:1;font-size:36px;line-height:1.3">Se o leitor de tela acha o elemento, o getByRole também acha.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:36px;font-weight:600;color:#B4471B;width:64px">4</p>
+<p style="flex:1;font-size:36px;line-height:1.3">Mock nas bordas, real no meio: page.route no front, Spring Boot de verdade no back.</p>
+</div>
+<div style="display:flex;gap:32px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:36px;font-weight:600;color:#B4471B;width:64px">5</p>
+<p style="flex:1;font-size:36px;line-height:1.3">Quando o CI quebrar, abra o trace antes de abrir o código.</p>
+</div>
+</div>
+<aside>Recapitulação em cinco frases. Leia devagar, uma por vez. Se der tempo, pergunte para a plateia qual delas já resolveria um problema que o time tem hoje.</aside>
+</section>
+</div></div>
+<div id="barra"></div>
+<div id="contador"></div>
+<div id="notas"><b>Notas do apresentador</b><span id="texto-notas"></span></div>
+<div id="ajuda">setas: navegar · F: tela cheia · N: notas · Home e End: início e fim</div>
+<script>
+(function () {
+  var tela = document.getElementById('tela');
+  var secoes = Array.prototype.slice.call(tela.children);
+  var atual = 0;
+
+  function ajusta() {
+    var k = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    tela.style.transform = 'scale(' + k + ')';
+  }
+
+  function mostra(i) {
+    atual = Math.max(0, Math.min(secoes.length - 1, i));
+    secoes.forEach(function (s, n) {
+      var ativo = n === atual;
+      s.classList.toggle('ativo', ativo);
+      Array.prototype.forEach.call(s.querySelectorAll('video'), function (v) {
+        if (ativo) {
+          if (!v.getAttribute('src')) v.src = v.getAttribute('data-src');
+          var p = v.play(); if (p && p.catch) p.catch(function () {});
+        } else { v.pause(); }
+      });
+    });
+    var nota = secoes[atual].querySelector('aside');
+    document.getElementById('texto-notas').textContent = nota ? nota.textContent : '(sem notas neste slide)';
+    document.getElementById('barra').style.width = ((atual + 1) / secoes.length * 100) + '%';
+    document.getElementById('contador').textContent = (atual + 1) + ' / ' + secoes.length;
+    history.replaceState(null, '', '#' + (atual + 1));
+  }
+
+  document.addEventListener('keydown', function (e) {
+    var k = e.key;
+    if (k === 'ArrowRight' || k === 'ArrowDown' || k === 'PageDown' || k === ' ' || k === 'Enter') { e.preventDefault(); mostra(atual + 1); }
+    else if (k === 'ArrowLeft' || k === 'ArrowUp' || k === 'PageUp' || k === 'Backspace') { e.preventDefault(); mostra(atual - 1); }
+    else if (k === 'Home') mostra(0);
+    else if (k === 'End') mostra(secoes.length - 1);
+    else if (k === 'f' || k === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+    else if (k === 'n' || k === 'N') document.getElementById('notas').classList.toggle('aberto');
+  });
+
+  var x0 = null;
+  document.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; });
+  document.addEventListener('touchend', function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) mostra(atual + (dx < 0 ? 1 : -1));
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target.closest('#notas')) return;
+    mostra(atual + (e.clientX < window.innerWidth * 0.25 ? -1 : 1));
+  });
+
+  window.addEventListener('resize', ajusta);
+  ajusta();
+  mostra((parseInt(location.hash.slice(1), 10) || 1) - 1);
+  setTimeout(function () { document.getElementById('ajuda').style.opacity = 0; }, 5000);
+})();
+</script>
+</body>
+</html>
