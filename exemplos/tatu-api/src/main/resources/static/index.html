@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Tatu (página de teste do backend)</title>
+  <style>
+    body { margin: 0; font-family: system-ui, sans-serif; background: #f7f3ec; color: #1f2a22; }
+    main { max-width: 420px; margin: 0 auto; padding: 48px 24px; display: flex; flex-direction: column; gap: 16px; }
+    form { display: flex; flex-direction: column; gap: 8px; }
+    input { font: inherit; padding: 10px 12px; border: 1px solid #d9d1c3; border-radius: 8px; }
+    button { font: inherit; margin-top: 12px; padding: 12px; border: none; border-radius: 8px; background: #2b3a2f; color: #f7f3ec; cursor: pointer; }
+    .erro { color: #a8461f; }
+  </style>
+</head>
+<body>
+  <!--
+    Página mínima, servida pelo próprio Spring Boot, para o time de backend
+    praticar testes de tela em Java sem depender do projeto Angular.
+    O saldo fica dentro de um Web Component com Shadow DOM aberto (<tatu-saldo>).
+  -->
+  <main>
+    <h1>Banco Tatu</h1>
+
+    <form id="login">
+      <label for="cpf">CPF</label>
+      <input id="cpf" autocomplete="username">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" autocomplete="current-password">
+      <button type="submit">Entrar</button>
+    </form>
+    <p id="erro" class="erro" role="alert" hidden></p>
+
+    <section id="conta" hidden>
+      <h2 id="ola"></h2>
+      <tatu-saldo></tatu-saldo>
+      <p id="cotacao"></p>
+    </section>
+  </main>
+
+  <script>
+    customElements.define('tatu-saldo', class extends HTMLElement {
+      connectedCallback() {
+        if (this.shadowRoot) return;
+        const raiz = this.attachShadow({ mode: 'open' });
+        raiz.innerHTML = `
+          <style>
+            div { background: #2b3a2f; color: #f7f3ec; border-radius: 16px; padding: 20px; }
+            p { margin: 0; }
+            .valor { font-size: 2rem; font-weight: 600; margin-top: 8px; }
+          </style>
+          <div>
+            <p>Saldo disponível</p>
+            <p class="valor" data-testid="saldo"></p>
+          </div>`;
+      }
+      mostrar(valor) {
+        this.shadowRoot.querySelector('[data-testid="saldo"]').textContent =
+          Number(valor).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+      }
+    });
+
+    const brl = (v) => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const erro = document.getElementById('erro');
+
+    document.getElementById('login').addEventListener('submit', async (evento) => {
+      evento.preventDefault();
+      erro.hidden = true;
+
+      const resposta = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          cpf: document.getElementById('cpf').value,
+          senha: document.getElementById('senha').value,
+        }),
+      }).catch(() => null);
+
+      if (!resposta || !resposta.ok) {
+        erro.textContent = resposta && resposta.status === 401
+          ? 'CPF ou senha inválidos.'
+          : 'Serviço indisponível. Tente mais tarde.';
+        erro.hidden = false;
+        return;
+      }
+
+      const { token, nome } = await resposta.json();
+      const headers = { Authorization: `Bearer ${token}` };
+
+      document.getElementById('login').hidden = true;
+      document.getElementById('ola').textContent = `Olá, ${nome}`;
+      document.getElementById('conta').hidden = false;
+
+      const conta = await fetch('/api/conta', { headers }).then((r) => r.json());
+      document.querySelector('tatu-saldo').mostrar(conta.saldo);
+
+      const cotacao = document.getElementById('cotacao');
+      const q = await fetch('/api/cotacao', { headers }).catch(() => null);
+      cotacao.textContent = q && q.ok
+        ? `Dólar hoje: ${brl((await q.json()).valor)}`
+        : 'Cotação indisponível no momento.';
+    });
+  </script>
+</body>
+</html>

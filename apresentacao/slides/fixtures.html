@@ -1,0 +1,36 @@
+<section id="fixtures" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Fixtures: o kit que cada teste recebe pronto</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:40px 48px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { test, expect } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p>&#160;</p>
+<p>test.<span style="color:#7FB5F0">beforeEach</span>(<span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/'</span>);</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'mostra o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// page novinha: sem cookies de outro teste</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">1</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>test</b> e <b>expect</b> vêm do Playwright Test, o runner oficial.</p>
+</div>
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">2</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>{ page }</b> é uma fixture: montada antes e desmontada depois de cada teste.</p>
+</div>
+<div style="display:flex;gap:20px;align-items:start">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:40px">3</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Cada teste ganha um context novo, então todos podem rodar em paralelo.</p>
+</div>
+</div>
+</div>
+<aside>Fixture é o que o teste pede na assinatura e o runner entrega pronto. Você pede page e recebe uma aba num context limpo; pede request e recebe um cliente HTTP. Também dá para criar fixtures próprias, por exemplo um cliente já logado ou uma conta com saldo, e o runner cuida de montar e limpar.</aside>
+</section>

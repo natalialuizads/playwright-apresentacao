@@ -1,0 +1,43 @@
+<section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · conceito</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock nas bordas: onde cortar o fio</h2>
+</div>
+<div style="display:flex;align-items:center;gap:16px">
+<div style="flex:1;background:#161A22;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Navegador</p>
+<p style="font-size:24px;color:#C9C4B8;text-align:center">Angular</p>
+</div>
+<div style="width:240px;display:flex;flex-direction:column;align-items:center;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">page.route</p>
+<x-shape kind="arrow-right" style="width:120px;height:48px;background:#B4471B"></x-shape>
+</div>
+<div style="flex:1;background:#2C5F9E;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">BFF</p>
+<p style="font-size:24px;color:#DCE6F2;text-align:center">Spring Boot</p>
+</div>
+<div style="width:240px;display:flex;flex-direction:column;align-items:center;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">WireMock</p>
+<x-shape kind="arrow-right" style="width:120px;height:48px;background:#B4471B"></x-shape>
+</div>
+<div style="flex:1;background:#FBFAF6;border:2px dashed #9AA0AC;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;text-align:center">Terceiro</p>
+<p style="font-size:24px;color:#4A4F5C;text-align:center">Cotação, antifraude</p>
+</div>
+</div>
+<div style="display:flex;gap:32px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Front isolado</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">page.route responde no lugar do BFF. Testa todo estado de tela.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Back isolado</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">WireMock no lugar do terceiro. Testa erro, timeout e contrato.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
+<h3 style="font-size:36px;font-weight:600">Ponta a ponta</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Nada mockado. Poucos testes, só os fluxos críticos.</p>
+</div>
+</div>
+<aside>Antes do código, a pergunta: onde eu corto o fio? Mock é trocar uma dependência por uma resposta controlada. A regra é cortar nas bordas do que você está testando. Testando a tela? Corte entre o navegador e o BFF com page.route. Testando o BFF? Corte entre o BFF e o serviço de terceiro com WireMock. E mantenha alguns poucos testes sem nenhum mock para garantir que as peças encaixam.</aside>
+</section>

@@ -1,0 +1,39 @@
+<section id="vs-cypress-codigo" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · comparação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O mesmo teste nos dois</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600;color:#4A4F5C">Cypress</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">it</span>(<span style="color:#9CD08F">'mostra erro do extrato'</span>, () =&gt; {</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">intercept</span>(<span style="color:#9CD08F">'GET'</span>, <span style="color:#9CD08F">'/api/extrato'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;statusCode: <span style="color:#F2B482">500</span>,</p>
+<p>&#160;&#160;}).<span style="color:#7FB5F0">as</span>(<span style="color:#9CD08F">'extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">visit</span>(<span style="color:#9CD08F">'/extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">wait</span>(<span style="color:#9CD08F">'@extrato'</span>);</p>
+<p>&#160;&#160;cy.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">'[role=alert]'</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">should</span>(<span style="color:#9CD08F">'contain'</span>, <span style="color:#9CD08F">'Não foi possível'</span>);</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Playwright</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'mostra erro do extrato'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, (r) =&gt;</p>
+<p>&#160;&#160;&#160;&#160;r.<span style="color:#7FB5F0">fulfill</span>({ status: <span style="color:#F2B482">500</span> }));</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/extrato'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'Não foi possível'</span>);</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:48px">
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Sem await no Cypress:</b> os comandos entram numa fila e rodam depois.</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Migrar é quase linha a linha:</b> intercept vira route, should vira expect.</p>
+</div>
+<aside>Mesmo cenário dos dois lados: mockar o extrato com erro 500 e conferir a mensagem. Repare no cy.wait com alias: no Cypress é comum sincronizar com a rede explicitamente. No Playwright, a própria assertion espera. Para quem já tem suíte em Cypress, a migração costuma ser mecânica, e dá para fazer por partes, rodando os dois em paralelo por um tempo.</aside>
+</section>

@@ -1,0 +1,33 @@
+<section id="pilares" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Todo teste é a mesma frase em quatro partes</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">1 · Como encontrar</p>
+<h3 style="font-size:36px;font-weight:600">Locator</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Uma receita para achar o elemento, avaliada só na hora da ação.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">getByRole</span>(<span style="color:#2F7A3A">'button'</span>, { name: <span style="color:#2F7A3A">'Entrar'</span> })</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">2 · O que fazer</p>
+<h3 style="font-size:36px;font-weight:600">Ação</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">click, fill, check, selectOption, press: o que o usuário faria.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> botao.<span style="color:#2C5F9E">click</span>();</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">3 · O que conferir</p>
+<h3 style="font-size:36px;font-weight:600">Assertion</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Tenta de novo até a condição ser verdade ou o tempo acabar.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> <span style="color:#2C5F9E">expect</span>(page).<span style="color:#2C5F9E">toHaveURL</span>(/inicio/);</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#B4471B">4 · Quando agir</p>
+<h3 style="font-size:36px;font-weight:600">Auto-wait</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Antes de cada ação, espera o elemento ficar pronto. Sozinho.</p>
+<p style="font-size:24px;color:#2C5F9E">Sem sleep e sem waitFor manual</p>
+</div>
+</div>
+<aside>Se a pessoa lembrar de um slide só, que seja este. Achar, agir, conferir, e o Playwright cuida do quando. Repare que o locator é preguiçoso: ele não procura o elemento quando você o cria, só quando vai usar. Por isso dá para guardar locators em variáveis e em Page Objects sem medo.</aside>
+</section>

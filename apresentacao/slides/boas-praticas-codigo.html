@@ -1,0 +1,58 @@
+<section id="boas-praticas-codigo" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · hábitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Boas práticas, em código</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Papel primeiro</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>,</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'Pagar'</span> })</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Resiste a mudanças de CSS e ainda cobra acessibilidade.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Dados pela API</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">post</span>(</p>
+<p>&#160;&#160;<span style="color:#9CD08F">'/api/contas'</span>, { data });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Criar pela API é muito mais rápido do que pela tela.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Passos com nome</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'paga'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> () =&gt; { ... });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O relatório e o trace mostram cada etapa.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Etiquetas</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'Pix'</span>,</p>
+<p>&#160;&#160;{ tag: <span style="color:#9CD08F">'@smoke'</span> },</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> ({ page }) =&gt; {...});</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Rode só o essencial: --grep @smoke.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Retry com trace</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>retries: <span style="color:#F2B482">2</span>,</p>
+<p>trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A falha chega com o raio-x, sem rodar tudo gravando.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#2C5F9E">Mock nas bordas</h3>
+<div style="border-left:8px solid #2C5F9E;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/cotacao'</span>,</p>
+<p>&#160;&#160;r =&gt; r.<span style="color:#7FB5F0">fulfill</span>({ json }));</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Serviço de terceiro fora do teste, o seu back de verdade dentro.</p>
+</div>
+</div>
+<aside>O espelho do slide anterior: cada hábito com o trecho de código que o resume. Papel primeiro, dados criados pela API, passos nomeados com test.step, etiquetas para rodar só o essencial, retries com trace e mocks só nas bordas do sistema. Todos esses trechos estão no projeto tatu-web e rodam na suíte.</aside>
+</section>

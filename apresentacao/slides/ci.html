@@ -1,0 +1,44 @@
+<section id="ci" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · pipeline</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">No CI: quatro passos e um raio-x</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:36px;font-weight:600">Dependências</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Instala o projeto como no build.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:36px;font-weight:600">Navegadores</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Baixa só os que a suíte usa.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:36px;font-weight:600">Testes</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Em paralelo, divididos em shards.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:36px;font-weight:600">Relatório</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Publicado sempre, com o trace.</p>
+</div>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># Angular</span></p>
+<p><span style="color:#F2B482">npm</span> ci</p>
+<p><span style="color:#F2B482">npx</span> playwright install <span style="color:#8DB6E8">--with-deps</span> chromium</p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--shard=1/4</span></p>
+<p><span style="color:#8C95A8"># Java</span></p>
+<p><span style="color:#F2B482">mvn</span> <span style="color:#8DB6E8">-B</span> verify</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Retry com trace:</b> a falha já chega com o raio-x anexado.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Imagem Docker oficial:</b> o mesmo navegador em qualquer agente.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Desde a 1.65:</b> relatórios só com as falhas.</p>
+</div>
+</div>
+<aside>Os comandos valem para qualquer ferramenta de CI, seja GitHub Actions, GitLab, Jenkins ou Azure. O passo quatro precisa rodar mesmo quando os testes falham, senão o relatório some justamente quando mais importa. Com retries no CI e trace on-first-retry, toda falha chega com o trace pronto para abrir no Trace Viewer. A versão 1.65 trouxe a opção onlyFailures nos reporters HTML, JSON e JUnit.</aside>
+</section>

@@ -1,0 +1,33 @@
+<section id="piramide" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Onde ele entra na pirâmide de testes</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:360px;background:#B4471B;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Ponta a ponta</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Playwright com navegador.</b> Poucos testes, só fluxos críticos: login, Pix, pagamento.</p>
+</div>
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:620px;background:#2C5F9E;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Integração e API</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C"><b>Playwright sem navegador</b> e Spring Boot Test. Contratos entre front, BFF e serviços.</p>
+</div>
+<div style="display:flex;align-items:center;gap:56px">
+<div style="width:880px;display:flex;flex-direction:column;align-items:center">
+<div style="width:880px;background:#161A22;border-radius:12px;padding:28px">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;text-align:center">Unitários</p>
+</div>
+</div>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Muitos e rápidos. Jest, Vitest ou Karma no Angular; JUnit e Mockito no Java.</p>
+</div>
+</div>
+<aside>Playwright não substitui teste unitário. Ele cobre os dois andares de cima: o fluxo completo pelo navegador e as chamadas de API sem navegador. Quanto mais alto na pirâmide, mais caro e mais lento, então guardamos o topo para o que não pode quebrar em produção.</aside>
+</section>

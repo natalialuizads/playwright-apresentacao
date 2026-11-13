@@ -1,0 +1,45 @@
+<section id="login-uma-vez" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · autenticação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Faça login uma vez, reaproveite em todos</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1040px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// e2e/auth.setup.ts</span></p>
+<p><span style="color:#C49BEA">import</span> { test <span style="color:#C49BEA">as</span> setup } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p><span style="color:#7FB5F0">setup</span>(<span style="color:#9CD08F">'autentica'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">LoginPage</span>(page).<span style="color:#7FB5F0">entrar</span>(CPF, SENHA);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">context</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">storageState</span>({ path: <span style="color:#9CD08F">'.auth/cliente.json'</span> });</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p>projects: [</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'setup'</span>, testMatch: /auth\.setup\.ts/ },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'app'</span>, dependencies: [<span style="color:#9CD08F">'setup'</span>],</p>
+<p>&#160;&#160;&#160;&#160;use: { storageState: <span style="color:#9CD08F">'.auth/cliente.json'</span> } },</p>
+<p>],</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">1</p>
+<p style="flex:1;font-size:28px;line-height:1.4">O projeto setup faz login uma vez.</p>
+</div>
+<x-shape kind="arrow-down" style="width:28px;height:36px;background:#9AA0AC;align-self:center"></x-shape>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">2</p>
+<p style="flex:1;font-size:28px;line-height:1.4">Salva cookies e storage num arquivo.</p>
+</div>
+<x-shape kind="arrow-down" style="width:28px;height:36px;background:#9AA0AC;align-self:center"></x-shape>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:12px;padding:20px 24px;display:flex;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B">3</p>
+<p style="flex:1;font-size:28px;line-height:1.4">Os outros testes já nascem logados.</p>
+</div>
+<div style="display:flex;gap:16px;align-items:start;padding:16px 0 0">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:24px;line-height:1.4;color:#4A4F5C"><b>Atenção:</b> coloque .auth/ no .gitignore. São credenciais de teste.</p>
+</div>
+</div>
+</div>
+<aside>Logar pela tela em todo teste é o jeito mais rápido de ter uma suíte lenta. O projeto setup roda primeiro, faz o login de verdade e grava o estado do navegador. Os demais projetos dependem dele e já começam com a sessão carregada. Em banco isso é ainda mais importante por causa de MFA e de limites de tentativa de login.</aside>
+</section>

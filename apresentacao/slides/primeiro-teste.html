@@ -1,0 +1,39 @@
+<section id="primeiro-teste" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · primeiro teste</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Login em três atos: preparar, agir, conferir</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1080px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'cliente entra e vê o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Arrange: chega na tela</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/login'</span>);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Act: faz o que o usuário faria</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'123.456.789-09'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'segredo123'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Entrar'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Assert: confere o resultado</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page).<span style="color:#7FB5F0">toHaveURL</span>(/inicio/);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'heading'</span>, { name: /<span style="color:#E8C56A">Olá</span>/ }))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<div style="border-left:6px solid #161A22;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600">Arrange</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Leva o teste ao ponto de partida.</p>
+</div>
+<div style="border-left:6px solid #2C5F9E;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Act</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Preenche e clica pelos rótulos e papéis que o usuário vê.</p>
+</div>
+<div style="border-left:6px solid #B4471B;padding:8px 0 8px 24px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Assert</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Confere o efeito: a URL mudou e o título apareceu.</p>
+</div>
+</div>
+</div>
+<aside>Primeiro teste completo. Note que não há nenhum id, classe CSS ou espera manual. Se amanhã o botão Entrar trocar de componente, de cor ou de posição, o teste continua passando, porque procura pelo que o usuário enxerga. O padrão Arrange, Act, Assert vale para qualquer teste, unitário ou de ponta a ponta.</aside>
+</section>

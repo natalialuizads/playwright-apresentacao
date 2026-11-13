@@ -1,0 +1,38 @@
+<section id="api-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · testes de API</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">APIRequestContext: Playwright sem navegador</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@UsePlaywright</span>(<span style="color:#E8C56A">ContasApiTest</span>.Opcoes.class)</p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">ContasApiTest</span> {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">public</span> <span style="color:#C49BEA">static</span> <span style="color:#C49BEA">class</span> <span style="color:#E8C56A">Opcoes</span> <span style="color:#C49BEA">implements</span> <span style="color:#E8C56A">OptionsFactory</span> {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">@Override</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">public</span> <span style="color:#E8C56A">Options</span> <span style="color:#7FB5F0">getOptions</span>() {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">return</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Options</span>().<span style="color:#7FB5F0">setApiRequestOptions</span>(</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">APIRequest</span>.<span style="color:#E8C56A">NewContextOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBaseURL</span>(<span style="color:#9CD08F">"http://localhost:8080"</span>));</p>
+<p>&#160;&#160;&#160;&#160;}</p>
+<p>&#160;&#160;}</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">listaContas</span>(<span style="color:#E8C56A">APIRequestContext</span> request) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIResponse</span> resp = request.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/contas?cliente=42"</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(resp).<span style="color:#7FB5F0">isOK</span>();</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertTrue</span>(resp.<span style="color:#7FB5F0">text</span>().<span style="color:#7FB5F0">contains</span>(<span style="color:#9CD08F">"saldo"</span>));</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Só HTTP.</b> Rápido como um teste de integração.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>OptionsFactory</b> define baseURL e headers, como o token, uma vez.</p>
+<p style="font-size:28px;font-weight:600;padding:8px 0 0">E um POST?</p>
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>request.<span style="color:#7FB5F0">post</span>(<span style="color:#9CD08F">"/api/pix"</span>,</p>
+<p>&#160;&#160;<span style="color:#E8C56A">RequestOptions</span>.<span style="color:#7FB5F0">create</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setData</span>(<span style="color:#E8C56A">Map</span>.<span style="color:#7FB5F0">of</span>(<span style="color:#9CD08F">"valor"</span>, <span style="color:#F2B482">150</span>)));</p>
+</div>
+</div>
+</div>
+<aside>Aqui o Playwright vira um cliente HTTP com asserções prontas. O APIRequestContext chega como parâmetro do teste, do mesmo jeito que a page chegava no TypeScript. A OptionsFactory configura tudo uma vez: base URL, headers, certificado. O isOK confere status de 200 a 299. E o mesmo request também serve para preparar dados antes de um teste de tela, por exemplo criar uma conta pela API e só depois abrir o navegador.</aside>
+</section>

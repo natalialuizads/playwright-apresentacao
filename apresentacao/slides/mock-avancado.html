@@ -1,0 +1,38 @@
+<section id="mock-avancado" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · avançado</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Editar a resposta e conferir o pedido</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Troca só o saldo, o resto é real</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/conta'</span>, <span style="color:#C49BEA">async</span> (r) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> res = <span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">fetch</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> conta = <span style="color:#C49BEA">await</span> res.<span style="color:#7FB5F0">json</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">fulfill</span>({</p>
+<p>&#160;&#160;&#160;&#160;response: res,</p>
+<p>&#160;&#160;&#160;&#160;json: { ...conta, saldo: <span style="color:#F2B482">0</span> },</p>
+<p>&#160;&#160;});</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Confere o que o front enviou</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> req = page.<span style="color:#7FB5F0">waitForRequest</span>(<span style="color:#9CD08F">'**/api/pix'</span>);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">enviarPix</span>(<span style="color:#9CD08F">'mae@tatu.com.br'</span>, <span style="color:#F2B482">150</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">expect</span>((<span style="color:#C49BEA">await</span> req).<span style="color:#7FB5F0">postDataJSON</span>()).<span style="color:#7FB5F0">toEqual</span>({</p>
+<p>&#160;&#160;chave: <span style="color:#9CD08F">'mae@tatu.com.br'</span>,</p>
+<p>&#160;&#160;valor: <span style="color:#F2B482">150</span>,</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:48px">
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Ótimo para saldo zerado, nome gigante ou campo nulo.</p>
+<p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Comece a esperar <b>antes</b> do clique, não depois.</p>
+</div>
+<aside>Dois truques que resolvem muita coisa. À esquerda: route.fetch busca a resposta real e você muda só um campo, então o teste não fica preso a um JSON inteiro que pode desatualizar. À direita: o teste confere o corpo que o Angular mandou para a API. É assim que a gente pega bug de contrato, como valor indo como texto em vez de número. A espera começa antes do clique para não perder a requisição.</aside>
+</section>

@@ -1,0 +1,29 @@
+<section id="ferramentas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro ferramentas que vêm na caixa</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Codegen</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Grava seus cliques e escreve o teste. Ótimo ponto de partida.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright codegen localhost:<span style="color:#B4471B">4200</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Modo UI</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Roda, pausa e volta no tempo passo a passo, com a tela de cada um.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright test <span style="color:#2C5F9E">--ui</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Trace Viewer</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O raio-x da falha: DOM, rede, console e tela em cada passo.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright show-trace trace.zip</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Relatório HTML</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O que passou, o que falhou e por quê, com o trace anexado.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#B4471B">npx</span> playwright show-report</p>
+</div>
+</div>
+<aside>Demo ao vivo sugerida: abrir o Codegen na aplicação local, gravar um login de 20 segundos e mostrar que ele já escolhe getByRole e getByLabel. Depois rodar com --ui. No Java, o Codegen roda pelo Maven: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="codegen localhost:4200".</aside>
+</section>

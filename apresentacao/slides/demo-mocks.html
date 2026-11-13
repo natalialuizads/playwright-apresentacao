@@ -1,0 +1,13 @@
+<section id="demo-mocks" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · mocks</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Um extrato, cinco situações: tudo com page.route</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<img src="/_blob/4045eab707ae302cd98212b8cbd7b3ab" data-video="/_blob/6833885d64f6f74da20373c5bc8594bd" alt="Tela de extrato mostrando lista inventada, vazia, erro 500, carregando e sem rede" style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> JSON inventado pelo teste</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> Lista vazia</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> Erro 500 e, no clique, o servidor real</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> Rede lenta: aparece o carregando</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>5.</b> Rede fora do ar</p>
+</div>
+</div>
+<aside>Esta é a vantagem de mockar: situações difíceis de provocar no servidor viram uma linha de código. O mesmo extrato aparece com lançamentos inventados, vazio, com erro 500, lento e sem rede, e o teste confere a mensagem certa em cada caso. Na terceira, a primeira chamada falha e a segunda segue para o BFF de verdade, simulando o botão Tentar novamente.</aside>
+</section>

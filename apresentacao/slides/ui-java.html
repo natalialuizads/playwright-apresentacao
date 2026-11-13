@@ -1,0 +1,44 @@
+<section id="ui-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · teste de tela</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O mesmo login, agora em Java</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@UsePlaywright</span></p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">LoginE2ETest</span> {</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">clienteEntraEVeOSaldo</span>(<span style="color:#E8C56A">Page</span> page) {</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">navigate</span>(<span style="color:#9CD08F">"http://localhost:4200/login"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">"CPF"</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">"123.456.789-09"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">"Senha"</span>).<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">"segredo123"</span>);</p>
+<p>&#160;&#160;&#160;&#160;page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#E8C56A">AriaRole</span>.BUTTON,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Page</span>.<span style="color:#E8C56A">GetByRoleOptions</span>().<span style="color:#7FB5F0">setName</span>(<span style="color:#9CD08F">"Entrar"</span>)).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(page).<span style="color:#7FB5F0">hasURL</span>(<span style="color:#E8C56A">Pattern</span>.<span style="color:#7FB5F0">compile</span>(<span style="color:#9CD08F">"inicio"</span>));</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">"saldo"</span>)).<span style="color:#7FB5F0">isVisible</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600">Do TypeScript para o Java</p>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;page.goto(url)</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> page.<span style="color:#2C5F9E">navigate</span>(url)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;await expect(l).toBeVisible()</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> <span style="color:#2C5F9E">assertThat</span>(l).<span style="color:#2C5F9E">isVisible</span>()</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:0 0 16px;border-bottom:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;{ name: 'Entrar' }</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> .<span style="color:#2C5F9E">setName</span>(<span style="color:#2F7A3A">"Entrar"</span>)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">TS&#160;&#160;&#160;await l.click()</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#9A6A00">Java</span> l.<span style="color:#2C5F9E">click</span>()</p>
+</div>
+</div>
+</div>
+<aside>Mesmo teste do slide de Angular, linha por linha. As diferenças são só de linguagem: opções viram objetos com setters, o expect vira assertThat e não existe await. Isso abre uma porta interessante: o time de backend pode escrever o teste de ponta a ponta do fluxo que passa pelo BFF dele. Para rodar em paralelo, habilite o paralelismo do JUnit no junit-platform.properties; cada teste ganha seu próprio context.</aside>
+</section>

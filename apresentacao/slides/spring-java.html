@@ -1,0 +1,45 @@
+<section id="spring-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · Spring Boot</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Aplicação de verdade, porta aleatória</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:28px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@SpringBootTest</span>(webEnvironment = RANDOM_PORT)</p>
+<p><span style="color:#E8C56A">@UsePlaywright</span></p>
+<p><span style="color:#C49BEA">class</span> <span style="color:#E8C56A">ExtratoIT</span> {</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@LocalServerPort</span> int porta;</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#E8C56A">@Test</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">extratoVazio</span>(<span style="color:#E8C56A">Playwright</span> pw) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIRequestContext</span> api = pw.<span style="color:#7FB5F0">request</span>().<span style="color:#7FB5F0">newContext</span>(</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">APIRequest</span>.<span style="color:#E8C56A">NewContextOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBaseURL</span>(<span style="color:#9CD08F">"http://localhost:"</span> + porta));</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#E8C56A">APIResponse</span> r = api.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/extrato?cliente=99"</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertThat</span>(r).<span style="color:#7FB5F0">isOK</span>();</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">assertEquals</span>(<span style="color:#9CD08F">"[]"</span>, r.<span style="color:#7FB5F0">text</span>());</p>
+<p>&#160;&#160;&#160;&#160;api.<span style="color:#7FB5F0">dispose</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Sobe de verdade</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Spring Boot inicia a aplicação numa porta livre.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Fala por HTTP</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Playwright chama a API como um cliente chamaria.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Dependências reais</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Com Testcontainers, banco e fila também são de verdade.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<h3 style="font-size:36px;font-weight:600">Sufixo IT</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O Failsafe roda essas classes no mvn verify.</p>
+</div>
+</div>
+</div>
+<aside>Aqui juntamos os dois mundos. O SpringBootTest sobe a aplicação inteira numa porta aleatória e o Playwright conversa com ela por HTTP. O teste passa por controller, serviço, repositório e serialização: tudo o que o mock não pega. Como criamos o context manualmente, fechamos com dispose no final. Combinado com Testcontainers, vira um teste de integração bem próximo de produção.</aside>
+</section>

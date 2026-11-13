@@ -1,0 +1,16 @@
+<section id="boas-praticas" data-section="Dia a dia: boas práticas, CI e novidades de 2026" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Evite isto, prefira aquilo</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:44%">Evite</th><th style="width:56%">Prefira</th></tr>
+<tr><td>waitForTimeout(3000)</td><td>Uma assertion que espera o estado: toBeVisible, toHaveURL</td></tr>
+<tr><td>CSS do layout: .col-md-6 &gt; div</td><td>getByRole, getByLabel ou getByTestId</td></tr>
+<tr><td>Um teste que depende do anterior</td><td>Cada teste prepara os próprios dados, de preferência pela API</td></tr>
+<tr><td>Login pela tela em todo teste</td><td>storageState salvo uma vez no projeto setup</td></tr>
+<tr><td>Tudo em ponta a ponta</td><td>Pirâmide: navegador só nos fluxos críticos</td></tr>
+<tr><td>Bater em serviço de terceiro</td><td>Mock nas bordas com page.route</td></tr>
+</table>
+<aside>Se alguém sair só com este slide, já evita a maior parte da dor. Destaque o item três: teste dependente de outro é o que impede rodar em paralelo e transforma uma falha em dez. Criar dados pela API, com o request que vimos no Java, é muito mais rápido do que criar pela tela.</aside>
+</section>

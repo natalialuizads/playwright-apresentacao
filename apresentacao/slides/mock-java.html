@@ -1,0 +1,39 @@
+<section id="mock-java" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · mock</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock no Java: tela e serviço de terceiro</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Na tela: o mesmo page.route</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">"**/api/cotacao"</span>, route -&gt;</p>
+<p>&#160;&#160;route.<span style="color:#7FB5F0">fulfill</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Route</span>.<span style="color:#E8C56A">FulfillOptions</span>()</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setStatus</span>(<span style="color:#F2B482">200</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setContentType</span>(<span style="color:#9CD08F">"application/json"</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">setBody</span>(<span style="color:#9CD08F">"{\"valor\": 4.99}"</span>)));</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">entrar</span>(page);</p>
+<p><span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">"Dólar hoje"</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">containsText</span>(<span style="color:#9CD08F">"4,99"</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">No back: WireMock no lugar do terceiro</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">@DynamicPropertySource</span></p>
+<p><span style="color:#C49BEA">static</span> <span style="color:#C49BEA">void</span> <span style="color:#7FB5F0">props</span>(<span style="color:#E8C56A">DynamicPropertyRegistry</span> r) {</p>
+<p>&#160;&#160;r.<span style="color:#7FB5F0">add</span>(<span style="color:#9CD08F">"cotacao.url"</span>, wiremock::baseUrl);</p>
+<p>}</p>
+<p>&#160;</p>
+<p>wiremock.<span style="color:#7FB5F0">stubFor</span>(<span style="color:#7FB5F0">get</span>(<span style="color:#7FB5F0">urlEqualTo</span>(CAMINHO))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">willReturn</span>(<span style="color:#7FB5F0">okJson</span>(json)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">withFixedDelay</span>(<span style="color:#F2B482">3_000</span>)));</p>
+<p>&#160;</p>
+<p><span style="color:#E8C56A">APIResponse</span> r = api.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">"/api/cotacao"</span>, <span style="color:#7FB5F0">comToken</span>());</p>
+<p><span style="color:#7FB5F0">assertEquals</span>(<span style="color:#F2B482">503</span>, r.<span style="color:#7FB5F0">status</span>());</p>
+</div>
+</div>
+</div>
+<aside>No Java temos dois tipos de mock. À esquerda, o page.route da API Java, idêntico ao do TypeScript: serve para os testes de tela. À direita, o WireMock sobe um servidor falso no lugar do serviço de cotação, e o DynamicPropertySource aponta a aplicação para ele. Assim testamos o que o nosso BFF faz quando o terceiro demora três segundos: aqui, ele estoura o timeout de um segundo e devolve 503 em vez de travar. Tudo isso está em CotacaoWireMockIT e LoginUiIT no projeto tatu-api.</aside>
+</section>

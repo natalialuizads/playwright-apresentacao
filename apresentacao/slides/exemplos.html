@@ -1,0 +1,32 @@
+<section id="exemplos" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mão na massa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Projetos de exemplo: o Banco Tatu</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:600">tatu-web</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Angular + Playwright. Login, mocks, HAR e Shadow DOM.</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> install</p>
+<p><span style="color:#F2B482">npx</span> playwright install chromium</p>
+<p><span style="color:#F2B482">npm</span> run e2e</p>
+<p><span style="color:#8C95A8"># com interface visual</span></p>
+<p><span style="color:#F2B482">npm</span> run e2e:ui</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:36px;font-weight:600">tatu-api</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Spring Boot + Playwright Java. API, tela e WireMock.</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">mvn</span> test&#160;&#160;&#160;&#160;<span style="color:#8C95A8"># unitários</span></p>
+<p><span style="color:#F2B482">mvn</span> verify&#160;&#160;<span style="color:#8C95A8"># API, tela e mocks</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># vendo o navegador</span></p>
+<p><span style="color:#F2B482">mvn</span> verify <span style="color:#8DB6E8">-Dheaded=true</span></p>
+</div>
+</div>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Juntos:</b> suba o tatu-api na porta 8080 e o tatu-web passa a usar o back real no lugar do mock em Node.</p>
+<aside>Os dois projetos seguem a mesma história do banco fictício: login, saldo, extrato, Pix e cotação do dólar. O front sobe sozinho um BFF de mentira em Node, então roda sem Java. O back sobe uma página mínima própria para os testes de tela, então roda sem Angular. Cada pasta tem um README com o passo a passo e a lista do que cada teste ensina.</aside>
+</section>

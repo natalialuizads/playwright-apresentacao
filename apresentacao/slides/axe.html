@@ -1,0 +1,40 @@
+<section id="axe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · acessibilidade</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Acessibilidade com axe, no mesmo teste</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;display:flex;flex-direction:column;gap:24px">
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> <span style="color:#E8C56A">AxeBuilder</span> <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@axe-core/playwright'</span>;</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'/pix sem violações A e AA'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/pix'</span>);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> resultado = <span style="color:#C49BEA">await</span> <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">AxeBuilder</span>({ page })</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">withTags</span>([<span style="color:#9CD08F">'wcag2a'</span>, <span style="color:#9CD08F">'wcag2aa'</span>])</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">analyze</span>();</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#7FB5F0">expect</span>(resultado.violations).<span style="color:#7FB5F0">toEqual</span>([]);</p>
+<p>});</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:24px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">new</span> <span style="color:#E8C56A">AxeBuilder</span>({ page })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">include</span>(<span style="color:#9CD08F">'tatu-cartao-saldo'</span>) <span style="color:#8C95A8">// só um trecho</span></p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">disableRules</span>([<span style="color:#9CD08F">'color-contrast'</span>])</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">analyze</span>();</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">O que o axe pega</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C">Imagem sem alt, botão sem nome, campo sem rótulo, contraste baixo, papéis ARIA errados.</p>
+<p style="font-size:28px;font-weight:600;color:#B4471B">O que ele não pega</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C">Ordem do foco, texto que faz sentido no leitor de tela, uso real com teclado. Automação cobre só uma parte; o resto é teste manual.</p>
+<p style="font-size:28px;font-weight:600">Instalação</p>
+<p style="font-size:24px;color:#2C5F9E;font-family:'JetBrains Mono', 'Courier New', monospace">npm i -D @axe-core/playwright</p>
+<p style="font-size:28px;font-weight:600">Cada violação traz</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>id</b> da regra, <b>impact</b> (de minor a critical), <b>nodes</b> com o elemento e <b>helpUrl</b> com a correção.</p>
+</div>
+</div>
+<aside>O axe-core é o motor de acessibilidade mais usado, e o pacote oficial para Playwright expõe o AxeBuilder. Você abre a página, analisa e espera uma lista de violações vazia. Com withTags dá para escolher o nível: wcag2a e wcag2aa cobrem o que a maioria das normas exige. Dá para limitar a análise a um trecho com include, ignorar um trecho com exclude e desligar uma regra conhecida com disableRules, de preferência com um comentário dizendo por quê. No projeto de exemplo, o teste anexa o JSON das violações ao relatório HTML, e há um teste que prova que o axe realmente detecta uma imagem sem alt e um botão sem nome. O axe também entra em Shadow DOM aberto. Lembrete: ele encontra uma parte dos problemas; teste manual com teclado e leitor de tela continua necessário.</aside>
+</section>

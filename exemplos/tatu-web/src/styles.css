@@ -1,0 +1,119 @@
+:root {
+  --tinta: #1f2a22;
+  --papel: #f7f3ec;
+  --linha: #d9d1c3;
+  --musgo: #2b3a2f;
+  --argila: #a8461f;
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color: var(--tinta);
+  background: var(--papel);
+}
+
+body {
+  margin: 0;
+}
+
+.pagina {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.estreita {
+  max-width: 420px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2rem;
+}
+
+.sub {
+  margin: 0;
+  color: #5a6157;
+}
+
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+input,
+select {
+  font: inherit;
+  padding: 10px 12px;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
+  background: #fff;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.opcao {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.formulario button {
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: var(--musgo);
+  color: var(--papel);
+}
+
+.formulario button:disabled {
+  opacity: 0.6;
+}
+
+.erro {
+  color: var(--argila);
+}
+
+.sucesso {
+  color: var(--musgo);
+  font-weight: 600;
+}
+
+.atalhos {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.atalhos a,
+a {
+  color: var(--musgo);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+caption {
+  text-align: left;
+  font-weight: 600;
+  padding-bottom: 8px;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.negativo {
+  color: var(--argila);
+}

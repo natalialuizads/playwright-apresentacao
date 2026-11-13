@@ -1,0 +1,18 @@
+<section id="vs-cypress" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · comparação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">E o Cypress? As diferenças que importam</h2>
+</div>
+<table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">Aspecto</th><th style="width:39%">Playwright</th><th style="width:39%">Cypress</th></tr>
+<tr><td>Onde roda</td><td>Fora do navegador, por protocolo</td><td>Dentro do navegador, junto da página</td></tr>
+<tr><td>Linguagens</td><td>TypeScript, Java, Python e .NET</td><td>JavaScript e TypeScript</td></tr>
+<tr><td>Navegadores</td><td>Chromium, Firefox e WebKit</td><td>Chromium e Firefox; WebKit experimental</td></tr>
+<tr><td>Abas e janelas</td><td>Várias abas, janelas e contextos</td><td>Uma aba; outra origem com cy.origin</td></tr>
+<tr><td>Paralelismo</td><td>Grátis, até dentro do mesmo arquivo</td><td>Um arquivo por vez; dividir exige Cloud pago</td></tr>
+<tr><td>Mock de rede</td><td>page.route</td><td>cy.intercept</td></tr>
+<tr><td>Estilo</td><td>async e await</td><td>Comandos encadeados numa fila</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Leitura honesta:</b> o Cypress é ótimo de aprender e tem um runner interativo excelente. <b>O problema é a esteira:</b> sem paralelismo nativo, ele roda um arquivo de cada vez, e dividir a suíte entre máquinas exige o Cypress Cloud, que é pago. No Playwright, workers e --shard vêm de graça.</p>
+<aside>Os dois são boas ferramentas; a diferença está na arquitetura. O Cypress roda dentro do navegador, o que dá uma experiência de depuração muito boa, mas limita abas, janelas e linguagens. O Playwright controla o navegador de fora, o que libera várias abas, WebKit e Java. Paralelismo é o ponto que mais pesa na esteira: o runner gratuito do Cypress executa os arquivos em sequência numa máquina, e a divisão entre várias máquinas depende do Cypress Cloud ou de ferramentas de terceiros. Com uma suíte grande, isso vira minutos a mais em cada PR. No Playwright, os workers rodam em paralelo na mesma máquina e o --shard divide entre máquinas, tudo no runner gratuito. Dado de 2026: o Cypress 16 saiu em setembro e o component testing dele passou a suportar só Angular 21 em diante.</aside>
+</section>

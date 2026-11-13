@@ -1,0 +1,37 @@
+<section id="mock-har" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · organização</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Gravar respostas reais e mockar sem repetição</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">HAR: grava uma vez, reproduz sempre</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeFromHAR</span>(<span style="color:#9CD08F">'e2e/hars/extrato.har'</span>, {</p>
+<p>&#160;&#160;url: <span style="color:#9CD08F">'**/api/extrato'</span>,</p>
+<p>&#160;&#160;update: !!process.env.HAR_UPDATE,</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># grava com o BFF real no ar</span></p>
+<p>HAR_UPDATE=<span style="color:#F2B482">1</span> npx playwright test</p>
+</div>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O arquivo vai para o Git. Depois, o teste roda sem o BFF.</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:28px;font-weight:600">Fixture: atalhos de mock</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">const</span> test = base.<span style="color:#7FB5F0">extend</span>({</p>
+<p>&#160;&#160;bff: <span style="color:#C49BEA">async</span> ({ page }, use) =&gt;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">use</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Bff</span>(page)),</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'vazio'</span>, <span style="color:#C49BEA">async</span> ({ bff, extrato }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> bff.<span style="color:#7FB5F0">json</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, []);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> extrato.<span style="color:#7FB5F0">abrir</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(extrato.vazio).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<aside>Duas formas de não espalhar JSON pelo código. O HAR é uma gravação da rede: você roda uma vez com o BFF real e o Playwright salva as respostas num arquivo; nas próximas execuções ele responde a partir do arquivo. A fixture bff é uma classe pequena que esconde o page.route: o teste fica dizendo o quê, não o como. As duas estão no projeto de exemplo, em 04-har.spec.ts e fixtures.ts.</aside>
+</section>

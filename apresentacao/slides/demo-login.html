@@ -1,0 +1,25 @@
+<section id="demo-login" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · navegador</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O teste de login rodando de verdade</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<img src="/_blob/954acd2477057dfae965b3b0d1662f77" data-video="/_blob/f76db965dc5e0a7c348d454d7e0a0c7c" alt="Navegador preenchendo CPF e senha e abrindo a tela inicial da Ana" style="width:960px;height:540px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'123.456.789-09'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">fill</span>(<span style="color:#9CD08F">'segredo123'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>,</p>
+<p>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'Entrar'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'heading'</span>,</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'Olá, Ana'</span> })).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+</div><p style="font-size:28px;line-height:1.4;color:#4A4F5C">A legenda no vídeo mostra a linha que está executando. O círculo é o ponteiro do mouse.</p>
+</div>
+</div>
+<aside>Aqui é o navegador de verdade, em modo visível. O teste preenche o CPF pelo rótulo, a senha, clica no botão pelo papel e confere o título da tela inicial. Repare que não existe nenhuma espera: o Playwright aguarda cada elemento ficar pronto. O mesmo teste em modo headless roda sem janela, que é o que acontece no CI.</aside>
+</section>

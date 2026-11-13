@@ -1,0 +1,29 @@
+<section id="dicas-angular" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · pegadinhas</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro dicas para o nosso tipo de front</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Material tem papéis</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">mat-select é um combobox e cada mat-option é um option.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByRole</span>(<span style="color:#2F7A3A">'combobox'</span>, { name: <span style="color:#2F7A3A">'Conta'</span> })</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Fuja do que o Angular gera</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">_ngcontent-*, ng-star-inserted e ids automáticos mudam a cada build.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByTestId</span>(<span style="color:#2F7A3A">'btn-transferir'</span>)</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Web Components e MFEs</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Locators atravessam Shadow DOM aberto, sem configuração extra.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByLabel</span>(<span style="color:#2F7A3A">'Valor'</span>) <span style="color:#6B7384">// dentro do componente</span></p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Remote fora do ar</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira se o shell mostra o fallback.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(<span style="color:#2F7A3A">'**/remoteEntry.js'</span>, r =&gt; r.<span style="color:#2C5F9E">abort</span>())</p>
+</div>
+</div>
+<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E com Module Federation dá para simular um remote indisponível e validar o fallback do shell, um cenário que quase ninguém testa.</aside>
+</section>

@@ -1,0 +1,44 @@
+<section id="setup-angular" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · setup</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Do zero ao ng e2e em um comando</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:560px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">1 · Instale</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">ng</span> add playwright-ng-schematics</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Instala o Playwright Test e liga o ng e2e.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">2 · Rode</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">ng</span> e2e <span style="color:#2C5F9E">--ui</span></p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O webServer sobe o ng serve antes dos testes.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<p style="font-size:24px;font-weight:600;color:#B4471B">Sem o schematic</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;background:#E7E2D8;padding:10px 20px;border-radius:8px"><span style="color:#B4471B">npm</span> init playwright<span style="color:#9A6A00">@latest</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">playwright.config.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { defineConfig } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>({</p>
+<p>&#160;&#160;testDir: <span style="color:#9CD08F">'./e2e'</span>,</p>
+<p>&#160;&#160;retries: process.env.CI ? <span style="color:#F2B482">2</span> : <span style="color:#F2B482">0</span>,</p>
+<p>&#160;&#160;use: {</p>
+<p>&#160;&#160;&#160;&#160;baseURL: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;&#160;&#160;&#160;trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;&#160;},</p>
+<p>&#160;&#160;webServer: {</p>
+<p>&#160;&#160;&#160;&#160;command: <span style="color:#9CD08F">'npm start'</span>,</p>
+<p>&#160;&#160;&#160;&#160;url: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;&#160;&#160;&#160;reuseExistingServer: !process.env.CI,</p>
+<p>&#160;&#160;},</p>
+<p>});</p>
+</div>
+</div>
+</div>
+<aside>O schematic da comunidade é o caminho mais curto num projeto Angular 18 ou mais novo: ele integra com o ng e2e. Os três campos que mais importam na configuração: baseURL, para escrever page.goto('/login') sem repetir o host; trace on-first-retry, para ganhar o raio-x quando algo falhar no CI; e webServer, que sobe a aplicação sozinho e reaproveita a que já estiver rodando na sua máquina.</aside>
+</section>

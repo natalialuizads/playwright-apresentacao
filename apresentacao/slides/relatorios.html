@@ -1,0 +1,46 @@
+<section id="relatorios" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Como configurar o relatório</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;display:flex;flex-direction:column;gap:24px">
+<div style="background:#F5F2EC;padding:0;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#4A4F5C;white-space:nowrap">
+<p>playwright.ci.config.ts</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>(base, {</p>
+<p>&#160;&#160;workers: process.env[<span style="color:#9CD08F">'CI'</span>] ? <span style="color:#F2B482">4</span> : <span style="color:#C49BEA">undefined</span>,</p>
+<p>&#160;&#160;reporter: [</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'list'</span>],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'html'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;open: <span style="color:#9CD08F">'never'</span>,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFolder: <span style="color:#9CD08F">'relatorio'</span> }],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'junit'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFile: <span style="color:#9CD08F">'resultados/junit.xml'</span> }],</p>
+<p>&#160;&#160;&#160;&#160;[<span style="color:#9CD08F">'json'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;outputFile: <span style="color:#9CD08F">'resultados/resultado.json'</span> }],</p>
+<p>&#160;&#160;],</p>
+<p>});</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:20px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> run e2e:ci</p>
+<p><span style="color:#F2B482">npx</span> playwright show-report relatorio</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<table style="width:100%;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:24%">Reporter</th><th>Para quê</th></tr>
+<tr><td>list</td><td>Log legível no terminal e no CI</td></tr>
+<tr><td>html</td><td>Relatório navegável, com trace e capturas</td></tr>
+<tr><td>junit</td><td>XML que Jenkins, GitLab e Azure entendem</td></tr>
+<tr><td>json</td><td>Dados crus para dashboards próprios</td></tr>
+<tr><td>blob</td><td>Pedaços de cada shard, para juntar depois</td></tr>
+</table>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> publique a pasta relatorio mesmo quando os testes falham.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Com shards:</b> cada máquina gera um blob; no fim, <b>npx playwright merge-reports</b> junta tudo num HTML só.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No Java:</b> o Maven grava o XML em target/failsafe-reports.</p>
+</div>
+</div>
+<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. Quando a suíte é dividida em shards, cada máquina gera um blob, e o merge-reports junta todos num relatório único. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
+</section>

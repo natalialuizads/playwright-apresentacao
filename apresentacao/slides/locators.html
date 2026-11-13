@@ -1,0 +1,16 @@
+<section id="locators" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Locators: procure como o usuário procura</h2>
+</div>
+<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">Locator</th><th style="width:42%">Exemplo</th><th style="width:36%">Quando usar</th></tr>
+<tr style="background:#E9EFF6"><td>getByRole</td><td>getByRole('button', { name: 'Entrar' })</td><td>Primeira escolha: é como o usuário vê</td></tr>
+<tr><td>getByLabel</td><td>getByLabel('CPF')</td><td>Campos de formulário com rótulo</td></tr>
+<tr><td>getByText</td><td>getByText('Saldo disponível')</td><td>Textos que não são botões nem links</td></tr>
+<tr><td>getByTestId</td><td>getByTestId('card-saldo')</td><td>Sem papel nem texto estável</td></tr>
+<tr style="background:#F7E3D8"><td>locator(css)</td><td>locator('.mat-mdc-row')</td><td>Último recurso: quebra com o layout</td></tr>
+</table>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>Dica:</b> no Codegen e no modo UI, o próprio Playwright sugere o melhor locator para o elemento que você aponta.</p>
+<aside>A ordem da tabela é a ordem de preferência. getByRole usa a árvore de acessibilidade, a mesma que o leitor de tela usa. Então ele ganha duas coisas de brinde: resiste a mudanças de CSS e denuncia problemas de acessibilidade. Se o getByRole não acha o botão, provavelmente o leitor de tela também não acha.</aside>
+</section>

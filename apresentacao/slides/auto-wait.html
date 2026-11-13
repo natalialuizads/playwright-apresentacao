@@ -1,0 +1,31 @@
+<section id="auto-wait" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Auto-wait: o checklist antes de cada clique</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="width:620px;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Antes de clicar, o Playwright confere se o elemento está:</p>
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Check" style="color:#2C5F9E;width:40px;height:40px"></x-icon><p style="font-size:28px"><b>Anexado</b> ao DOM</p></div>
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Check" style="color:#2C5F9E;width:40px;height:40px"></x-icon><p style="font-size:28px"><b>Visível</b> na tela</p></div>
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Check" style="color:#2C5F9E;width:40px;height:40px"></x-icon><p style="font-size:28px"><b>Estável</b>, sem animação</p></div>
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Check" style="color:#2C5F9E;width:40px;height:40px"></x-icon><p style="font-size:28px"><b>Habilitado</b>, não disabled</p></div>
+<div style="display:flex;gap:20px;align-items:center"><x-icon name="Check" style="color:#2C5F9E;width:40px;height:40px"></x-icon><p style="font-size:28px"><b>Livre</b>, sem nada por cima</p></div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Antes: frágil</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">waitForTimeout</span>(<span style="color:#F2B482">3000</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">click</span>(<span style="color:#9CD08F">'.btn-primary'</span>);</p>
+<p><span style="color:#8C95A8">// e se o BFF levar 4 segundos?</span></p>
+</div>
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Com Playwright: só a intenção</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Pagar'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+</div>
+</div>
+</div>
+<aside>Esse é o motivo número um de testes instáveis sumirem quando se migra para o Playwright. Ele faz esse checklist em toda ação. Se algo não fica pronto dentro do timeout, o teste falha com uma mensagem dizendo qual verificação não passou, por exemplo: elemento coberto por outro.</aside>
+</section>

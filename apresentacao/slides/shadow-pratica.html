@@ -1,0 +1,45 @@
+<section id="shadow-pratica" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Shadow DOM · na prática</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O Playwright atravessa sozinho</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// nada de entrar no shadowRoot na mão</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'1.520,75'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Ocultar saldo'</span> })</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'tatu-cartao-saldo .valor'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// escopo: procure só dentro do componente</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'tatu-pix-favoritos'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Mãe'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// Java: igual</span></p>
+<p><span style="color:#7FB5F0">assertThat</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">"saldo"</span>)).<span style="color:#7FB5F0">containsText</span>(<span style="color:#9CD08F">"1.520,75"</span>);</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:28px;font-weight:600">Atravessa o shadow root?</p>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#2C5F9E;padding:6px 16px;border-radius:999px">Sim</p>
+<p style="flex:1;font-size:28px">getByRole, getByText, getByLabel, getByTestId</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#2C5F9E;padding:6px 16px;border-radius:999px">Sim</p>
+<p style="flex:1;font-size:28px">Seletores CSS</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#B4471B;padding:6px 16px;border-radius:999px">Não</p>
+<p style="flex:1;font-size:28px">XPath</p>
+</div>
+<div style="display:flex;gap:16px;align-items:center">
+<p style="font-size:24px;font-weight:600;color:#F5F2EC;background:#B4471B;padding:6px 16px;border-radius:999px">Não</p>
+<p style="flex:1;font-size:28px">Shadow root fechado (mode: 'closed')</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C;padding:12px 0 0">Componente do seu time com root fechado? Peça open: fica testável e acessível.</p>
+</div>
+</div>
+<aside>Este é o alívio para quem trabalha com Web Components e MFEs. Os locators recomendados e o CSS enxergam dentro de shadow roots abertos, sem nenhuma sintaxe especial. As duas exceções: XPath não atravessa, mais um motivo para evitá-lo, e shadow root fechado não é suportado. No projeto de exemplo, 05-shadow-dom.spec.ts prova cada linha desta tabela, inclusive que o XPath não acha o saldo.</aside>
+</section>

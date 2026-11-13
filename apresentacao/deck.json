@@ -1,0 +1,95 @@
+{
+  "v": 4,
+  "attachments": {},
+  "createdOnFiles": {
+    "at": "2026-11-12T01:40:00Z",
+    "v": 1
+  },
+  "designSystems": [],
+  "faces": {
+    "ibm-plex-sans": {
+      "family": "IBM Plex Sans",
+      "href": "https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&display=swap"
+    },
+    "jetbrains-mono": {
+      "family": "JetBrains Mono",
+      "href": "https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&display=swap"
+    }
+  },
+  "lists": "css",
+  "order": [
+    "cover",
+    "agenda",
+    "o-que-e",
+    "piramide",
+    "browser-context-page",
+    "pilares",
+    "auto-wait",
+    "sem-sleep",
+    "locators",
+    "assertions",
+    "fixtures",
+    "ferramentas",
+    "vs-cypress",
+    "vs-cypress-codigo",
+    "div-angular",
+    "setup-angular",
+    "primeiro-teste",
+    "demo-terminal",
+    "demo-login",
+    "mock-onde",
+    "mock-api",
+    "demo-mocks",
+    "mock-respostas",
+    "mock-avancado",
+    "mock-har",
+    "mock-armadilhas",
+    "page-object",
+    "login-uma-vez",
+    "shadow-o-que-e",
+    "shadow-pratica",
+    "dicas-angular",
+    "div-java",
+    "setup-java",
+    "api-java",
+    "ui-java",
+    "mock-java",
+    "spring-java",
+    "boas-praticas",
+    "nao-fazer",
+    "boas-praticas-codigo",
+    "relatorios",
+    "axe",
+    "ci",
+    "novidades",
+    "exemplos",
+    "recap"
+  ],
+  "sections": {
+    "s1": {
+      "description": "Abertura e roteiro da apresentação",
+      "start": "cover"
+    },
+    "s2": {
+      "description": "Conceitos: o que é, como pensa um teste Playwright e a comparação com o Cypress",
+      "start": "o-que-e"
+    },
+    "s3": {
+      "description": "Frontend em Angular: setup, primeiro teste, mocks a fundo, Page Objects, login e Shadow DOM",
+      "start": "div-angular"
+    },
+    "s4": {
+      "description": "Backend em Java: JUnit 5, testes de API, de UI, mocks com WireMock e Spring Boot",
+      "start": "div-java"
+    },
+    "s5": {
+      "description": "Dia a dia: boas práticas, CI, novidades de 2026 e projetos de exemplo",
+      "start": "boas-praticas"
+    },
+    "s6": {
+      "description": "Resumo",
+      "start": "recap"
+    }
+  },
+  "title": "Playwright: o robô que clica por você"
+}

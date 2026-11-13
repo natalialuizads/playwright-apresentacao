@@ -1,0 +1,57 @@
+<section id="nao-fazer" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · cuidado</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que não fazer</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Dormir no teste</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">waitForTimeout</span>(<span style="color:#F2B482">3000</span>);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Lento quando sobra, quebra quando falta.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Olhar uma vez só</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> ok = <span style="color:#C49BEA">await</span></p>
+<p>&#160;&#160;el.<span style="color:#7FB5F0">isVisible</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(ok).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Não espera nada. Use expect(el).toBeVisible().</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Seletor de layout</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'.col-md-6 &gt; div a'</span>)</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Quebra no próximo redesign. Prefira papel ou testid.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Forçar o clique</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> btn.<span style="color:#7FB5F0">click</span>(</p>
+<p>&#160;&#160;{ force: <span style="color:#C49BEA">true</span> });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Esconde bug real: botão coberto ou desabilitado.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Testes encadeados</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'cria a conta'</span>, ...);</p>
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'usa a conta'</span>, ...);</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Um falha e dez falham. E não roda em paralelo.</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h3 style="font-size:32px;font-weight:600;color:#B4471B">Esquecer o .only</h3>
+<div style="border-left:8px solid #B4471B;background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>test.<span style="color:#7FB5F0">only</span>(<span style="color:#9CD08F">'meu teste'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> () =&gt; { ... });</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">No CI só ele roda. Barre com forbidOnly: true.</p>
+</div>
+</div>
+<aside>Seis erros que aparecem em quase toda suíte que dá dor de cabeça. Os três primeiros causam testes instáveis: esperar por tempo, olhar o estado uma vez só e depender de seletor de layout. O force true silencia a checagem de ação do Playwright e deixa o bug passar. Teste que depende de outro impede o paralelismo. E o test.only esquecido faz o CI rodar um único teste e ficar verde, o pior tipo de falso positivo.</aside>
+</section>

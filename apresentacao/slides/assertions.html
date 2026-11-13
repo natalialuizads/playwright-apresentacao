@@ -1,0 +1,38 @@
+<section id="assertions" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Assertions web-first: conferir com paciência</h2>
+</div>
+<div style="display:flex;gap:48px">
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600;color:#2C5F9E">Certo: espera o estado chegar</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">'Aprovado'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p><span style="color:#8C95A8">// tenta de novo até passar</span></p>
+<p><span style="color:#8C95A8">// ou estourar o timeout</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600;color:#B4471B">Errado: olha uma vez só</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> ok = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByText</span>(<span style="color:#9CD08F">'Aprovado'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">isVisible</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(ok).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+<p><span style="color:#8C95A8">// se a API atrasar, falha</span></p>
+</div>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px">
+<p style="font-size:28px;font-weight:600">As que você mais vai usar</p>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toBeVisible</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveText</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveURL</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveCount</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toBeEnabled</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;background:#E9EFF6;padding:10px 20px;border-radius:999px">toHaveScreenshot</p>
+</div>
+</div>
+<aside>A diferença é sutil no código e enorme no resultado. O expect com await recebe o locator e fica tentando até a condição bater. A versão da direita tira uma foto do instante: se o elemento aparecer 100 milissegundos depois, o teste já falhou. Regra prática: o await vai antes do expect, não dentro dele.</aside>
+</section>

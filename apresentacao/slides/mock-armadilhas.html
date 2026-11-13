@@ -1,0 +1,29 @@
+<section id="mock-armadilhas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · armadilhas</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro jeitos de um mock mentir para você</h2>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:32px">
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Chegou tarde</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Route depois do goto: a primeira chamada já passou sem mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(...) antes de page.<span style="color:#2C5F9E">goto</span>(...)</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Não casou com a URL</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O glob não pega query string: ?mes=11 escapa do mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2F7A3A">'**/api/extrato*'</span> ou /\/api\/extrato/</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Desatualizou</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O back mudou o contrato e o mock não. Tudo verde, produção quebrada.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">HAR regravado + teste de contrato no back</p>
+</div>
+<div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
+<h3 style="font-size:36px;font-weight:600">Mockou o alvo</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Se você mocka o que está testando, só testa o próprio mock.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">mock só nas bordas</p>
+</div>
+</div>
+<aside>Mock é poderoso e perigoso. O item mais caro é o terceiro: o contrato do back muda, o JSON fixo no teste do front continua o mesmo e a suíte fica verde enquanto produção quebra. Duas defesas: regravar o HAR com o BFF real de tempos em tempos e manter no back um teste de contrato contra o ambiente, como o ContratoAmbienteIT do projeto Java. Bônus: se dois routes casam com a mesma URL, vale o registrado por último. Um route genérico registrado depois esconde o específico.</aside>
+</section>

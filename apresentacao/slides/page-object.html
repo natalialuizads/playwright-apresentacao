@@ -1,0 +1,40 @@
+<section id="page-object" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · organização</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Page Object: a tela vira uma classe</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:860px;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">e2e/pages/login.page.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> { <span style="color:#E8C56A">Page</span> } <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'@playwright/test'</span>;</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">class</span> <span style="color:#E8C56A">LoginPage</span> {</p>
+<p>&#160;&#160;<span style="color:#7FB5F0">constructor</span>(<span style="color:#C49BEA">private</span> page: <span style="color:#E8C56A">Page</span>) {}</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> <span style="color:#7FB5F0">entrar</span>(cpf: string, senha: string) {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">const</span> p = <span style="color:#C49BEA">this</span>.page;</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/login'</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'CPF'</span>).<span style="color:#7FB5F0">fill</span>(cpf);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Senha'</span>).<span style="color:#7FB5F0">fill</span>(senha);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> p.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Entrar'</span> })</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;&#160;}</p>
+<p>}</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#4A4F5C">e2e/saldo.spec.ts</p>
+<div style="background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'vê o saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> login = <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">LoginPage</span>(page);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> login.<span style="color:#7FB5F0">entrar</span>(<span style="color:#9CD08F">'12345678909'</span>, <span style="color:#9CD08F">'s3nha'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p>});</p>
+</div>
+<p style="font-size:36px;font-weight:600;line-height:1.3;padding:24px 0 0">A tela mudou? Você ajusta um arquivo, não quarenta testes.</p>
+</div>
+</div>
+<aside>Page Object é o mesmo princípio de um service no Angular: esconder o como e expor o quê. O teste fala a língua do negócio, login.entrar, e o detalhe de qual campo preencher fica num lugar só. Para fluxos maiores, dá para ter um Page Object por tela ou por componente compartilhado, como o cabeçalho.</aside>
+</section>

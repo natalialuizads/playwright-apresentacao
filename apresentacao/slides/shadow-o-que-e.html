@@ -1,0 +1,34 @@
+<section id="shadow-o-que-e" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Shadow DOM · conceito</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Shadow DOM: um cômodo com porta própria</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="width:840px;background:#1E232E;border-radius:16px;padding:36px 40px;display:flex;flex-direction:column;gap:14px;font-family:'JetBrains Mono', 'Courier New', monospace">
+<p style="font-size:26px;color:#E8E4DA">document</p>
+<div style="border-left:2px solid #4A5163;padding:0 0 0 28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">tatu-cartao-saldo</span>&gt; <span style="color:#8C95A8">host</span></p>
+<div style="border:2px dashed #F2905F;border-radius:12px;padding:20px 24px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;color:#F2905F">#shadow-root (open)</p>
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">p</span> <span style="color:#E8C56A">data-testid</span>=<span style="color:#9CD08F">"saldo"</span>&gt;</p>
+<p style="font-size:26px;color:#E8E4DA">&lt;<span style="color:#7FB5F0">button</span>&gt;Ocultar saldo</p>
+</div>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">O que é</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Uma árvore de DOM escondida dentro de um elemento, com CSS isolado.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Onde aparece</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">ViewEncapsulation.ShadowDom, design systems e MFEs exportados como Web Component.</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<h3 style="font-size:36px;font-weight:600">Por que dói</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">document.querySelector não enxerga lá dentro. Outras ferramentas exigem entrar no shadowRoot na mão.</p>
+</div>
+</div>
+</div>
+<aside>Analogia do prédio de novo: o Shadow DOM é um cômodo com porta própria dentro do apartamento. O que está lá dentro não vaza para fora, nem o CSS. Ótimo para isolamento, ruim para quem testa com seletores comuns. No nosso mundo isso aparece em componentes Angular com encapsulamento ShadowDom, em design systems feitos com Web Components e em microfrontends entregues como Web Component.</aside>
+</section>
