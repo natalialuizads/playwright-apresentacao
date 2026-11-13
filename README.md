@@ -1,8 +1,19 @@
 # Playwright: o robô que clica por você
 
-Material da apresentação sobre testes de ponta a ponta com Playwright, para o front em Angular e o back em Java: os slides e dois projetos de exemplo que rodam.
+Este é o repositório da apresentação **"Playwright: o robô que clica por você"**, sobre testes de ponta a ponta com Playwright para o front em Angular e o back em Java. Aqui estão os slides e os dois projetos de exemplo usados na apresentação, todos prontos para rodar.
 
+Repositório: https://github.com/natalialuizads/playwright-apresentacao
+
+## Como obter
+
+```bash
+git clone https://github.com/natalialuizads/playwright-apresentacao.git
+cd playwright-apresentacao
 ```
+
+## O que tem aqui
+
+```text
 apresentacao/   os 46 slides (HTML + deck.json), com notas do apresentador e os clipes de execução
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
