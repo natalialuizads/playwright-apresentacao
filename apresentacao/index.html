@@ -90,7 +90,7 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6;border-bottom:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">04</p>
 <p style="font-size:36px;font-weight:600;width:380px">Dia a dia</p>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Um desafio, boas práticas, relatórios do começo ao pipeline, acessibilidade, CI e a segunda-feira.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Desafio, boas práticas, relatórios, acessibilidade, CI, usos que ninguém pensa e a segunda-feira.</p>
 </div>
 </div>
 <aside>Quatro blocos. Os conceitos valem para as duas linguagens: a API é a mesma, muda só a sintaxe. Por isso quem é de backend não deve pular a parte de Angular, e vice-versa.</aside>
@@ -774,7 +774,7 @@
 <section id="browser-rede" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular e Java · rede corporativa</p>
-<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quando a rede do banco não deixa baixar</h2>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quando a rede da empresa não deixa baixar</h2>
 </div>
 <table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
 <tr><th style="width:24%">Situação</th><th style="width:38%">O que configurar</th><th style="width:38%">Efeito</th></tr>
@@ -788,8 +788,8 @@
 <div style="flex:1">
 <div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
 <p><span style="color:#8C95A8"># mirror interno + proxy da empresa</span></p>
-<p><span style="color:#C49BEA">export</span> PLAYWRIGHT_DOWNLOAD_HOST=https:<span style="color:#8C95A8">//artifactory.banco/playwright</span></p>
-<p><span style="color:#C49BEA">export</span> NODE_EXTRA_CA_CERTS=/etc/ssl/ca-banco.pem</p>
+<p><span style="color:#C49BEA">export</span> PLAYWRIGHT_DOWNLOAD_HOST=<span style="color:#9CD08F">https://artifactory.empresa/playwright</span></p>
+<p><span style="color:#C49BEA">export</span> NODE_EXTRA_CA_CERTS=/etc/ssl/ca-empresa.pem</p>
 <p><span style="color:#F2B482">npx</span> playwright install chromium</p>
 </div>
 </div>
@@ -798,7 +798,7 @@
 <p style="flex:1;font-size:24px;line-height:1.4"><b>No CI, prefira o mirror:</b> a versão do navegador fica igual em todo agente.</p>
 </div>
 </div>
-<aside>Em banco, a primeira barreira costuma ser a rede, não o teste. Se o download dos navegadores é bloqueado, há quatro saídas. Na sua máquina, a mais simples é o channel chrome, que já vimos. Para o CI, o melhor é um mirror interno: a variável PLAYWRIGHT_DOWNLOAD_HOST aponta o download para o Artifactory ou o Nexus da empresa, e todo agente fica com a mesma versão. Se o proxy usa um certificado próprio, o install falha com self signed certificate; NODE_EXTRA_CA_CERTS resolve. PLAYWRIGHT_BROWSERS_PATH define uma pasta de navegadores compartilhada, boa para cache no agente. No Java, o Playwright baixa o navegador na primeira execução; PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD igual a 1, junto com o canal chrome, evita qualquer download.</aside>
+<aside>Em empresa grande, a primeira barreira costuma ser a rede, não o teste. Se o download dos navegadores é bloqueado, há quatro saídas. Na sua máquina, a mais simples é o channel chrome, que já vimos. Para o CI, o melhor é um mirror interno: a variável PLAYWRIGHT_DOWNLOAD_HOST aponta o download para o Artifactory ou o Nexus da empresa, e todo agente fica com a mesma versão. Se o proxy usa um certificado próprio, o install falha com self signed certificate; NODE_EXTRA_CA_CERTS resolve. PLAYWRIGHT_BROWSERS_PATH define uma pasta de navegadores compartilhada, boa para cache no agente. No Java, o Playwright baixa o navegador na primeira execução; PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD igual a 1, junto com o canal chrome, evita qualquer download.</aside>
 </section>
 <section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1042,7 +1042,7 @@
 </div>
 </div>
 </div>
-<aside>Logar pela tela em todo teste é o jeito mais rápido de ter uma suíte lenta. O projeto setup roda primeiro, faz o login de verdade e grava o estado do navegador. Os demais projetos dependem dele e já começam com a sessão carregada. Em banco isso é ainda mais importante por causa de MFA e de limites de tentativa de login.</aside>
+<aside>Logar pela tela em todo teste é o jeito mais rápido de ter uma suíte lenta. O projeto setup roda primeiro, faz o login de verdade e grava o estado do navegador. Os demais projetos dependem dele e já começam com a sessão carregada. Com MFA e limite de tentativas de login, isso é ainda mais importante.</aside>
 </section>
 <section id="shadow-o-que-e" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1770,6 +1770,127 @@
 </div>
 </div>
 <aside>Os comandos valem para qualquer ferramenta de CI, seja GitHub Actions, GitLab, Jenkins ou Azure. O passo quatro precisa rodar mesmo quando os testes falham, senão o relatório some justamente quando mais importa. Com retries no CI e trace on-first-retry, toda falha chega com o trace pronto para abrir no Trace Viewer. A versão 1.65 trouxe a opção onlyFailures nos reporters HTML, JSON e JUnit.</aside>
+</section>
+<section id="usos-qualidade" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · usos que ninguém pensa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que nenhum teste funcional olha</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Zero erro no console</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O erro de JavaScript que não aparece na tela, mas o cliente sente.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">on</span>(<span style="color:#9CD08F">'pageerror'</span>, (e) =&gt; erros.<span style="color:#7FB5F0">push</span>(e.message));</p>
+<p><span style="color:#8C95A8">// ...navega por todas as telas</span></p>
+<p><span style="color:#7FB5F0">expect</span>(erros).<span style="color:#7FB5F0">toEqual</span>([]);</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">CPF fora da URL</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">URL vai parar em log, proxy e analytics. A LGPD agradece.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">on</span>(<span style="color:#9CD08F">'request'</span>, (r) =&gt; urls.<span style="color:#7FB5F0">push</span>(r.<span style="color:#7FB5F0">url</span>()));</p>
+<p><span style="color:#7FB5F0">expect</span>(urls.<span style="color:#7FB5F0">filter</span>((u) =&gt; u.<span style="color:#7FB5F0">includes</span>(cpf)))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toEqual</span>([]);</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Chamada duplicada</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Um subscribe a mais dobra a carga no BFF, e ninguém percebe.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">expect</span>(chamadas).<span style="color:#7FB5F0">toEqual</span>({</p>
+<p>&#160;&#160;<span style="color:#9CD08F">'/api/conta'</span>: <span style="color:#F2B482">1</span>, <span style="color:#9CD08F">'/api/cotacao'</span>: <span style="color:#F2B482">1</span>,</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Estrutura sem pixel</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Não quebra por fonte ou cor; quebra se o botão sumir.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(nav).<span style="color:#7FB5F0">toMatchAriaSnapshot</span>(`</p>
+<p>&#160;&#160;- link <span style="color:#9CD08F">"Extrato"</span></p>
+<p>&#160;&#160;- button <span style="color:#9CD08F">"Sair"</span>`);</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Quatro usos que quase ninguém faz e que pegam problemas reais. Um: escutar o console. Um erro de JavaScript num evento ou numa assinatura muitas vezes não muda nada na tela, mas quebra uma funcionalidade depois; o teste navega pelas telas e falha se aparecer qualquer erro. Dois: privacidade. Toda URL acaba em log de servidor, de proxy e de ferramenta de analytics; o teste guarda as URLs de todas as chamadas e falha se o CPF aparecer em alguma, formatado ou só com dígitos. O mesmo teste confere que nada sai para um domínio fora da lista, o que pega um script de terceiro adicionado sem ninguém saber. Três: contar chamadas. No Angular, um subscribe a mais ou um async pipe duplicado faz a tela chamar a API duas vezes; ninguém vê, mas o BFF sente. Quatro: o snapshot de acessibilidade compara a estrutura, papéis e nomes, não pixels; ele não quebra quando a fonte muda, só quando um link ou botão some ou muda de nome. Tudo isso está no 13-usos-inesperados.spec.ts.</aside>
+</section>
+<section id="usos-alem" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · usos que ninguém pensa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Além do teste: tempo, rede, documentos e produção</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">05</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Relógio controlado</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Sessão expirando, horário de corte, virada do mês. Sem esperar.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">install</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">fastForward</span>(<span style="color:#9CD08F">'05:00'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">setFixedTime</span>(<span style="color:#9CD08F">'2026-11-20T20:00'</span>);</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">06</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">A rede caiu e voltou</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A tela avisa? E quando a rede volta, ela se recupera?</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setOffline</span>(<span style="color:#C49BEA">true</span>);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>)).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setOffline</span>(<span style="color:#C49BEA">false</span>);</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">07</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">PDF e manual sempre em dia</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Comprovante em PDF e capturas do manual a cada release.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> pdf = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">pdf</span>({ format: <span style="color:#9CD08F">'A4'</span> });</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">screenshot</span>({</p>
+<p>&#160;&#160;path: <span style="color:#9CD08F">'manual/extrato.png'</span>, fullPage: <span style="color:#C49BEA">true</span> });</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">08</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Vigia em produção</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O mesmo login, de hora em hora, com alerta se falhar ou ficar lento.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>npm run vigia</p>
+<p>{<span style="color:#9CD08F">"ok"</span>:<span style="color:#C49BEA">true</span>,<span style="color:#9CD08F">"ms"</span>:<span style="color:#F2B482">457</span>,<span style="color:#9CD08F">"limite"</span>:<span style="color:#F2B482">5000</span>}</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Mais quatro. Cinco: o relógio. O page.clock controla o tempo do navegador; dá para avançar cinco minutos e ver a sessão expirar, ou fixar a hora em 20h e conferir que o limite noturno do Pix entrou, sem esperar e sem mexer no relógio da máquina. Seis: setOffline derruba a rede inteira do navegador; o teste confere que a tela avisa e que o botão de tentar de novo funciona quando a rede volta. Sete: o page.pdf gera o PDF da página, bom para conferir um comprovante ou um extrato impresso, e os screenshots podem alimentar o manual do usuário, sempre atualizado a cada release. Oito: o Playwright não precisa do test runner; o scripts/vigia.mjs entra, espera o saldo, mede o tempo e sai com erro se falhar ou passar do limite. Agendado no pipeline, vira monitoramento sintético. Use sempre um usuário de teste, nunca uma conta real. Outras ideias para levar: emular modo escuro e cores forçadas, conferir o conteúdo de um download, mockar WebSocket com routeWebSocket e automatizar tarefas repetitivas de portais internos.</aside>
 </section>
 <section id="novidades" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">

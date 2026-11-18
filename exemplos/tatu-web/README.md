@@ -32,6 +32,7 @@ Se algum dos dois já estiver rodando, ele reaproveita.
 | `npm run e2e:smoke` | Só os testes marcados com `@smoke` |
 | `npm run e2e:visual` | Só a regressão visual (veja a seção abaixo) |
 | `npm run e2e:debug` | Roda com o Inspector, passo a passo |
+| `npm run vigia` | Monitoramento sintético: entra, espera o saldo e mede o tempo (com o app no ar) |
 | `npm run e2e:local` | Usa o Google Chrome instalado na máquina, sem `playwright install` (veja abaixo) |
 | `npm run e2e:ci` | Configuração de pipeline: relatórios html, junit e json |
 | `npm run e2e:relatorio` | Abre o relatório gerado pelo `e2e:ci` (pasta `relatorio/`) |
@@ -69,6 +70,17 @@ PW_LENTO=500 npm run e2e:local -- --headed     # com janela, meio segundo entre 
 No PowerShell: `$env:PW_CANAL="msedge"; npm run e2e:local`.
 
 O `channel` do Playwright aceita `chrome`, `msedge` e as versões beta, dev e canary. O Chrome e o Edge corporativos seguem as políticas da empresa, que às vezes bloqueiam automação; nesse caso, peça o Chromium do Playwright num mirror interno (veja "Em rede corporativa").
+
+## Usos que ninguém pensa
+
+O `e2e/13-usos-inesperados.spec.ts` reúne testes que pegam o que nenhum teste funcional olha: erro de JavaScript que não aparece na tela, CPF vazando em URL, chamada duplicada ao BFF, rede caindo no meio do uso e telas que dependem da hora. O `scripts/vigia.mjs` usa o Playwright sem o test runner, como monitoramento sintético:
+
+```bash
+npm run vigia                                        # contra o app local
+VIGIA_URL=https://homologacao.exemplo npm run vigia  # contra outro ambiente
+```
+
+Ele imprime uma linha JSON (`ok`, `ms`, `limite`) e sai com código 1 se falhar ou 2 se passar do limite de tempo, guardando `vigia-falha.png`. Use um usuário de teste, nunca uma conta real.
 
 ## Relatórios
 
@@ -148,6 +160,7 @@ Para usar o backend Java no lugar do mock, suba o `tatu-api` (`mvn spring-boot:r
 | `e2e/10-visual.spec.ts` | `toHaveScreenshot`, `mask`, `maxDiffPixelRatio` |
 | `e2e/11-microfrontends.spec.ts` | Shell e remote simulados com `page.route`: remote fora do ar (fallback), contrato do Web Component, Shadow DOM do componente de outro time e BFF na borda. Roda sem servidor |
 | `e2e/12-relatorio.spec.ts` | Relatório que conta a história: `annotation`, `tag`, `test.step`, `testInfo.attach` (JSON e imagem) |
+| `e2e/13-usos-inesperados.spec.ts` | Usos que ninguém pensa: zero erro no console, CPF fora da URL e domínios permitidos, chamadas duplicadas à API, `toMatchAriaSnapshot`, `setOffline`, `page.clock` (sessão expirando e horário de corte) e `page.pdf` com capturas para o manual |
 
 ## Estrutura
 
@@ -157,12 +170,13 @@ e2e/
   fixtures.ts            test estendido: bff, login, extrato, pix
   pages/                 Page Objects
   hars/extrato.har       respostas gravadas do /api/extrato
-  01..12-*.spec.ts       os testes, em ordem didática
+  01..13-*.spec.ts       os testes, em ordem didática
 mock-bff/server.mjs      BFF de mentira, sem dependências
 playwright.config.ts     baseURL, projetos setup/chromium/visual, webServer
 playwright.ci.config.ts  relatórios para pipeline (html, junit, json)
 playwright.local.config.ts  navegador instalado na máquina (channel ou executável)
 ci/github-actions-e2e.yml   pipeline com shards e relatório único
+scripts/vigia.mjs        monitoramento sintético, sem test runner
 docs/                    clipes de execução (mp4)
 proxy.conf.json          /api -> http://localhost:8080 no ng serve
 src/app/

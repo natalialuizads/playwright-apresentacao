@@ -18,7 +18,8 @@
     "e2e:debug": "playwright test --project=chromium --debug",
     "e2e:local": "playwright test --config=playwright.local.config.ts --project=chromium",
     "e2e:ci": "playwright test --config=playwright.ci.config.ts",
-    "e2e:relatorio": "playwright show-report relatorio"
+    "e2e:relatorio": "playwright show-report relatorio",
+    "vigia": "node scripts/vigia.mjs"
   },
   "private": true,
   "packageManager": "npm@10.9.9",

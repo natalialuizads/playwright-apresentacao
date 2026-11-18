@@ -1,0 +1,61 @@
+<section id="usos-qualidade" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · usos que ninguém pensa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que nenhum teste funcional olha</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Zero erro no console</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O erro de JavaScript que não aparece na tela, mas o cliente sente.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">on</span>(<span style="color:#9CD08F">'pageerror'</span>, (e) =&gt; erros.<span style="color:#7FB5F0">push</span>(e.message));</p>
+<p><span style="color:#8C95A8">// ...navega por todas as telas</span></p>
+<p><span style="color:#7FB5F0">expect</span>(erros).<span style="color:#7FB5F0">toEqual</span>([]);</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">CPF fora da URL</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">URL vai parar em log, proxy e analytics. A LGPD agradece.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>page.<span style="color:#7FB5F0">on</span>(<span style="color:#9CD08F">'request'</span>, (r) =&gt; urls.<span style="color:#7FB5F0">push</span>(r.<span style="color:#7FB5F0">url</span>()));</p>
+<p><span style="color:#7FB5F0">expect</span>(urls.<span style="color:#7FB5F0">filter</span>((u) =&gt; u.<span style="color:#7FB5F0">includes</span>(cpf)))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toEqual</span>([]);</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Chamada duplicada</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Um subscribe a mais dobra a carga no BFF, e ninguém percebe.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">expect</span>(chamadas).<span style="color:#7FB5F0">toEqual</span>({</p>
+<p>&#160;&#160;<span style="color:#9CD08F">'/api/conta'</span>: <span style="color:#F2B482">1</span>, <span style="color:#9CD08F">'/api/cotacao'</span>: <span style="color:#F2B482">1</span>,</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Estrutura sem pixel</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Não quebra por fonte ou cor; quebra se o botão sumir.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(nav).<span style="color:#7FB5F0">toMatchAriaSnapshot</span>(`</p>
+<p>&#160;&#160;- link <span style="color:#9CD08F">"Extrato"</span></p>
+<p>&#160;&#160;- button <span style="color:#9CD08F">"Sair"</span>`);</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Quatro usos que quase ninguém faz e que pegam problemas reais. Um: escutar o console. Um erro de JavaScript num evento ou numa assinatura muitas vezes não muda nada na tela, mas quebra uma funcionalidade depois; o teste navega pelas telas e falha se aparecer qualquer erro. Dois: privacidade. Toda URL acaba em log de servidor, de proxy e de ferramenta de analytics; o teste guarda as URLs de todas as chamadas e falha se o CPF aparecer em alguma, formatado ou só com dígitos. O mesmo teste confere que nada sai para um domínio fora da lista, o que pega um script de terceiro adicionado sem ninguém saber. Três: contar chamadas. No Angular, um subscribe a mais ou um async pipe duplicado faz a tela chamar a API duas vezes; ninguém vê, mas o BFF sente. Quatro: o snapshot de acessibilidade compara a estrutura, papéis e nomes, não pixels; ele não quebra quando a fonte muda, só quando um link ou botão some ou muda de nome. Tudo isso está no 13-usos-inesperados.spec.ts.</aside>
+</section>

@@ -14,7 +14,7 @@ cd playwright-apresentacao
 ## O que tem aqui
 
 ```text
-apresentacao/   os 56 slides, o visualizador (index.html), as notas do apresentador e os clipes
+apresentacao/   os 58 slides, o visualizador (index.html), as notas do apresentador e os clipes
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
   tatu-api/     Spring Boot 3.5 + Playwright Java + WireMock
@@ -38,7 +38,7 @@ npx playwright install chromium
 npm run e2e
 ```
 
-A suíte tem 47 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
+A suíte tem 55 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
 
 Se a rede bloquear o download do navegador, troque as duas últimas linhas por `npm run e2e:local`, que usa o Google Chrome instalado na máquina.
 

@@ -70,6 +70,8 @@
     "relatorio-pipeline",
     "axe",
     "ci",
+    "usos-qualidade",
+    "usos-alem",
     "novidades",
     "exemplos",
     "recap",
@@ -93,7 +95,7 @@
       "start": "div-java"
     },
     "s5": {
-      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios (gerar, ler e publicar), acessibilidade, CI e novidades",
+      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios (gerar, ler e publicar), acessibilidade, CI, usos que ninguém pensa e novidades",
       "start": "quiz"
     },
     "s6": {

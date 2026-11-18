@@ -1,0 +1,60 @@
+<section id="usos-alem" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · usos que ninguém pensa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Além do teste: tempo, rede, documentos e produção</h2>
+</div>
+<div style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">05</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Relógio controlado</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Sessão expirando, horário de corte, virada do mês. Sem esperar.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">install</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">fastForward</span>(<span style="color:#9CD08F">'05:00'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.clock.<span style="color:#7FB5F0">setFixedTime</span>(<span style="color:#9CD08F">'2026-11-20T20:00'</span>);</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">06</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">A rede caiu e voltou</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A tela avisa? E quando a rede volta, ela se recupera?</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setOffline</span>(<span style="color:#C49BEA">true</span>);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>)).<span style="color:#7FB5F0">toBeVisible</span>();</p>
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setOffline</span>(<span style="color:#C49BEA">false</span>);</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">07</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">PDF e manual sempre em dia</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Comprovante em PDF e capturas do manual a cada release.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> pdf = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">pdf</span>({ format: <span style="color:#9CD08F">'A4'</span> });</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">screenshot</span>({</p>
+<p>&#160;&#160;path: <span style="color:#9CD08F">'manual/extrato.png'</span>, fullPage: <span style="color:#C49BEA">true</span> });</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">08</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Vigia em produção</h3>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O mesmo login, de hora em hora, com alerta se falhar ou ficar lento.</p>
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>npm run vigia</p>
+<p>{<span style="color:#9CD08F">"ok"</span>:<span style="color:#C49BEA">true</span>,<span style="color:#9CD08F">"ms"</span>:<span style="color:#F2B482">457</span>,<span style="color:#9CD08F">"limite"</span>:<span style="color:#F2B482">5000</span>}</p>
+</div>
+</div>
+</div>
+</div>
+<aside>Mais quatro. Cinco: o relógio. O page.clock controla o tempo do navegador; dá para avançar cinco minutos e ver a sessão expirar, ou fixar a hora em 20h e conferir que o limite noturno do Pix entrou, sem esperar e sem mexer no relógio da máquina. Seis: setOffline derruba a rede inteira do navegador; o teste confere que a tela avisa e que o botão de tentar de novo funciona quando a rede volta. Sete: o page.pdf gera o PDF da página, bom para conferir um comprovante ou um extrato impresso, e os screenshots podem alimentar o manual do usuário, sempre atualizado a cada release. Oito: o Playwright não precisa do test runner; o scripts/vigia.mjs entra, espera o saldo, mede o tempo e sai com erro se falhar ou passar do limite. Agendado no pipeline, vira monitoramento sintético. Use sempre um usuário de teste, nunca uma conta real. Outras ideias para levar: emular modo escuro e cores forçadas, conferir o conteúdo de um download, mockar WebSocket com routeWebSocket e automatizar tarefas repetitivas de portais internos.</aside>
+</section>
