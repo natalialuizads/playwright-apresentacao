@@ -40,6 +40,10 @@
     "primeiro-teste",
     "demo-terminal",
     "demo-login",
+    "config-anatomia",
+    "config-camadas",
+    "browser-local",
+    "browser-rede",
     "mock-onde",
     "mock-api",
     "demo-mocks",
@@ -60,7 +64,10 @@
     "quiz",
     "nao-fazer",
     "boas-praticas-codigo",
+    "relatorio-gerar",
+    "relatorio-contar",
     "relatorios",
+    "relatorio-pipeline",
     "axe",
     "ci",
     "novidades",
@@ -78,7 +85,7 @@
       "start": "o-que-e"
     },
     "s3": {
-      "description": "Frontend em Angular: setup, primeiro teste, mocks, Page Objects, login, Shadow DOM e microfrontends",
+      "description": "Frontend em Angular: setup, primeiro teste, configuração, navegador local, mocks, Page Objects, login, Shadow DOM e microfrontends",
       "start": "div-angular"
     },
     "s4": {
@@ -86,7 +93,7 @@
       "start": "div-java"
     },
     "s5": {
-      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios, acessibilidade, CI e novidades",
+      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios (gerar, ler e publicar), acessibilidade, CI e novidades",
       "start": "quiz"
     },
     "s6": {

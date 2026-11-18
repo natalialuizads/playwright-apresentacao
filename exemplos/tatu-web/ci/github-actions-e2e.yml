@@ -1,0 +1,51 @@
+# Exemplo de pipeline com shards e relatório único (GitHub Actions).
+# Para usar: copie para .github/workflows/e2e.yml no repositório do front.
+# A mesma ideia vale para GitLab, Jenkins ou Azure: N máquinas rodam um pedaço
+# cada, cada uma gera um blob, e um passo final junta tudo num HTML só.
+
+name: e2e
+on: [push, pull_request]
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --project=chromium --shard=${{ matrix.shard }}/4 --reporter=blob
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }} # publica mesmo quando os testes falham
+        with:
+          name: blob-${{ matrix.shard }}
+          path: blob-report
+          retention-days: 3
+
+  relatorio:
+    needs: testes
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: blob-*
+          path: todos-os-blobs
+          merge-multiple: true
+      - run: npx playwright merge-reports --reporter html ./todos-os-blobs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: relatorio-html
+          path: playwright-report
+          retention-days: 14

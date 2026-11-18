@@ -6,6 +6,6 @@ test-results/
 playwright-report/
 relatorio/
 resultados/
+blob-report/
 e2e/.auth/
-playwright.local.config.ts
 .DS_Store

@@ -14,7 +14,7 @@ cd playwright-apresentacao
 ## O que tem aqui
 
 ```text
-apresentacao/   os 49 slides, o visualizador (index.html), as notas do apresentador e os clipes
+apresentacao/   os 56 slides, o visualizador (index.html), as notas do apresentador e os clipes
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
   tatu-api/     Spring Boot 3.5 + Playwright Java + WireMock
@@ -38,7 +38,9 @@ npx playwright install chromium
 npm run e2e
 ```
 
-A suíte tem 46 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
+A suíte tem 47 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
+
+Se a rede bloquear o download do navegador, troque as duas últimas linhas por `npm run e2e:local`, que usa o Google Chrome instalado na máquina.
 
 ### Backend (tatu-api)
 
@@ -89,7 +91,8 @@ Os clipes, em MP4, estão em `apresentacao/midia/` e em `exemplos/tatu-web/docs/
 - `login.mp4`: o teste de login no navegador, com a legenda do código;
 - `mocks.mp4`: um extrato em cinco situações, todas com `page.route`;
 - `ui.mp4`: o modo UI filtrando por tag, rodando e voltando no tempo;
-- `trace.mp4`: o Trace Viewer investigando uma falha real (o BFF respondeu 422).
+- `trace.mp4`: o Trace Viewer investigando uma falha real (o BFF respondeu 422);
+- `relatorio.mp4`: o relatório HTML com um teste que falhou, um instável, filtros por tag e anexos.
 
 ## Versões
 

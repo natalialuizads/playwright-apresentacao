@@ -1,0 +1,29 @@
+<section id="browser-rede" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular e Java · rede corporativa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quando a rede do banco não deixa baixar</h2>
+</div>
+<table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:24%">Situação</th><th style="width:38%">O que configurar</th><th style="width:38%">Efeito</th></tr>
+<tr><td>Download bloqueado</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">channel: 'chrome'</td><td>Usa o Chrome instalado e pula o install</td></tr>
+<tr><td>Mirror interno</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_DOWNLOAD_HOST</td><td>Baixa o navegador do Artifactory ou Nexus</td></tr>
+<tr><td>Proxy com certificado</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">HTTPS_PROXY + NODE_EXTRA_CA_CERTS</td><td>O install passa pelo proxy e confia na CA</td></tr>
+<tr><td>Cache no agente de CI</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_BROWSERS_PATH</td><td>Uma pasta de navegadores para vários projetos</td></tr>
+<tr><td>Java sem download</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1</td><td>Com -Dcanal=chrome, não baixa nada</td></tr>
+</table>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="flex:1">
+<div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># mirror interno + proxy da empresa</span></p>
+<p><span style="color:#C49BEA">export</span> PLAYWRIGHT_DOWNLOAD_HOST=https:<span style="color:#8C95A8">//artifactory.banco/playwright</span></p>
+<p><span style="color:#C49BEA">export</span> NODE_EXTRA_CA_CERTS=/etc/ssl/ca-banco.pem</p>
+<p><span style="color:#F2B482">npx</span> playwright install chromium</p>
+</div>
+</div>
+<div style="width:520px;display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:24px 28px">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:24px;line-height:1.4"><b>No CI, prefira o mirror:</b> a versão do navegador fica igual em todo agente.</p>
+</div>
+</div>
+<aside>Em banco, a primeira barreira costuma ser a rede, não o teste. Se o download dos navegadores é bloqueado, há quatro saídas. Na sua máquina, a mais simples é o channel chrome, que já vimos. Para o CI, o melhor é um mirror interno: a variável PLAYWRIGHT_DOWNLOAD_HOST aponta o download para o Artifactory ou o Nexus da empresa, e todo agente fica com a mesma versão. Se o proxy usa um certificado próprio, o install falha com self signed certificate; NODE_EXTRA_CA_CERTS resolve. PLAYWRIGHT_BROWSERS_PATH define uma pasta de navegadores compartilhada, boa para cache no agente. No Java, o Playwright baixa o navegador na primeira execução; PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD igual a 1, junto com o canal chrome, evita qualquer download.</aside>
+</section>

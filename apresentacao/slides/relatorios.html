@@ -38,9 +38,9 @@
 <tr><td>blob</td><td>Pedaços de cada shard, para juntar depois</td></tr>
 </table>
 <p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> publique a pasta relatorio mesmo quando os testes falham.</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Com shards:</b> cada máquina gera um blob; no fim, <b>npx playwright merge-reports</b> junta tudo num HTML só.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Só as falhas:</b> desde a 1.65, <b>onlyFailures: true</b> deixa o HTML, o JSON e o JUnit enxutos.</p>
 <p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No Java:</b> o Maven grava o XML em target/failsafe-reports.</p>
 </div>
 </div>
-<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. Quando a suíte é dividida em shards, cada máquina gera um blob, e o merge-reports junta todos num relatório único. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
+<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. O blob, que aparece na tabela, é para a suíte dividida em shards; o próximo slide mostra como juntar. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
 </section>

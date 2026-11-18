@@ -74,6 +74,6 @@ Tudo, menos `login` e `health`, exige o header `Authorization: Bearer token-ana`
 8. `tatu-api/src/test/java/.../ui/LoginUiIT.java`: teste de tela e `page.route` em Java.
 9. `tatu-api/src/test/java/.../mock/CotacaoWireMockIT.java`: mock no backend.
 
-Extras do front, para depois: `06` (contexts, locators e ações), `07` (tags e `test.step`), `08` (API), `09` (acessibilidade com axe), `10` (regressão visual), `11` (microfrontends: shell, remote e fallback) e `playwright.ci.config.ts` (relatórios de pipeline).
+Extras do front, para depois: `06` (contexts, locators e ações), `07` (tags e `test.step`), `08` (API), `09` (acessibilidade com axe), `10` (regressão visual), `11` (microfrontends: shell, remote e fallback), `12` (relatório que conta a história: anotações, passos e anexos), `playwright.ci.config.ts` (relatórios de pipeline), `playwright.local.config.ts` (navegador instalado na máquina) e `ci/github-actions-e2e.yml` (shards com relatório único).
 
 Os clipes de execução estão em `tatu-web/docs/`.

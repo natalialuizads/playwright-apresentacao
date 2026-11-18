@@ -80,7 +80,7 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">02</p>
 <p style="font-size:36px;font-weight:600;width:380px">Frontend Angular</p>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Setup, primeiro teste, mocks, Page Objects, Shadow DOM e microfrontends.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Setup, configuração, navegador local, mocks, Page Objects, Shadow DOM e microfrontends.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">03</p>
@@ -90,7 +90,7 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6;border-bottom:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">04</p>
 <p style="font-size:36px;font-weight:600;width:380px">Dia a dia</p>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Um desafio, boas práticas, relatórios, acessibilidade, CI e o que fazer na segunda-feira.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Um desafio, boas práticas, relatórios do começo ao pipeline, acessibilidade, CI e a segunda-feira.</p>
 </div>
 </div>
 <aside>Quatro blocos. Os conceitos valem para as duas linguagens: a API é a mesma, muda só a sintaxe. Por isso quem é de backend não deve pular a parte de Angular, e vice-versa.</aside>
@@ -593,6 +593,212 @@
 </div>
 </div>
 <aside>Aqui é o navegador de verdade, em modo visível. O teste preenche o CPF pelo rótulo, a senha, clica no botão pelo papel e confere o título da tela inicial. Repare que não existe nenhuma espera: o Playwright aguarda cada elemento ficar pronto. O mesmo teste em modo headless roda sem janela, que é o que acontece no CI.</aside>
+</section>
+<section id="config-anatomia" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · configuração</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O playwright.config.ts em seis perguntas</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:900px">
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>({</p>
+<p><span style="color:#F2905F;font-weight:600">1</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;testDir: <span style="color:#9CD08F">'./e2e'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;fullyParallel: <span style="color:#C49BEA">true</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;forbidOnly: !!process.env.CI,</p>
+<p><span style="color:#F2905F;font-weight:600">2</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;timeout: <span style="color:#F2B482">30_000</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;expect: { timeout: <span style="color:#F2B482">5_000</span> },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;retries: process.env.CI ? <span style="color:#F2B482">2</span> : <span style="color:#F2B482">0</span>,</p>
+<p><span style="color:#F2905F;font-weight:600">3</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;reporter: [[<span style="color:#9CD08F">'list'</span>], [<span style="color:#9CD08F">'html'</span>]],</p>
+<p><span style="color:#F2905F;font-weight:600">4</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;use: {</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;baseURL: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;},</p>
+<p><span style="color:#F2905F;font-weight:600">5</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;projects: [</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'setup'</span>, testMatch: /.*\.setup\.ts/ },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'chromium'</span>, dependencies: [<span style="color:#9CD08F">'setup'</span>],</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;&#160;&#160;use: { ...devices[<span style="color:#9CD08F">'Desktop Chrome'</span>] } },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;],</p>
+<p><span style="color:#F2905F;font-weight:600">6</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;webServer: { command: <span style="color:#9CD08F">'npm start'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;url: <span style="color:#9CD08F">'http://localhost:4200'</span> },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">O que roda?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Pasta dos testes; paralelo dentro do arquivo; test.only proibido no CI.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Quanto tempo e quantas vezes?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">30 s por teste, 5 s por expect. No CI, repete a falha.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Como relata?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Terminal e HTML. O config de CI troca só esta linha.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Como cada teste nasce?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">baseURL, trace, captura, idioma, viewport.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">5</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Em quais variações?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Navegadores, celular, login pronto, tags.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">6</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">O que sobe antes?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O ng serve e o BFF. Na sua máquina, reaproveita.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>O config responde seis perguntas, sempre na mesma ordem. Um: o que roda; o forbidOnly faz o pipeline quebrar se alguém esquecer um test.only, em vez de rodar um teste só e ficar verde. Dois: tempo e repetições; os padrões são 30 segundos por teste e 5 segundos por expect, e workers sem valor usa metade dos núcleos. Três: relatório, que vamos ver na parte de dia a dia. Quatro: o use, que define como cada teste nasce: baseURL para escrever page.goto('/pix'), trace, captura de tela, idioma, fuso, viewport. Cinco: projects, que são variações da suíte: outro navegador, celular, ou o projeto setup que faz login uma vez. Seis: webServer, que sobe a aplicação antes dos testes e reaproveita a que já está rodando na sua máquina. O arquivo playwright.config.ts do tatu-web está comentado exatamente nesses seis blocos.</aside>
+</section>
+<section id="config-camadas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · configuração</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quem ganha quando o campo se repete</h2>
+</div>
+<div style="display:flex;gap:24px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="width:100%;background:#161A22;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No config</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#C9C4B8;white-space:nowrap">use: { baseURL, trace, locale: 'pt-BR' }</p>
+</div>
+<div style="width:100%;background:#2E3546;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No projeto</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#C9C4B8;white-space:nowrap">projects: [{ use: { ...devices['Pixel 7'] } }]</p>
+</div>
+<div style="width:100%;background:#7A3E24;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No arquivo de teste</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#EBD3C6;white-space:nowrap">test.use({ locale: 'en-US' })   test.slow()</p>
+</div>
+<div style="width:100%;background:#B4471B;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">Linha de comando</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#F7E3D8;white-space:nowrap">npx playwright test --headed --retries=0</p>
+</div>
+</div>
+<div style="width:200px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0">
+<p style="font-size:24px;color:#4A4F5C;text-align:center">vale por padrão</p>
+<div style="width:44px;height:200px;background:#9AA0AC;flex:none;clip-path:polygon(30% 0,70% 0,70% 55%,100% 55%,50% 100%,0 55%,30% 55%)"></div>
+<p style="font-size:24px;font-weight:600;color:#B4471B;text-align:center">mais específico ganha</p>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A base: tudo que vale para todo mundo.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.ci.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Herda a base e troca só os relatórios.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.local.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Herda a base e troca só o navegador.</p>
+</div>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:18px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--config=playwright.ci.config.ts</span></p>
+</div>
+<aside>A mesma opção pode aparecer em quatro lugares, e ganha o mais específico. O use do config vale para todos. O use de um projeto sobrescreve, por exemplo, para simular um celular. O test.use no topo de um arquivo ou de um describe vale só para aqueles testes, como um teste de tela em inglês. E a flag da linha de comando ganha de todos: --headed abre a janela mesmo com headless no config. A segunda ideia é herança: em vez de copiar o config para o pipeline, crie um arquivo que importa a base e troca só o que muda. No exemplo, o config de CI troca os relatórios e o config local troca o navegador. Para escolher qual usar, passe --config.</aside>
+</section>
+<section id="browser-local" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · navegador local</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">De onde vem o navegador?</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">O do Playwright</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>npx playwright install chromium</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Padrão. Versão casada com a do Playwright.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">É o que o CI usa. Precisa baixar uma vez.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:2px solid #B4471B;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">O Chrome ou Edge da máquina</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>use: { channel: <span style="color:#9CD08F">'chrome'</span> }</p>
+<p>use: { channel: <span style="color:#9CD08F">'msedge'</span> }</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Sem download. Usa o navegador instalado.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Segue as políticas da empresa, que podem bloquear automação.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Um executável específico</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>launchOptions: {</p>
+<p>&#160;&#160;executablePath: <span style="color:#9CD08F">'/opt/chrome/chrome'</span> }</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Chromium portátil ou versão travada.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Você cuida da compatibilidade de versão.</p>
+</div>
+</div>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="flex:1">
+<div style="background:#1E232E;border-radius:16px;padding:20px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> run e2e:local</p>
+<p>PW_CANAL=msedge npm run e2e:local</p>
+<p>PW_LENTO=<span style="color:#F2B482">500</span> npm run e2e:local -- <span style="color:#8DB6E8">--headed</span></p>
+</div>
+</div>
+<div style="width:620px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No exemplo:</b> o playwright.local.config.ts herda a base e troca só o navegador.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Em Java:</b> mvn verify -Dcanal=chrome</p>
+</div>
+</div>
+<aside>Por padrão o Playwright usa um Chromium que ele mesmo baixa, numa versão casada com a biblioteca. É o mais previsível e é o que deve rodar no CI. Na sua máquina você tem duas alternativas. Channel chrome ou msedge usa o navegador instalado, sem baixar nada, o que resolve a rede que bloqueia download. O cuidado: o Chrome corporativo segue as políticas da empresa, e algumas bloqueiam extensões ou automação. A terceira opção é apontar um executável específico com executablePath, útil para um Chromium portátil. No projeto de exemplo, npm run e2e:local usa o Chrome instalado; PW_CANAL troca para o Edge, PW_EXECUTAVEL aponta um caminho e PW_LENTO coloca uma pausa entre as ações, para você acompanhar com --headed. No Java, o mesmo channel entra pelo OptionsFactory, e no projeto tatu-api basta mvn verify -Dcanal=chrome.</aside>
+</section>
+<section id="browser-rede" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular e Java · rede corporativa</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quando a rede do banco não deixa baixar</h2>
+</div>
+<table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:24%">Situação</th><th style="width:38%">O que configurar</th><th style="width:38%">Efeito</th></tr>
+<tr><td>Download bloqueado</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">channel: 'chrome'</td><td>Usa o Chrome instalado e pula o install</td></tr>
+<tr><td>Mirror interno</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_DOWNLOAD_HOST</td><td>Baixa o navegador do Artifactory ou Nexus</td></tr>
+<tr><td>Proxy com certificado</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">HTTPS_PROXY + NODE_EXTRA_CA_CERTS</td><td>O install passa pelo proxy e confia na CA</td></tr>
+<tr><td>Cache no agente de CI</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_BROWSERS_PATH</td><td>Uma pasta de navegadores para vários projetos</td></tr>
+<tr><td>Java sem download</td><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px">PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1</td><td>Com -Dcanal=chrome, não baixa nada</td></tr>
+</table>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="flex:1">
+<div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># mirror interno + proxy da empresa</span></p>
+<p><span style="color:#C49BEA">export</span> PLAYWRIGHT_DOWNLOAD_HOST=https:<span style="color:#8C95A8">//artifactory.banco/playwright</span></p>
+<p><span style="color:#C49BEA">export</span> NODE_EXTRA_CA_CERTS=/etc/ssl/ca-banco.pem</p>
+<p><span style="color:#F2B482">npx</span> playwright install chromium</p>
+</div>
+</div>
+<div style="width:520px;display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:24px 28px">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:#B4471B;width:36px;height:36px;flex:none"><path d="M12 3L2 21h20L12 3z"/><path d="M12 10v5M12 18.2v.1"/></svg>
+<p style="flex:1;font-size:24px;line-height:1.4"><b>No CI, prefira o mirror:</b> a versão do navegador fica igual em todo agente.</p>
+</div>
+</div>
+<aside>Em banco, a primeira barreira costuma ser a rede, não o teste. Se o download dos navegadores é bloqueado, há quatro saídas. Na sua máquina, a mais simples é o channel chrome, que já vimos. Para o CI, o melhor é um mirror interno: a variável PLAYWRIGHT_DOWNLOAD_HOST aponta o download para o Artifactory ou o Nexus da empresa, e todo agente fica com a mesma versão. Se o proxy usa um certificado próprio, o install falha com self signed certificate; NODE_EXTRA_CA_CERTS resolve. PLAYWRIGHT_BROWSERS_PATH define uma pasta de navegadores compartilhada, boa para cache no agente. No Java, o Playwright baixa o navegador na primeira execução; PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD igual a 1, junto com o canal chrome, evita qualquer download.</aside>
 </section>
 <section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1334,6 +1540,52 @@
 </div>
 <aside>O espelho do slide anterior: cada hábito com o trecho de código que o resume. Papel primeiro, dados criados pela API, passos nomeados com test.step, etiquetas para rodar só o essencial, retries com trace e mocks só nas bordas do sistema. Todos esses trechos estão no projeto tatu-web e rodam na suíte.</aside>
 </section>
+<section id="relatorio-gerar" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · relatório HTML</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Gerar e ler o relatório</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/relatorio.mp4" poster="midia/relatorio.png" aria-label="Relatório HTML do Playwright: resumo por status, teste que falhou com anotações, erro, passos e captura, teste instável e anexos" muted loop playsinline style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> Rodar a suíte já gera a pasta playwright-report</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> Resumo: passou, falhou, instável, pulado</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> Em cada teste: anotações, erro com a linha, passos, tela e trace</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Instável</b> é falhou e passou na repetição. Não ignore</p><div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> playwright test</p>
+<p><span style="color:#F2B482">npx</span> playwright show-report</p>
+</div>
+</div>
+</div>
+<aside>Rodar a suíte já gera o relatório na pasta playwright-report. Na sua máquina ele abre sozinho quando algo falha; essa é a opção open on-failure, que é o padrão. O show-report abre a última execução. No topo, o resumo por status: passou, falhou, instável e pulado, e cada um é um filtro. No teste que falhou aparecem, nesta ordem: as anotações, o erro apontando a linha do código, os passos com o tempo de cada um, a captura da tela e o link para o trace da repetição. Um teste instável falhou na primeira tentativa e passou na segunda; ele não quebra o pipeline, mas é um aviso. Trate como bug. A busca aceita tag, status e projeto, por exemplo @pix ou s:failed.</aside>
+</section>
+<section id="relatorio-contar" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Faça o teste contar a história no relatório</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:780px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'Pix de R$ 25 gera comprovante'</span>, {</p>
+<p>&#160;&#160;tag: <span style="color:#9CD08F">'@pix'</span>,</p>
+<p>&#160;&#160;annotation: { <span style="color:#C49BEA">type</span>: <span style="color:#9CD08F">'issue'</span>,</p>
+<p>&#160;&#160;&#160;&#160;description: <span style="color:#9CD08F">'https://jira.tatu.test/browse/PIX-142'</span> },</p>
+<p>}, <span style="color:#C49BEA">async</span> ({ page }, testInfo) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'abrir a tela do Pix'</span>, <span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/pix'</span>);</p>
+<p>&#160;&#160;});</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'enviar R$ 25 para a Mãe'</span>, <span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#8C95A8">// ...</span></p>
+<p>&#160;&#160;});</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> testInfo.<span style="color:#7FB5F0">attach</span>(<span style="color:#9CD08F">'resposta do BFF'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;body: JSON.<span style="color:#7FB5F0">stringify</span>(corpo, <span style="color:#C49BEA">null</span>, <span style="color:#F2B482">2</span>),</p>
+<p>&#160;&#160;&#160;&#160;contentType: <span style="color:#9CD08F">'application/json'</span>,</p>
+<p>&#160;&#160;});</p>
+<p>});</p>
+</div>
+</div>
+<img src="midia/relatorio-teste.png" alt="O mesmo teste no relatório HTML: anotação com o link do chamado, passos nomeados com o tempo de cada um e o JSON da resposta anexado" style="width:836px;height:634px;object-fit:contain;border-radius:16px;border:1px solid #DDD7CB;background:#FFFFFF">
+</div>
+<aside>Quatro recursos transformam o relatório de uma lista de nomes em algo que outra pessoa consegue ler. A tag vira filtro clicável. A annotation coloca no topo do teste o link do chamado ou a regra de negócio, e o link é clicável. O test.step troca o log de cliques por passos com nomes de negócio, com o tempo de cada um. E o testInfo.attach anexa a evidência que você quiser: o JSON da resposta do BFF, uma imagem do comprovante, um log. Em ambiente regulado isso vira evidência de teste para auditoria. O exemplo completo é o 12-relatorio.spec.ts.</aside>
+</section>
 <section id="relatorios" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios</p>
@@ -1374,11 +1626,66 @@
 <tr><td>blob</td><td>Pedaços de cada shard, para juntar depois</td></tr>
 </table>
 <p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> publique a pasta relatorio mesmo quando os testes falham.</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Com shards:</b> cada máquina gera um blob; no fim, <b>npx playwright merge-reports</b> junta tudo num HTML só.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Só as falhas:</b> desde a 1.65, <b>onlyFailures: true</b> deixa o HTML, o JSON e o JUnit enxutos.</p>
 <p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No Java:</b> o Maven grava o XML em target/failsafe-reports.</p>
 </div>
 </div>
-<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. Quando a suíte é dividida em shards, cada máquina gera um blob, e o merge-reports junta todos num relatório único. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
+<aside>A configuração de relatórios fica num arquivo próprio que herda o config principal e só troca os reporters. O list é para o log, o html é o relatório que a pessoa abre, o junit alimenta a tela de testes do CI e o json serve para scripts. Rodar o npm run e2e:ci gera as pastas relatorio e resultados; o show-report abre o HTML. O blob, que aparece na tabela, é para a suíte dividida em shards; o próximo slide mostra como juntar. Desde a versão 1.65 os reporters html, json e junit aceitam a opção onlyFailures, que guarda só o que falhou. No Java, o Failsafe grava o XML em target/failsafe-reports.</aside>
+</section>
+<section id="relatorio-pipeline" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios no pipeline</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro máquinas, um relatório</h2>
+</div>
+<div style="display:flex;align-items:center;gap:20px">
+<div style="width:520px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 1</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=1/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 2</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=2/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 3</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=3/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 4</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=4/4</p>
+</div></div>
+</div>
+<div style="width:72px;height:36px;background:#9AA0AC;flex:none;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)"></div>
+<div style="width:300px;background:#FBFAF6;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#161A22;text-align:center">Um blob por máquina</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#4A4F5C;text-align:center">blob-report/*.zip</p>
+</div>
+<div style="width:72px;height:36px;background:#9AA0AC;flex:none;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)"></div>
+<div style="width:260px;background:#B4471B;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Junta tudo</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#F7E3D8;text-align:center">merge-reports</p>
+</div>
+<div style="width:72px;height:36px;background:#9AA0AC;flex:none;clip-path:polygon(0 30%,60% 30%,60% 0,100% 50%,60% 100%,60% 70%,0 70%)"></div>
+<div style="flex:1;background:#2C5F9E;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Um HTML só</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#DCE6F2;text-align:center">artefato do pipeline</p>
+</div>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># em cada máquina</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--shard=1/4</span> <span style="color:#8DB6E8">--reporter=blob</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># no passo final, com todos os blobs na mesma pasta</span></p>
+<p><span style="color:#F2B482">npx</span> playwright merge-reports <span style="color:#8DB6E8">--reporter</span> html ./todos-os-blobs</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Publique sempre:</b> o passo do relatório roda mesmo com teste falhando.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Pipeline pronto:</b> ci/github-actions-e2e.yml no tatu-web.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Java:</b> XML em target/failsafe-reports e trace.zip por teste que falhou.</p>
+</div>
+</div>
+<aside>Com a suíte dividida em shards, cada máquina só conhece o seu pedaço. Se cada uma gerar um HTML, você tem quatro relatórios incompletos. O certo é cada máquina gerar um blob, que é um zip com os resultados brutos, e um passo final juntar tudo com merge-reports num HTML único, publicado como artefato. Dois cuidados. Primeiro, o upload do blob e o passo final precisam rodar mesmo quando os testes falham; no GitHub Actions é o if not cancelled. Segundo, guarde o blob por pouco tempo e o HTML por mais tempo. O tatu-web tem um pipeline completo nesse formato na pasta ci. No Java, o Failsafe grava o XML no formato JUnit, e com o trace retain-on-failure configurado no OptionsFactory cada teste que falha deixa um trace.zip em target/playwright.</aside>
 </section>
 <section id="axe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
 <div style="display:flex;flex-direction:column;gap:12px">

@@ -1,0 +1,77 @@
+<section id="config-anatomia" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · configuração</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O playwright.config.ts em seis perguntas</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:900px">
+<div style="background:#1E232E;border-radius:16px;padding:28px 32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>({</p>
+<p><span style="color:#F2905F;font-weight:600">1</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;testDir: <span style="color:#9CD08F">'./e2e'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;fullyParallel: <span style="color:#C49BEA">true</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;forbidOnly: !!process.env.CI,</p>
+<p><span style="color:#F2905F;font-weight:600">2</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;timeout: <span style="color:#F2B482">30_000</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;expect: { timeout: <span style="color:#F2B482">5_000</span> },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;retries: process.env.CI ? <span style="color:#F2B482">2</span> : <span style="color:#F2B482">0</span>,</p>
+<p><span style="color:#F2905F;font-weight:600">3</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;reporter: [[<span style="color:#9CD08F">'list'</span>], [<span style="color:#9CD08F">'html'</span>]],</p>
+<p><span style="color:#F2905F;font-weight:600">4</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;use: {</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;baseURL: <span style="color:#9CD08F">'http://localhost:4200'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;},</p>
+<p><span style="color:#F2905F;font-weight:600">5</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;projects: [</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'setup'</span>, testMatch: /.*\.setup\.ts/ },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;{ name: <span style="color:#9CD08F">'chromium'</span>, dependencies: [<span style="color:#9CD08F">'setup'</span>],</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;&#160;&#160;use: { ...devices[<span style="color:#9CD08F">'Desktop Chrome'</span>] } },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;],</p>
+<p><span style="color:#F2905F;font-weight:600">6</span><span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;webServer: { command: <span style="color:#9CD08F">'npm start'</span>,</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>&#160;&#160;&#160;&#160;url: <span style="color:#9CD08F">'http://localhost:4200'</span> },</p>
+<p>&#160;<span style="color:#4A5366">&#160;│&#160;&#160;</span>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">O que roda?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Pasta dos testes; paralelo dentro do arquivo; test.only proibido no CI.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Quanto tempo e quantas vezes?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">30 s por teste, 5 s por expect. No CI, repete a falha.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Como relata?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Terminal e HTML. O config de CI troca só esta linha.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Como cada teste nasce?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">baseURL, trace, captura, idioma, viewport.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">5</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">Em quais variações?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Navegadores, celular, login pronto, tags.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#B4471B;width:32px">6</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:30px;font-weight:600;line-height:1.3">O que sobe antes?</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O ng serve e o BFF. Na sua máquina, reaproveita.</p>
+</div>
+</div>
+</div>
+</div>
+<aside>O config responde seis perguntas, sempre na mesma ordem. Um: o que roda; o forbidOnly faz o pipeline quebrar se alguém esquecer um test.only, em vez de rodar um teste só e ficar verde. Dois: tempo e repetições; os padrões são 30 segundos por teste e 5 segundos por expect, e workers sem valor usa metade dos núcleos. Três: relatório, que vamos ver na parte de dia a dia. Quatro: o use, que define como cada teste nasce: baseURL para escrever page.goto('/pix'), trace, captura de tela, idioma, fuso, viewport. Cinco: projects, que são variações da suíte: outro navegador, celular, ou o projeto setup que faz login uma vez. Seis: webServer, que sobe a aplicação antes dos testes e reaproveita a que já está rodando na sua máquina. O arquivo playwright.config.ts do tatu-web está comentado exatamente nesses seis blocos.</aside>
+</section>

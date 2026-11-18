@@ -1,0 +1,30 @@
+<section id="relatorio-contar" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Faça o teste contar a história no relatório</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:780px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'Pix de R$ 25 gera comprovante'</span>, {</p>
+<p>&#160;&#160;tag: <span style="color:#9CD08F">'@pix'</span>,</p>
+<p>&#160;&#160;annotation: { <span style="color:#C49BEA">type</span>: <span style="color:#9CD08F">'issue'</span>,</p>
+<p>&#160;&#160;&#160;&#160;description: <span style="color:#9CD08F">'https://jira.tatu.test/browse/PIX-142'</span> },</p>
+<p>}, <span style="color:#C49BEA">async</span> ({ page }, testInfo) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'abrir a tela do Pix'</span>, <span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/pix'</span>);</p>
+<p>&#160;&#160;});</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> test.<span style="color:#7FB5F0">step</span>(<span style="color:#9CD08F">'enviar R$ 25 para a Mãe'</span>, <span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#8C95A8">// ...</span></p>
+<p>&#160;&#160;});</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> testInfo.<span style="color:#7FB5F0">attach</span>(<span style="color:#9CD08F">'resposta do BFF'</span>, {</p>
+<p>&#160;&#160;&#160;&#160;body: JSON.<span style="color:#7FB5F0">stringify</span>(corpo, <span style="color:#C49BEA">null</span>, <span style="color:#F2B482">2</span>),</p>
+<p>&#160;&#160;&#160;&#160;contentType: <span style="color:#9CD08F">'application/json'</span>,</p>
+<p>&#160;&#160;});</p>
+<p>});</p>
+</div>
+</div>
+<img src="/_blob/75dd92a023094f7e7eba2f3e60702575" alt="O mesmo teste no relatório HTML: anotação com o link do chamado, passos nomeados com o tempo de cada um e o JSON da resposta anexado" style="width:836px;height:634px;object-fit:contain;border-radius:16px;border:1px solid #DDD7CB;background:#FFFFFF">
+</div>
+<aside>Quatro recursos transformam o relatório de uma lista de nomes em algo que outra pessoa consegue ler. A tag vira filtro clicável. A annotation coloca no topo do teste o link do chamado ou a regra de negócio, e o link é clicável. O test.step troca o log de cliques por passos com nomes de negócio, com o tempo de cada um. E o testInfo.attach anexa a evidência que você quiser: o JSON da resposta do BFF, uma imagem do comprovante, um log. Em ambiente regulado isso vira evidência de teste para auditoria. O exemplo completo é o 12-relatorio.spec.ts.</aside>
+</section>

@@ -1,0 +1,55 @@
+<section id="relatorio-pipeline" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · relatórios no pipeline</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quatro máquinas, um relatório</h2>
+</div>
+<div style="display:flex;align-items:center;gap:20px">
+<div style="width:520px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 1</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=1/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 2</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=2/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 3</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=3/4</p>
+</div></div><div style="display:flex;gap:10px"><div style="flex:1;background:#2E3546;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Máquina 4</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#C9C4B8;text-align:center">--shard=4/4</p>
+</div></div>
+</div>
+<x-shape kind="arrow-right" style="width:72px;height:36px;background:#9AA0AC"></x-shape>
+<div style="width:300px;background:#FBFAF6;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#161A22;text-align:center">Um blob por máquina</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#4A4F5C;text-align:center">blob-report/*.zip</p>
+</div>
+<x-shape kind="arrow-right" style="width:72px;height:36px;background:#9AA0AC"></x-shape>
+<div style="width:260px;background:#B4471B;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Junta tudo</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#F7E3D8;text-align:center">merge-reports</p>
+</div>
+<x-shape kind="arrow-right" style="width:72px;height:36px;background:#9AA0AC"></x-shape>
+<div style="flex:1;background:#2C5F9E;border-radius:14px;padding:12px 20px;display:flex;flex-direction:column;gap:2px">
+<p style="font-size:26px;font-weight:600;color:#F5F2EC;text-align:center">Um HTML só</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#DCE6F2;text-align:center">artefato do pipeline</p>
+</div>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># em cada máquina</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--shard=1/4</span> <span style="color:#8DB6E8">--reporter=blob</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># no passo final, com todos os blobs na mesma pasta</span></p>
+<p><span style="color:#F2B482">npx</span> playwright merge-reports <span style="color:#8DB6E8">--reporter</span> html ./todos-os-blobs</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:16px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Publique sempre:</b> o passo do relatório roda mesmo com teste falhando.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Pipeline pronto:</b> ci/github-actions-e2e.yml no tatu-web.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Java:</b> XML em target/failsafe-reports e trace.zip por teste que falhou.</p>
+</div>
+</div>
+<aside>Com a suíte dividida em shards, cada máquina só conhece o seu pedaço. Se cada uma gerar um HTML, você tem quatro relatórios incompletos. O certo é cada máquina gerar um blob, que é um zip com os resultados brutos, e um passo final juntar tudo com merge-reports num HTML único, publicado como artefato. Dois cuidados. Primeiro, o upload do blob e o passo final precisam rodar mesmo quando os testes falham; no GitHub Actions é o if not cancelled. Segundo, guarde o blob por pouco tempo e o HTML por mais tempo. O tatu-web tem um pipeline completo nesse formato na pasta ci. No Java, o Failsafe grava o XML no formato JUnit, e com o trace retain-on-failure configurado no OptionsFactory cada teste que falha deixa um trace.zip em target/playwright.</aside>
+</section>

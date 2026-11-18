@@ -1,0 +1,49 @@
+<section id="config-camadas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · configuração</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Quem ganha quando o campo se repete</h2>
+</div>
+<div style="display:flex;gap:24px;align-items:stretch">
+<div style="flex:1;display:flex;flex-direction:column;gap:12px">
+<div style="width:100%;background:#161A22;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No config</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#C9C4B8;white-space:nowrap">use: { baseURL, trace, locale: 'pt-BR' }</p>
+</div>
+<div style="width:100%;background:#2E3546;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No projeto</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#C9C4B8;white-space:nowrap">projects: [{ use: { ...devices['Pixel 7'] } }]</p>
+</div>
+<div style="width:100%;background:#7A3E24;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">No arquivo de teste</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#EBD3C6;white-space:nowrap">test.use({ locale: 'en-US' })   test.slow()</p>
+</div>
+<div style="width:100%;background:#B4471B;border-radius:14px;padding:18px 28px;display:flex;gap:24px;align-items:center">
+<p style="font-size:28px;font-weight:600;color:#F5F2EC;width:300px">Linha de comando</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#F7E3D8;white-space:nowrap">npx playwright test --headed --retries=0</p>
+</div>
+</div>
+<div style="width:200px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:8px 0">
+<p style="font-size:24px;color:#4A4F5C;text-align:center">vale por padrão</p>
+<x-shape kind="arrow-down" style="width:44px;height:200px;background:#9AA0AC"></x-shape>
+<p style="font-size:24px;font-weight:600;color:#B4471B;text-align:center">mais específico ganha</p>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">A base: tudo que vale para todo mundo.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.ci.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Herda a base e troca só os relatórios.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:8px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#B4471B">playwright.local.config.ts</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Herda a base e troca só o navegador.</p>
+</div>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:18px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--config=playwright.ci.config.ts</span></p>
+</div>
+<aside>A mesma opção pode aparecer em quatro lugares, e ganha o mais específico. O use do config vale para todos. O use de um projeto sobrescreve, por exemplo, para simular um celular. O test.use no topo de um arquivo ou de um describe vale só para aqueles testes, como um teste de tela em inglês. E a flag da linha de comando ganha de todos: --headed abre a janela mesmo com headless no config. A segunda ideia é herança: em vez de copiar o config para o pipeline, crie um arquivo que importa a base e troca só o que muda. No exemplo, o config de CI troca os relatórios e o config local troca o navegador. Para escolher qual usar, passe --config.</aside>
+</section>

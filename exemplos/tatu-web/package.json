@@ -16,6 +16,7 @@
     "e2e:smoke": "playwright test --project=chromium --grep @smoke",
     "e2e:visual": "playwright test --project=visual",
     "e2e:debug": "playwright test --project=chromium --debug",
+    "e2e:local": "playwright test --config=playwright.local.config.ts --project=chromium",
     "e2e:ci": "playwright test --config=playwright.ci.config.ts",
     "e2e:relatorio": "playwright show-report relatorio"
   },

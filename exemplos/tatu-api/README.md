@@ -17,11 +17,20 @@ mvn verify     # unitários + integração e tela (Failsafe, classes *IT)
 
 Na primeira execução, o Playwright para Java baixa o Chromium sozinho.
 
+As opções dos testes de tela (janela, canal do navegador, trace) ficam em `src/test/java/.../ui/TatuOptions.java`, o equivalente Java do `playwright.config.ts`.
+
+### Relatórios e trace
+
+- O Failsafe grava o resultado em `target/failsafe-reports/*.xml` (formato JUnit, que Jenkins, GitLab e Azure DevOps leem).
+- Quando um teste de tela falha, o trace fica em `target/playwright/<classe.teste>/trace.zip`. Abra com `npx playwright show-trace <arquivo>` ou arrastando o arquivo para https://trace.playwright.dev.
+
 ### Outras formas de rodar
 
 | Comando | Para quê |
 |---|---|
 | `mvn verify -Dheaded=true` | Abre a janela do navegador nos testes de tela |
+| `mvn verify -Dcanal=chrome` | Usa o Google Chrome instalado na máquina (`msedge` para o Edge) |
+| `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 mvn verify -Dcanal=chrome` | Idem, sem baixar os navegadores do Playwright |
 | `mvn verify -Dit.test=LoginUiIT` | Só uma classe de integração |
 | `mvn verify -Dit.test=LoginUiIT#xpathNaoAtravessaShadowDom` | Só um teste |
 | `mvn test -Dtest=PixServiceTest` | Só uma classe unitária |

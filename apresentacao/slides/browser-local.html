@@ -1,0 +1,51 @@
+<section id="browser-local" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · navegador local</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">De onde vem o navegador?</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">O do Playwright</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>npx playwright install chromium</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Padrão. Versão casada com a do Playwright.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">É o que o CI usa. Precisa baixar uma vez.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:2px solid #B4471B;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">O Chrome ou Edge da máquina</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>use: { channel: <span style="color:#9CD08F">'chrome'</span> }</p>
+<p>use: { channel: <span style="color:#9CD08F">'msedge'</span> }</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Sem download. Usa o navegador instalado.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Segue as políticas da empresa, que podem bloquear automação.</p>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:14px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Um executável específico</h3>
+<div style="background:#1E232E;border-radius:16px;padding:16px 20px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>launchOptions: {</p>
+<p>&#160;&#160;executablePath: <span style="color:#9CD08F">'/opt/chrome/chrome'</span> }</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#161A22">Chromium portátil ou versão travada.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Você cuida da compatibilidade de versão.</p>
+</div>
+</div>
+<div style="display:flex;gap:24px;align-items:center">
+<div style="flex:1">
+<div style="background:#1E232E;border-radius:16px;padding:20px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> run e2e:local</p>
+<p>PW_CANAL=msedge npm run e2e:local</p>
+<p>PW_LENTO=<span style="color:#F2B482">500</span> npm run e2e:local -- <span style="color:#8DB6E8">--headed</span></p>
+</div>
+</div>
+<div style="width:620px;display:flex;flex-direction:column;gap:12px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>No exemplo:</b> o playwright.local.config.ts herda a base e troca só o navegador.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Em Java:</b> mvn verify -Dcanal=chrome</p>
+</div>
+</div>
+<aside>Por padrão o Playwright usa um Chromium que ele mesmo baixa, numa versão casada com a biblioteca. É o mais previsível e é o que deve rodar no CI. Na sua máquina você tem duas alternativas. Channel chrome ou msedge usa o navegador instalado, sem baixar nada, o que resolve a rede que bloqueia download. O cuidado: o Chrome corporativo segue as políticas da empresa, e algumas bloqueiam extensões ou automação. A terceira opção é apontar um executável específico com executablePath, útil para um Chromium portátil. No projeto de exemplo, npm run e2e:local usa o Chrome instalado; PW_CANAL troca para o Edge, PW_EXECUTAVEL aponta um caminho e PW_LENTO coloca uma pausa entre as ações, para você acompanhar com --headed. No Java, o mesmo channel entra pelo OptionsFactory, e no projeto tatu-api basta mvn verify -Dcanal=chrome.</aside>
+</section>
