@@ -1,0 +1,21 @@
+<section id="a-dor" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Uma sexta-feira qualquer</p>
+<h2 style="font-size:72px;font-weight:600;line-height:1.1;color:#F5F2EC">Passou na sua máquina.<br>No CI, quebrou.</h2>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h00</p>
+<p style="flex:1;font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;line-height:1.4;color:#F5F2EC">PR aprovado. Os testes passaram na sua máquina.</p>
+</div>
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h12</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.4;color:#E8A08A">Pipeline vermelho: Timeout 3000ms waiting for .btn-primary</p>
+</div>
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h40</p>
+<p style="flex:1;font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;line-height:1.4;color:#F5F2EC">Alguém aumenta o sleep para 5000 e roda de novo. Passou.</p>
+</div>
+<div style="border-top:1px solid #2E3546"></div>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#C9C4B8">Hoje: como não precisar desse sleep, e como descobrir o porquê de uma falha em 30 segundos.</p>
+<aside>Comece pela história, não pela ferramenta. Pergunte: quem aqui já aumentou um sleep para o teste passar? Quase todo mundo levanta a mão. O problema não é o CI ser lento; é o teste esperar por tempo em vez de esperar pelo estado da tela. E quando ele quebra, a gente roda de novo em vez de investigar, porque investigar é caro. O Playwright ataca as duas coisas: espera automática e o trace, que mostra exatamente o que aconteceu. É isso que vamos ver.</aside>
+</section>

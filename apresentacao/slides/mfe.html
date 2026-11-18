@@ -1,0 +1,37 @@
+<section id="mfe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · microfrontends</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Microfrontends: testar o shell e o remote</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1060px;background:#1E232E;border-radius:16px;padding:28px 36px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// remote fora do ar: o shell mostra o fallback</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/remoteEntry.js'</span>, (r) =&gt; r.<span style="color:#7FB5F0">abort</span>());</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(SHELL);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'indisponível'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// remote no ar, com o BFF dele na borda</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, (r) =&gt;</p>
+<p>&#160;&#160;r.<span style="color:#7FB5F0">fulfill</span>({ json: [{ descricao: <span style="color:#9CD08F">'Salário'</span>, valor }] }));</p>
+<p><span style="color:#C49BEA">const</span> extrato = page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'region'</span>, { name: <span style="color:#9CD08F">'Extrato'</span> });</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(extrato.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'listitem'</span>)).<span style="color:#7FB5F0">toHaveCount</span>(<span style="color:#F2B482">1</span>);</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Remote fora do ar</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira o fallback do shell.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Contrato</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O remote registra o elemento que o shell usa: customElements.get.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Componente de outro time</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">getByRole entra no Shadow DOM aberto, sem configuração.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">BFF na borda</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Mocke só as APIs do remote; o resto da página é real.</p>
+</div>
+</div>
+</div>
+<aside>O cenário que tutorial nenhum cobre e que a gente vive. Com Module Federation ou Web Components, o shell depende de um remote publicado por outro time. Quatro testes valem ouro: o shell sobrevive quando o remote cai, mostrando um fallback em vez de uma tela branca; o remote cumpre o contrato, registrando o elemento que o shell espera; os locators entram no Shadow DOM do componente de outro time; e o BFF do remote é mockado na borda, então o teste não depende do ambiente dele. O arquivo 11-microfrontends.spec.ts do projeto de exemplo tem os quatro, com shell e remote simulados por page.route, e roda sem servidor nenhum.</aside>
+</section>

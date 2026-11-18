@@ -14,7 +14,7 @@ cd playwright-apresentacao
 ## O que tem aqui
 
 ```text
-apresentacao/   os 46 slides, o visualizador (index.html), as notas do apresentador e os clipes
+apresentacao/   os 49 slides, o visualizador (index.html), as notas do apresentador e os clipes
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
   tatu-api/     Spring Boot 3.5 + Playwright Java + WireMock
@@ -23,9 +23,9 @@ exemplos/
 ## O que a apresentação cobre
 
 1. **Conceitos:** browser, context e page; locators; assertions e auto-wait; fixtures; comparação com o Cypress.
-2. **Frontend em Angular:** setup, primeiro teste, mocks de rede (`page.route`, HAR), Page Objects, login reaproveitado, Shadow DOM.
+2. **Frontend em Angular:** setup, primeiro teste, mocks de rede (`page.route`, HAR), Page Objects, login reaproveitado, Shadow DOM e microfrontends.
 3. **Backend em Java:** JUnit 5, testes de API sem navegador, testes de tela, WireMock, Spring Boot.
-4. **Dia a dia:** o que não fazer, boas práticas, relatórios, acessibilidade com axe, CI e novidades de 2026.
+4. **Dia a dia:** um desafio, o que não fazer, boas práticas, relatórios, acessibilidade com axe, CI, novidades de 2026 e os próximos passos.
 
 ## Como rodar os exemplos
 
@@ -38,7 +38,7 @@ npx playwright install chromium
 npm run e2e
 ```
 
-A suíte tem 43 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
+A suíte tem 46 testes e sobe sozinha o BFF de mentira em Node (porta 8080) e o `ng serve` (porta 4200). Não precisa do Java.
 
 ### Backend (tatu-api)
 
@@ -87,7 +87,9 @@ Os clipes, em MP4, estão em `apresentacao/midia/` e em `exemplos/tatu-web/docs/
 
 - `terminal.mp4`: `npm run e2e` rodando os testes (3x mais rápido que o real);
 - `login.mp4`: o teste de login no navegador, com a legenda do código;
-- `mocks.mp4`: um extrato em cinco situações, todas com `page.route`.
+- `mocks.mp4`: um extrato em cinco situações, todas com `page.route`;
+- `ui.mp4`: o modo UI filtrando por tag, rodando e voltando no tempo;
+- `trace.mp4`: o Trace Viewer investigando uma falha real (o BFF respondeu 422).
 
 ## Versões
 

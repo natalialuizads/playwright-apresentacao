@@ -20,6 +20,11 @@ const MIDIA = {
   '/_blob/4045eab707ae302cd98212b8cbd7b3ab': 'midia/mocks.png',
   '/_blob/14ffa6a41e3972cfab53aab28e87a31c': 'midia/terminal.mp4',
   '/_blob/905eb654c84b45c25ec4146960107662': 'midia/terminal.png',
+  '/_blob/5c97c515a0ff2637e9cb0cc520220065': 'midia/trace.mp4',
+  '/_blob/230dab721a2cf5acb1d7bd820ec0da04': 'midia/trace.png',
+  '/_blob/4d64795e423124a1cd29d01e98f90f8a': 'midia/ui.mp4',
+  '/_blob/cd90716f463f97b5776f31f482b9dfab': 'midia/ui.png',
+  '/_blob/fe73e92623a0c9bfcc8918358a14bf21': 'midia/qr-repo.png',
 };
 
 const ICONES = {
@@ -39,6 +44,8 @@ function adaptar(html) {
   // <img data-video> vira <video> com o still como poster
   html = html.replace(/<img src="([^"]+)" data-video="([^"]+)" alt="([^"]*)" style="([^"]*)">/g, (_, still, clipe, alt, estilo) =>
     `<video data-src="${MIDIA[clipe]}" poster="${MIDIA[still]}" aria-label="${alt}" muted loop playsinline style="${estilo}"></video>`);
+  // imagens comuns guardadas no editor de slides
+  html = html.replace(/src="(\/_blob\/[0-9a-f]+)"/g, (m, id) => (MIDIA[id] ? `src="${MIDIA[id]}"` : m));
   return html;
 }
 

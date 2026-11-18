@@ -20,10 +20,10 @@
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByLabel</span>(<span style="color:#2F7A3A">'Valor'</span>) <span style="color:#6B7384">// dentro do componente</span></p>
 </div>
 <div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
-<h3 style="font-size:36px;font-weight:600">Remote fora do ar</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira se o shell mostra o fallback.</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(<span style="color:#2F7A3A">'**/remoteEntry.js'</span>, r =&gt; r.<span style="color:#2C5F9E">abort</span>())</p>
+<h3 style="font-size:36px;font-weight:600">Rotas com lazy loading</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Espere pela URL ou pelo título da tela, nunca pelo chunk carregar.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> <span style="color:#2C5F9E">expect</span>(page).<span style="color:#2C5F9E">toHaveURL</span>(<span style="color:#2F7A3A">/\/extrato$/</span>)</p>
 </div>
 </div>
-<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E com Module Federation dá para simular um remote indisponível e validar o fallback do shell, um cenário que quase ninguém testa.</aside>
+<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E nas rotas com lazy loading, o teste espera pelo que o usuário vê, a URL ou o título, e não pelo carregamento do chunk. Microfrontends ganham um slide só deles logo a seguir.</aside>
 </section>

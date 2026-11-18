@@ -19,17 +19,20 @@
   "lists": "css",
   "order": [
     "cover",
+    "a-dor",
+    "sem-sleep",
     "agenda",
     "o-que-e",
     "piramide",
     "browser-context-page",
     "pilares",
     "auto-wait",
-    "sem-sleep",
     "locators",
     "assertions",
     "fixtures",
     "ferramentas",
+    "demo-ui",
+    "demo-trace",
     "vs-cypress",
     "vs-cypress-codigo",
     "div-angular",
@@ -40,22 +43,21 @@
     "mock-onde",
     "mock-api",
     "demo-mocks",
-    "mock-respostas",
     "mock-avancado",
-    "mock-har",
     "mock-armadilhas",
     "page-object",
     "login-uma-vez",
     "shadow-o-que-e",
     "shadow-pratica",
     "dicas-angular",
+    "mfe",
     "div-java",
     "setup-java",
     "api-java",
     "ui-java",
     "mock-java",
     "spring-java",
-    "boas-praticas",
+    "quiz",
     "nao-fazer",
     "boas-praticas-codigo",
     "relatorios",
@@ -63,11 +65,12 @@
     "ci",
     "novidades",
     "exemplos",
-    "recap"
+    "recap",
+    "segunda-feira"
   ],
   "sections": {
     "s1": {
-      "description": "Abertura e roteiro da apresentação",
+      "description": "Abertura: a dor, a regra de ouro e o roteiro",
       "start": "cover"
     },
     "s2": {
@@ -75,7 +78,7 @@
       "start": "o-que-e"
     },
     "s3": {
-      "description": "Frontend em Angular: setup, primeiro teste, mocks a fundo, Page Objects, login e Shadow DOM",
+      "description": "Frontend em Angular: setup, primeiro teste, mocks, Page Objects, login, Shadow DOM e microfrontends",
       "start": "div-angular"
     },
     "s4": {
@@ -83,11 +86,11 @@
       "start": "div-java"
     },
     "s5": {
-      "description": "Dia a dia: boas práticas, CI, novidades de 2026 e projetos de exemplo",
-      "start": "boas-praticas"
+      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios, acessibilidade, CI e novidades",
+      "start": "quiz"
     },
     "s6": {
-      "description": "Resumo",
+      "description": "Resumo e próximos passos",
       "start": "recap"
     }
   },

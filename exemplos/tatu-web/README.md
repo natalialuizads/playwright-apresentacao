@@ -72,7 +72,7 @@ npm run e2e:visual
 
 ## Clipes de execução
 
-A pasta `docs/` tem gravações reais da suíte rodando: `terminal.mp4` (`npm run e2e`), `login.mp4` e `mocks.mp4` (navegador visível, com legenda do código).
+A pasta `docs/` tem gravações reais: `terminal.mp4` (`npm run e2e`), `login.mp4` e `mocks.mp4` (navegador visível, com legenda do código), `ui.mp4` (modo UI) e `trace.mp4` (Trace Viewer investigando uma falha).
 
 ## Rodar o app na mão
 
@@ -100,6 +100,7 @@ Para usar o backend Java no lugar do mock, suba o `tatu-api` (`mvn spring-boot:r
 | `e2e/08-api.spec.ts` | Testes de API sem navegador, com a fixture `request` |
 | `e2e/09-acessibilidade.spec.ts` | axe-core: violações WCAG A e AA por tela, escopo com `include`, `disableRules`, anexo do JSON no relatório |
 | `e2e/10-visual.spec.ts` | `toHaveScreenshot`, `mask`, `maxDiffPixelRatio` |
+| `e2e/11-microfrontends.spec.ts` | Shell e remote simulados com `page.route`: remote fora do ar (fallback), contrato do Web Component, Shadow DOM do componente de outro time e BFF na borda. Roda sem servidor |
 
 ## Estrutura
 
@@ -109,7 +110,7 @@ e2e/
   fixtures.ts            test estendido: bff, login, extrato, pix
   pages/                 Page Objects
   hars/extrato.har       respostas gravadas do /api/extrato
-  01..10-*.spec.ts       os testes, em ordem didática
+  01..11-*.spec.ts       os testes, em ordem didática
 mock-bff/server.mjs      BFF de mentira, sem dependências
 playwright.config.ts     baseURL, projetos setup/chromium/visual, webServer
 playwright.ci.config.ts  relatórios para pipeline (html, junit, json)

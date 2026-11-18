@@ -1,0 +1,18 @@
+<section id="demo-trace" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · Trace Viewer</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Trace Viewer: o raio-x de uma falha</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<img src="/_blob/230dab721a2cf5acb1d7bd820ec0da04" data-video="/_blob/5c97c515a0ff2637e9cb0cc520220065" alt="Trace Viewer mostrando o passo que falhou, a tela daquele instante e a resposta 422 Saldo insuficiente" style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB">
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> Qual passo falhou e por quê</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> A tela exata naquele instante</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> A rede: POST /api/pix voltou 422, "Saldo insuficiente"</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> Antes e depois de cada passo</p><div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p>trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;</p>
+<p>npx playwright show-trace trace.zip</p>
+</div>
+</div>
+</div>
+<aside>Este é o fim da história do começo. O teste do Pix falhou no CI. Em vez de rodar de novo, abrimos o trace: o passo que falhou foi o expect do comprovante; o snapshot mostra um aviso de erro na tela; e a aba de rede mostra que o BFF respondeu 422 com Saldo insuficiente, porque o teste tentou um Pix maior que o saldo. Diagnóstico sem rodar nada. Com trace on-first-retry, o arquivo só é gerado quando o teste falha e é repetido, então não pesa no pipeline. O trace também abre em trace.playwright.dev, arrastando o arquivo para a página.</aside>
+</section>

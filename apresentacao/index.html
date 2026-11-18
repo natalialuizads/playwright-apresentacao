@@ -39,6 +39,33 @@
   <p style="font-family:'IBM Plex Sans', Arial, sans-serif; font-size:24px; color:#9aa0ac">Natália Luiza - 13/11/2026</p>
   <aside>Abertura. A promessa: sair daqui sabendo escrever o primeiro teste, tanto no front em Angular quanto no back em Java. Vou sempre seguir o mesmo ritmo: primeiro o conceito, depois o código.</aside>
 </section>
+<section id="a-dor" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:40px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Uma sexta-feira qualquer</p>
+<h2 style="font-size:72px;font-weight:600;line-height:1.1;color:#F5F2EC">Passou na sua máquina.<br>No CI, quebrou.</h2>
+<div style="display:flex;flex-direction:column">
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h00</p>
+<p style="flex:1;font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;line-height:1.4;color:#F5F2EC">PR aprovado. Os testes passaram na sua máquina.</p>
+</div>
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h12</p>
+<p style="flex:1;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.4;color:#E8A08A">Pipeline vermelho: Timeout 3000ms waiting for .btn-primary</p>
+</div>
+<div style="display:flex;gap:40px;align-items:baseline;padding:22px 0;border-top:1px solid #2E3546">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;font-weight:600;color:#F2905F;width:120px">18h40</p>
+<p style="flex:1;font-family:'IBM Plex Sans', Arial, sans-serif;font-size:32px;line-height:1.4;color:#F5F2EC">Alguém aumenta o sleep para 5000 e roda de novo. Passou.</p>
+</div>
+<div style="border-top:1px solid #2E3546"></div>
+</div>
+<p style="font-size:32px;line-height:1.4;color:#C9C4B8">Hoje: como não precisar desse sleep, e como descobrir o porquê de uma falha em 30 segundos.</p>
+<aside>Comece pela história, não pela ferramenta. Pergunte: quem aqui já aumentou um sleep para o teste passar? Quase todo mundo levanta a mão. O problema não é o CI ser lento; é o teste esperar por tempo em vez de esperar pelo estado da tela. E quando ele quebra, a gente roda de novo em vez de investigar, porque investigar é caro. O Playwright ataca as duas coisas: espera automática e o trace, que mostra exatamente o que aconteceu. É isso que vamos ver.</aside>
+</section>
+<section id="sem-sleep" data-transition="fade" style="background:#B4471B;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
+<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#FBEDE4">Regra de ouro</p>
+<h2 style="font-size:88px;font-weight:600;line-height:1.1;color:#F5F2EC">Não espere por tempo.<br>Espere por estado.</h2>
+<p style="font-size:36px;line-height:1.4;color:#FBEDE4">Um sleep de 3 segundos passa na sua máquina e quebra no CI. Uma assertion espera só o necessário: até 5 segundos, por padrão.</p>
+<aside>Pausa dramática aqui. Todo time que sofre com teste instável tem sleep espalhado pela suíte. Tempo fixo é uma aposta: ou sobra e o teste fica lento, ou falta e o teste quebra. Esperar por estado, como “o botão apareceu” ou “a URL mudou”, é determinístico.</aside>
+</section>
 <section id="agenda" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Roteiro</p>
@@ -53,7 +80,7 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">02</p>
 <p style="font-size:36px;font-weight:600;width:380px">Frontend Angular</p>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Setup, primeiro teste, mocks a fundo, Shadow DOM, Page Objects e login reaproveitado.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Setup, primeiro teste, mocks, Page Objects, Shadow DOM e microfrontends.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">03</p>
@@ -63,7 +90,7 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:28px 0;border-top:1px solid #D8D2C6;border-bottom:1px solid #D8D2C6">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:28px;color:#B4471B;width:72px">04</p>
 <p style="font-size:36px;font-weight:600;width:380px">Dia a dia</p>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Boas práticas, CI, novidades de 2026 e os projetos de exemplo.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C;flex:1">Um desafio, boas práticas, relatórios, acessibilidade, CI e o que fazer na segunda-feira.</p>
 </div>
 </div>
 <aside>Quatro blocos. Os conceitos valem para as duas linguagens: a API é a mesma, muda só a sintaxe. Por isso quem é de backend não deve pular a parte de Angular, e vice-versa.</aside>
@@ -226,12 +253,6 @@
 </div>
 <aside>Esse é o motivo número um de testes instáveis sumirem quando se migra para o Playwright. Ele faz esse checklist em toda ação. Se algo não fica pronto dentro do timeout, o teste falha com uma mensagem dizendo qual verificação não passou, por exemplo: elemento coberto por outro.</aside>
 </section>
-<section id="sem-sleep" data-transition="fade" style="background:#B4471B;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:48px">
-<p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#FBEDE4">Regra de ouro</p>
-<h2 style="font-size:88px;font-weight:600;line-height:1.1;color:#F5F2EC">Não espere por tempo.<br>Espere por estado.</h2>
-<p style="font-size:36px;line-height:1.4;color:#FBEDE4">Um sleep de 3 segundos passa na sua máquina e quebra no CI. Uma assertion espera só o necessário: até 5 segundos, por padrão.</p>
-<aside>Pausa dramática aqui. Todo time que sofre com teste instável tem sleep espalhado pela suíte. Tempo fixo é uma aposta: ou sobra e o teste fica lento, ou falta e o teste quebra. Esperar por estado, como “o botão apareceu” ou “a URL mudou”, é determinístico.</aside>
-</section>
 <section id="locators" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos</p>
@@ -350,6 +371,40 @@
 </div>
 </div>
 <aside>Demo ao vivo sugerida: abrir o Codegen na aplicação local, gravar um login de 20 segundos e mostrar que ele já escolhe getByRole e getByLabel. Depois rodar com --ui. No Java, o Codegen roda pelo Maven: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="codegen localhost:4200".</aside>
+</section>
+<section id="demo-ui" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · modo UI</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Modo UI: rodar, assistir e voltar no tempo</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/ui.mp4" poster="midia/ui.png" aria-label="Modo UI do Playwright filtrando por @smoke, rodando o teste do Pix e mostrando cada passo" muted loop playsinline style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> Filtre por nome ou tag e rode com um clique</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> Cada passo vira um ponto na linha do tempo</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> Clique num passo e veja a tela daquele instante</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> Watch: salvou o arquivo, o teste roda de novo</p><div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--ui</span></p>
+<p><span style="color:#F2B482">npm</span> run e2e:ui</p>
+</div>
+</div>
+</div>
+<aside>O modo UI é onde você vai passar a maior parte do tempo escrevendo testes. Ele lista a suíte, filtra por tag, roda com um clique e mostra cada ação na linha do tempo. Clicando num passo, você vê o DOM daquele momento, inclusive antes e depois da ação. O watch roda o teste de novo sempre que o arquivo muda, o que deixa o ciclo de escrever e conferir muito curto.</aside>
+</section>
+<section id="demo-trace" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · Trace Viewer</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Trace Viewer: o raio-x de uma falha</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<video data-src="midia/trace.mp4" poster="midia/trace.png" aria-label="Trace Viewer mostrando o passo que falhou, a tela daquele instante e a resposta 422 Saldo insuficiente" muted loop playsinline style="width:1040px;height:585px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB"></video>
+<div style="flex:1;display:flex;flex-direction:column;gap:24px">
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>1.</b> Qual passo falhou e por quê</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>2.</b> A tela exata naquele instante</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>3.</b> A rede: POST /api/pix voltou 422, "Saldo insuficiente"</p><p style="font-size:28px;line-height:1.4;color:#4A4F5C"><b>4.</b> Antes e depois de cada passo</p><div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p>trace: <span style="color:#9CD08F">'on-first-retry'</span>,</p>
+<p>&#160;</p>
+<p>npx playwright show-trace trace.zip</p>
+</div>
+</div>
+</div>
+<aside>Este é o fim da história do começo. O teste do Pix falhou no CI. Em vez de rodar de novo, abrimos o trace: o passo que falhou foi o expect do comprovante; o snapshot mostra um aviso de erro na tela; e a aba de rede mostra que o BFF respondeu 422 com Saldo insuficiente, porque o teste tentou um Pix maior que o saldo. Diagnóstico sem rodar nada. Com trace on-first-retry, o arquivo só é gerado quando o teste falha e é repetido, então não pesa no pipeline. O trace também abre em trace.playwright.dev, arrastando o arquivo para a página.</aside>
 </section>
 <section id="vs-cypress" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -539,10 +594,10 @@
 </div>
 <aside>Aqui é o navegador de verdade, em modo visível. O teste preenche o CPF pelo rótulo, a senha, clica no botão pelo papel e confere o título da tela inicial. Repare que não existe nenhuma espera: o Playwright aguarda cada elemento ficar pronto. O mesmo teste em modo headless roda sem janela, que é o que acontece no CI.</aside>
 </section>
-<section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · conceito</p>
-<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock nas bordas: onde cortar o fio</h2>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Mock nas bordas: onde cortar e o que responder</h2>
 </div>
 <div style="display:flex;align-items:center;gap:16px">
 <div style="flex:1;background:#161A22;border-radius:16px;padding:28px;display:flex;flex-direction:column;gap:6px">
@@ -566,21 +621,18 @@
 <p style="font-size:24px;color:#4A4F5C;text-align:center">Cotação, antifraude</p>
 </div>
 </div>
-<div style="display:flex;gap:32px">
-<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
-<h3 style="font-size:36px;font-weight:600">Front isolado</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">page.route responde no lugar do BFF. Testa todo estado de tela.</p>
+<table style="width:1664px;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:26%">Resposta do route</th><th style="width:30%">O que faz</th><th style="width:44%">Use para</th></tr>
+<tr><td>route.fulfill()</td><td>Você responde</td><td>Lista, vazio, erro 500, erro 422</td></tr>
+<tr><td>route.abort()</td><td>Derruba a conexão</td><td>Rede caiu, servidor inalcançável</td></tr>
+<tr><td>route.continue()</td><td>Segue para o servidor</td><td>Atrasar, trocar header ou URL</td></tr>
+<tr><td>route.fetch()</td><td>Busca a real e te entrega</td><td>Mudar um campo da resposta real</td></tr>
+</table>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:20px 28px">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:#B4471B;width:36px;height:36px;flex:none"><path d="M12 3L2 21h20L12 3z"/><path d="M12 10v5M12 18.2v.1"/></svg>
+<p style="flex:1;font-size:26px;line-height:1.4"><b>Regra de ouro:</b> registre o route antes do goto. Senão a chamada sai antes de o mock existir.</p>
 </div>
-<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
-<h3 style="font-size:36px;font-weight:600">Back isolado</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">WireMock no lugar do terceiro. Testa erro, timeout e contrato.</p>
-</div>
-<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:10px">
-<h3 style="font-size:36px;font-weight:600">Ponta a ponta</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Nada mockado. Poucos testes, só os fluxos críticos.</p>
-</div>
-</div>
-<aside>Antes do código, a pergunta: onde eu corto o fio? Mock é trocar uma dependência por uma resposta controlada. A regra é cortar nas bordas do que você está testando. Testando a tela? Corte entre o navegador e o BFF com page.route. Testando o BFF? Corte entre o BFF e o serviço de terceiro com WireMock. E mantenha alguns poucos testes sem nenhum mock para garantir que as peças encaixam.</aside>
+<aside>Antes do código, a pergunta: onde eu corto o fio? Mock é trocar uma dependência por uma resposta controlada, e a regra é cortar nas bordas do que você está testando. Testando a tela? Corte entre o navegador e o BFF com page.route. Testando o BFF? Corte entre o BFF e o serviço de terceiro com WireMock. E mantenha alguns poucos testes sem mock nenhum, só nos fluxos críticos. Todo mock de rede no Playwright é uma destas quatro respostas: fulfill devolve status e JSON; abort simula a rede caindo, o que é diferente de um 500; continue deixa passar, com atraso ou outro header; fetch busca a resposta real e deixa você editar antes de entregar à tela. O arquivo 02-mock-basico.spec.ts tem um teste para cada uma.</aside>
 </section>
 <section id="mock-api" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -634,24 +686,6 @@
 </div>
 <aside>Esta é a vantagem de mockar: situações difíceis de provocar no servidor viram uma linha de código. O mesmo extrato aparece com lançamentos inventados, vazio, com erro 500, lento e sem rede, e o teste confere a mensagem certa em cada caso. Na terceira, a primeira chamada falha e a segunda segue para o BFF de verdade, simulando o botão Tentar novamente.</aside>
 </section>
-<section id="mock-respostas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
-<div style="display:flex;flex-direction:column;gap:12px">
-<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · page.route</p>
-<h2 style="font-size:64px;font-weight:600;line-height:1.1">As quatro respostas de um route</h2>
-</div>
-<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
-<tr><th style="width:28%">Chamada</th><th style="width:32%">O que faz</th><th style="width:40%">Use para</th></tr>
-<tr><td>route.fulfill()</td><td>Você responde</td><td>Lista, vazio, erro 500, erro 422</td></tr>
-<tr><td>route.abort()</td><td>Derruba a conexão</td><td>Rede caiu, servidor inalcançável</td></tr>
-<tr><td>route.continue()</td><td>Segue para o servidor</td><td>Atrasar, trocar header ou URL</td></tr>
-<tr><td>route.fetch()</td><td>Busca a real e te entrega</td><td>Mudar um campo da resposta real</td></tr>
-</table>
-<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:28px 32px">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="color:#B4471B;width:40px;height:40px;flex:none"><path d="M12 3L2 21h20L12 3z"/><path d="M12 10v5M12 18.2v.1"/></svg>
-<p style="flex:1;font-size:28px;line-height:1.4"><b>Regra de ouro:</b> registre o route antes do goto. Senão a chamada sai antes de o mock existir.</p>
-</div>
-<aside>Todo mock de rede no Playwright é um desses quatro. fulfill é o mais comum: você devolve status, JSON e headers. abort simula falha de rede, diferente de um 500, porque o navegador nem recebe resposta. continue deixa passar, opcionalmente com atraso ou com outro header. fetch é o mais esperto: busca a resposta de verdade e deixa você editar antes de entregar à tela. No projeto de exemplo, o arquivo 02-mock-basico.spec.ts tem um teste para cada um.</aside>
-</section>
 <section id="mock-avancado" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
 <p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · avançado</p>
@@ -688,44 +722,7 @@
 <p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Ótimo para saldo zerado, nome gigante ou campo nulo.</p>
 <p style="flex:1;font-size:28px;line-height:1.4;color:#4A4F5C">Comece a esperar <b>antes</b> do clique, não depois.</p>
 </div>
-<aside>Dois truques que resolvem muita coisa. À esquerda: route.fetch busca a resposta real e você muda só um campo, então o teste não fica preso a um JSON inteiro que pode desatualizar. À direita: o teste confere o corpo que o Angular mandou para a API. É assim que a gente pega bug de contrato, como valor indo como texto em vez de número. A espera começa antes do clique para não perder a requisição.</aside>
-</section>
-<section id="mock-har" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
-<div style="display:flex;flex-direction:column;gap:12px">
-<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Mock · organização</p>
-<h2 style="font-size:64px;font-weight:600;line-height:1.1">Gravar respostas reais e mockar sem repetição</h2>
-</div>
-<div style="display:flex;gap:48px">
-<div style="flex:1;display:flex;flex-direction:column;gap:12px">
-<p style="font-size:28px;font-weight:600">HAR: grava uma vez, reproduz sempre</p>
-<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
-<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeFromHAR</span>(<span style="color:#9CD08F">'e2e/hars/extrato.har'</span>, {</p>
-<p>&#160;&#160;url: <span style="color:#9CD08F">'**/api/extrato'</span>,</p>
-<p>&#160;&#160;update: !!process.env.HAR_UPDATE,</p>
-<p>});</p>
-<p>&#160;</p>
-<p><span style="color:#8C95A8"># grava com o BFF real no ar</span></p>
-<p>HAR_UPDATE=<span style="color:#F2B482">1</span> npx playwright test</p>
-</div>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">O arquivo vai para o Git. Depois, o teste roda sem o BFF.</p>
-</div>
-<div style="flex:1;display:flex;flex-direction:column;gap:12px">
-<p style="font-size:28px;font-weight:600">Fixture: atalhos de mock</p>
-<div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
-<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">const</span> test = base.<span style="color:#7FB5F0">extend</span>({</p>
-<p>&#160;&#160;bff: <span style="color:#C49BEA">async</span> ({ page }, use) =&gt;</p>
-<p>&#160;&#160;&#160;&#160;<span style="color:#7FB5F0">use</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">Bff</span>(page)),</p>
-<p>});</p>
-<p>&#160;</p>
-<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'vazio'</span>, <span style="color:#C49BEA">async</span> ({ bff, extrato }) =&gt; {</p>
-<p>&#160;&#160;<span style="color:#C49BEA">await</span> bff.<span style="color:#7FB5F0">json</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, []);</p>
-<p>&#160;&#160;<span style="color:#C49BEA">await</span> extrato.<span style="color:#7FB5F0">abrir</span>();</p>
-<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(extrato.vazio).<span style="color:#7FB5F0">toBeVisible</span>();</p>
-<p>});</p>
-</div>
-</div>
-</div>
-<aside>Duas formas de não espalhar JSON pelo código. O HAR é uma gravação da rede: você roda uma vez com o BFF real e o Playwright salva as respostas num arquivo; nas próximas execuções ele responde a partir do arquivo. A fixture bff é uma classe pequena que esconde o page.route: o teste fica dizendo o quê, não o como. As duas estão no projeto de exemplo, em 04-har.spec.ts e fixtures.ts.</aside>
+<aside>Dois truques que resolvem muita coisa. À esquerda: route.fetch busca a resposta real e você muda só um campo, então o teste não fica preso a um JSON inteiro que pode desatualizar. À direita: o teste confere o corpo que o Angular mandou para a API. É assim que a gente pega bug de contrato, como valor indo como texto em vez de número. A espera começa antes do clique para não perder a requisição. Para não espalhar JSON pelo código, o projeto de exemplo mostra mais duas saídas: o routeFromHAR, que grava as respostas reais do BFF num arquivo e depois responde a partir dele (04-har.spec.ts, com HAR_UPDATE=1 para regravar), e a fixture bff, que esconde o page.route atrás de métodos como bff.json (fixtures.ts).</aside>
 </section>
 <section id="mock-armadilhas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -942,12 +939,49 @@
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#2C5F9E">getByLabel</span>(<span style="color:#2F7A3A">'Valor'</span>) <span style="color:#6B7384">// dentro do componente</span></p>
 </div>
 <div style="background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:32px;display:flex;flex-direction:column;gap:12px">
-<h3 style="font-size:36px;font-weight:600">Remote fora do ar</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira se o shell mostra o fallback.</p>
-<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E">page.<span style="color:#2C5F9E">route</span>(<span style="color:#2F7A3A">'**/remoteEntry.js'</span>, r =&gt; r.<span style="color:#2C5F9E">abort</span>())</p>
+<h3 style="font-size:36px;font-weight:600">Rotas com lazy loading</h3>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Espere pela URL ou pelo título da tela, nunca pelo chunk carregar.</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E"><span style="color:#7A3FB0">await</span> <span style="color:#2C5F9E">expect</span>(page).<span style="color:#2C5F9E">toHaveURL</span>(<span style="color:#2F7A3A">/\/extrato$/</span>)</p>
 </div>
 </div>
-<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E com Module Federation dá para simular um remote indisponível e validar o fallback do shell, um cenário que quase ninguém testa.</aside>
+<aside>Dicas específicas do nosso contexto. Componentes do Angular Material já vêm com papéis ARIA, então o getByRole funciona direto. O que o Angular gera em tempo de build nunca deve virar seletor. Para Web Components e microfrontends, os locators do Playwright, exceto XPath, enxergam dentro de Shadow DOM aberto. E nas rotas com lazy loading, o teste espera pelo que o usuário vê, a URL ou o título, e não pelo carregamento do chunk. Microfrontends ganham um slide só deles logo a seguir.</aside>
+</section>
+<section id="mfe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · microfrontends</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Microfrontends: testar o shell e o remote</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1060px;background:#1E232E;border-radius:16px;padding:28px 36px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// remote fora do ar: o shell mostra o fallback</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/remoteEntry.js'</span>, (r) =&gt; r.<span style="color:#7FB5F0">abort</span>());</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(SHELL);</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toContainText</span>(<span style="color:#9CD08F">'indisponível'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// remote no ar, com o BFF dele na borda</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">route</span>(<span style="color:#9CD08F">'**/api/extrato'</span>, (r) =&gt;</p>
+<p>&#160;&#160;r.<span style="color:#7FB5F0">fulfill</span>({ json: [{ descricao: <span style="color:#9CD08F">'Salário'</span>, valor }] }));</p>
+<p><span style="color:#C49BEA">const</span> extrato = page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'region'</span>, { name: <span style="color:#9CD08F">'Extrato'</span> });</p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(extrato.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'listitem'</span>)).<span style="color:#7FB5F0">toHaveCount</span>(<span style="color:#F2B482">1</span>);</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Remote fora do ar</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Bloqueie o remoteEntry e confira o fallback do shell.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Contrato</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">O remote registra o elemento que o shell usa: customElements.get.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">Componente de outro time</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">getByRole entra no Shadow DOM aberto, sem configuração.</p>
+</div><div style="display:flex;flex-direction:column;gap:6px;padding:18px 0;border-top:1px solid #D8D2C6">
+<h3 style="font-size:30px;font-weight:600">BFF na borda</h3>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Mocke só as APIs do remote; o resto da página é real.</p>
+</div>
+</div>
+</div>
+<aside>O cenário que tutorial nenhum cobre e que a gente vive. Com Module Federation ou Web Components, o shell depende de um remote publicado por outro time. Quatro testes valem ouro: o shell sobrevive quando o remote cai, mostrando um fallback em vez de uma tela branca; o remote cumpre o contrato, registrando o elemento que o shell espera; os locators entram no Shadow DOM do componente de outro time; e o BFF do remote é mockado na borda, então o teste não depende do ambiente dele. O arquivo 11-microfrontends.spec.ts do projeto de exemplo tem os quatro, com shell e remote simulados por page.route, e roda sem servidor nenhum.</aside>
 </section>
 <section id="div-java" data-section="Backend em Java: JUnit 5, testes de API, de UI e com Spring Boot" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
 <p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Parte 3</p>
@@ -1155,21 +1189,35 @@
 </div>
 <aside>Aqui juntamos os dois mundos. O SpringBootTest sobe a aplicação inteira numa porta aleatória e o Playwright conversa com ela por HTTP. O teste passa por controller, serviço, repositório e serialização: tudo o que o mock não pega. Como criamos o context manualmente, fechamos com dispose no final. Combinado com Testcontainers, vira um teste de integração bem próximo de produção.</aside>
 </section>
-<section id="boas-praticas" data-section="Dia a dia: boas práticas, CI e novidades de 2026" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:48px">
+<section id="quiz" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
-<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia</p>
-<h2 style="font-size:64px;font-weight:600;line-height:1.1">Evite isto, prefira aquilo</h2>
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Dia a dia · desafio</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que tem de errado neste teste?</h2>
 </div>
-<table style="width:1664px;font-size:28px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
-<tr><th style="width:44%">Evite</th><th style="width:56%">Prefira</th></tr>
-<tr><td>waitForTimeout(3000)</td><td>Uma assertion que espera o estado: toBeVisible, toHaveURL</td></tr>
-<tr><td>CSS do layout: .col-md-6 &gt; div</td><td>getByRole, getByLabel ou getByTestId</td></tr>
-<tr><td>Um teste que depende do anterior</td><td>Cada teste prepara os próprios dados, de preferência pela API</td></tr>
-<tr><td>Login pela tela em todo teste</td><td>storageState salvo uma vez no projeto setup</td></tr>
-<tr><td>Tudo em ponta a ponta</td><td>Pirâmide: navegador só nos fluxos críticos</td></tr>
-<tr><td>Bater em serviço de terceiro</td><td>Mock nas bordas com page.route</td></tr>
-</table>
-<aside>Se alguém sair só com este slide, já evita a maior parte da dor. Destaque o item três: teste dependente de outro é o que impede rodar em paralelo e transforma uma falha em dez. Criar dados pela API, com o request que vimos no Java, é muito mais rápido do que criar pela tela.</aside>
+<div style="display:flex;gap:56px;align-items:start">
+<div style="width:1120px;background:#1E232E;border-radius:16px;padding:32px 40px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'paga a fatura'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/faturas'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">waitForTimeout</span>(<span style="color:#F2B482">3000</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'.col-md-6 &gt; div &gt; button'</span>)</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">click</span>({ force: <span style="color:#C49BEA">true</span> });</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> ok = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'#msg'</span>).<span style="color:#7FB5F0">isVisible</span>();</p>
+<p>&#160;&#160;<span style="color:#7FB5F0">expect</span>(ok).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+<p>});</p>
+<p>&#160;</p>
+<p>test.<span style="color:#7FB5F0">only</span>(<span style="color:#9CD08F">'usa a fatura paga no teste anterior'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#8C95A8">// ...</span></p>
+<p>});</p>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:20px">
+<p style="font-size:120px;font-weight:600;line-height:1;color:#B4471B;font-family:'JetBrains Mono', 'Courier New', monospace">6</p>
+<p style="font-size:32px;font-weight:600;line-height:1.3">problemas escondidos neste trecho</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Leve um minuto. Quem achar mais, fala primeiro.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">A resposta está no próximo slide.</p>
+</div>
+</div>
+<aside>Momento de participação. Deixe a plateia procurar por um minuto antes de avançar. São seis problemas: o sleep de 3 segundos; o seletor de CSS preso ao layout; o force true, que pula a checagem de que o botão pode ser clicado; o isVisible, que olha uma vez só e não espera; o test.only esquecido; e o segundo teste, que depende do primeiro. O próximo slide mostra cada um com a alternativa.</aside>
 </section>
 <section id="nao-fazer" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1520,6 +1568,48 @@
 </div>
 </div>
 <aside>Recapitulação em cinco frases. Leia devagar, uma por vez. Se der tempo, pergunte para a plateia qual delas já resolveria um problema que o time tem hoje.</aside>
+</section>
+<section id="segunda-feira" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Para começar</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Na segunda-feira</h2>
+</div>
+<div style="display:flex;gap:64px;align-items:start">
+<div style="flex:1;display:flex;flex-direction:column">
+<div style="display:flex;gap:28px;align-items:baseline;padding:20px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;font-weight:600;color:#B4471B;width:48px">1</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:32px;font-weight:600;line-height:1.3">Um fluxo crítico, um teste</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Escolha o login ou o Pix de um MFE e escreva o teste com getByRole.</p>
+</div>
+</div><div style="display:flex;gap:28px;align-items:baseline;padding:20px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;font-weight:600;color:#B4471B;width:48px">2</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:32px;font-weight:600;line-height:1.3">No pipeline, com raio-x</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">retries: 2 e trace: 'on-first-retry' desde o primeiro dia.</p>
+</div>
+</div><div style="display:flex;gap:28px;align-items:baseline;padding:20px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;font-weight:600;color:#B4471B;width:48px">3</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:32px;font-weight:600;line-height:1.3">Um sleep a menos</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Troque um waitForTimeout da suíte atual por uma assertion.</p>
+</div>
+</div><div style="display:flex;gap:28px;align-items:baseline;padding:20px 0;border-top:1px solid #D8D2C6">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:32px;font-weight:600;color:#B4471B;width:48px">4</p>
+<div style="flex:1;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:32px;font-weight:600;line-height:1.3">Acessibilidade de brinde</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C">Rode o axe nas telas desse mesmo fluxo.</p>
+</div>
+</div>
+<div style="border-top:1px solid #D8D2C6"></div>
+</div>
+<div style="width:520px;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:20px;padding:36px;display:flex;flex-direction:column;align-items:center;gap:20px">
+<img src="midia/qr-repo.png" alt="QR code do repositório playwright-apresentacao no GitHub" style="width:360px;height:360px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;color:#2C5F9E;text-align:center;line-height:1.4">github.com/natalialuizads/<br>playwright-apresentacao</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C;text-align:center">Slides, os dois projetos e como rodar</p>
+</div>
+</div>
+<aside>Feche com algo que dá para fazer na semana que vem, não só com o resumo. Quatro passos pequenos: um teste de um fluxo crítico, o pipeline com retries e trace, um sleep a menos na suíte que já existe e o axe nas mesmas telas. O QR code leva ao repositório com os slides, os projetos de exemplo e o passo a passo para rodar. Abra para perguntas a partir daqui.</aside>
 </section>
 </div></div>
 <div id="barra"></div>
