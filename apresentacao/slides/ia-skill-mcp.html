@@ -1,0 +1,35 @@
+<section id="ia-skill-mcp" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Além do básico · IA</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Skill e MCP: o agente testa do jeito do time</h2>
+</div>
+<div style="display:flex;gap:40px;align-items:start">
+<div style="width:900px;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>.claude/skills/testes-e2e/SKILL.md</b>: as regras da casa, lidas pelo agente quando o assunto é teste.</p>
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">---</span></p>
+<p>name: testes-e2e</p>
+<p>description: Como escrever e consertar testes</p>
+<p>&#160;&#160;Playwright neste projeto.</p>
+<p><span style="color:#8C95A8">---</span></p>
+<p>1. Locators por papel e rótulo. Nunca CSS de layout.</p>
+<p>2. Nunca waitForTimeout: espere com expect.</p>
+<p>3. Dado pela API (novoCliente). Cada teste cria o seu.</p>
+<p>4. Consertando: abra o trace antes de mexer.</p>
+<p>5. Não afrouxe asserção nem use test.skip.</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>.mcp.json</b>: dá ao agente um navegador para abrir o app e ler a tela.</p>
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>{ <span style="color:#9CD08F">"mcpServers"</span>: {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#9CD08F">"playwright"</span>: {</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#9CD08F">"command"</span>: <span style="color:#9CD08F">"npx"</span>,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;<span style="color:#9CD08F">"args"</span>: [<span style="color:#9CD08F">"@playwright/mcp@latest"</span>] } } }</p>
+</div>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Juntos:</b> o MCP mostra a tela, a skill diz como escrever o teste dela.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Playwright CLI:</b> playwright-cli install --skills instala a skill oficial de automação.</p>
+</div>
+</div>
+<aside>Duas peças práticas para quem usa agentes de código. A skill é um arquivo Markdown no repositório com as regras do time: que locators usar, que fixtures existem, como criar dados, e o que nunca fazer ao consertar um teste, como afrouxar asserção ou pular o teste. O agente lê a skill quando a tarefa é sobre testes, e o que ele escreve sai no padrão da casa. O MCP dá ao agente as mãos: com o Playwright MCP configurado no .mcp.json, ele abre o app, navega e lê a árvore de acessibilidade, então escreve locators que existem de verdade. A Playwright CLI para agentes também instala uma skill oficial de automação. No tatu-web estão os três arquivos: a skill, o .mcp.json para o Claude Code e o mcp.json do VS Code.</aside>
+</section>

@@ -22,6 +22,9 @@ const executavel = process.env['PW_EXECUTAVEL'];
 const canal = process.env['PW_CANAL'] ?? 'chrome';
 const lento = Number(process.env['PW_LENTO'] ?? 0);
 
+// Repassa o canal para as CLIs que os testes rodam (scripts/vigia.mjs).
+if (!executavel) process.env['PW_CANAL'] ??= canal;
+
 const navegador = executavel
   ? { launchOptions: { executablePath: executavel, slowMo: lento } }
   : { channel: canal, launchOptions: { slowMo: lento } };

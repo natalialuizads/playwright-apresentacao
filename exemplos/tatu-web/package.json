@@ -19,7 +19,9 @@
     "e2e:local": "playwright test --config=playwright.local.config.ts --project=chromium",
     "e2e:ci": "playwright test --config=playwright.ci.config.ts",
     "e2e:relatorio": "playwright show-report relatorio",
-    "vigia": "node scripts/vigia.mjs"
+    "vigia": "node scripts/vigia.mjs",
+    "e2e:bdd": "bddgen -c playwright.bdd.config.ts && playwright test -c playwright.bdd.config.ts",
+    "e2e:lighthouse": "playwright test --project=lighthouse"
   },
   "private": true,
   "packageManager": "npm@10.9.9",
@@ -41,6 +43,8 @@
     "@playwright/test": "^1.65.0",
     "@types/node": "^26.6.6",
     "jsdom": "^30.0.0",
+    "lighthouse": "^13.6.0",
+    "playwright-bdd": "^9.2.1",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
     "vitest": "^5.0.0"

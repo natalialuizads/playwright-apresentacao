@@ -1,0 +1,30 @@
+<section id="testar-cli" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Além do básico · CLI</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Dá para testar uma CLI? Dá</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:26px 30px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> r = <span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">rodar</span>([<span style="color:#9CD08F">'scripts/vigia.mjs'</span>], {</p>
+<p>&#160;&#160;cwd: testInfo.<span style="color:#7FB5F0">outputPath</span>(),      <span style="color:#8C95A8">// pasta só deste teste</span></p>
+<p>&#160;&#160;env: { VIGIA_SENHA: <span style="color:#9CD08F">'errada'</span> },  <span style="color:#8C95A8">// cenário pela variável</span></p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">expect</span>(r.codigo).<span style="color:#7FB5F0">toBe</span>(<span style="color:#F2B482">1</span>);</p>
+<p><span style="color:#7FB5F0">expect</span>(JSON.<span style="color:#7FB5F0">parse</span>(r.stderr)).<span style="color:#7FB5F0">toMatchObject</span>({ ok: <span style="color:#C49BEA">false</span> });</p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#7FB5F0">existsSync</span>(<span style="color:#9CD08F">`${pasta}/vigia-falha.png`</span>)).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Código de saída:</b> 0 é sucesso, o resto é erro.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>stdout:</b> o resultado. Em JSON, fica fácil conferir.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>stderr:</b> a mensagem de erro.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Efeitos:</b> arquivo criado, porta aberta, chamada feita.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>CLI que sobe servidor:</b> espere a porta no stdout e teste com request ou page.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Java:</b> ProcessBuilder dentro do JUnit, com a mesma lógica.</p>
+</div>
+</div>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C">O runner não exige navegador: paralelismo, timeout, retry, pasta temporária e relatório servem para qualquer programa. Exemplos em e2e/14-cli.spec.ts.</p>
+<aside>O Playwright Test é um runner genérico: o navegador é só uma fixture. Para uma CLI, você roda o programa com child_process e confere quatro coisas: o código de saída, o stdout, o stderr e os efeitos colaterais. Cada teste ganha uma pasta própria com testInfo.outputPath, então a CLI pode criar arquivos sem um teste atrapalhar o outro, e as variáveis de ambiente montam cada cenário. No exemplo, a CLI testada é o vigia: login certo sai com zero e imprime JSON; senha errada sai com um e guarda uma captura; lento demais sai com dois. Para uma CLI que sobe um servidor, o teste espera a mensagem de porta no stdout e então testa com a fixture request ou abre a interface com page. Em Java, o mesmo se faz com ProcessBuilder no JUnit.</aside>
+</section>

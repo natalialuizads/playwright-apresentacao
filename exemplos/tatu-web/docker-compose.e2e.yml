@@ -1,0 +1,39 @@
+# Dois jeitos de usar o Playwright com Docker.
+#
+# 1. A suíte inteira num container (app, BFF de mentira e testes juntos):
+#      docker compose -f docker-compose.e2e.yml run --rm e2e
+#
+# 2. Só o navegador num container, os testes na sua máquina.
+#    Útil para gerar screenshots iguais aos do CI em macOS e Windows:
+#      docker compose -f docker-compose.e2e.yml --profile navegador up -d navegador
+#      PW_NAVEGADOR_REMOTO=ws://127.0.0.1:3000/ npm run e2e:visual
+#
+# As variáveis vêm do .env (copie o .env.exemplo).
+
+services:
+  e2e:
+    build:
+      context: .
+      dockerfile: Dockerfile.e2e
+    init: true
+    ipc: host
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      CI: '1'
+      # BASE_URL: https://homologacao.exemplo   # testa um ambiente já no ar
+    volumes:
+      - ./playwright-report:/app/playwright-report
+      - ./test-results:/app/test-results
+
+  navegador:
+    profiles: [navegador]
+    image: mcr.microsoft.com/playwright:v1.65.0-noble
+    init: true
+    ipc: host
+    user: pwuser
+    working_dir: /home/pwuser
+    ports:
+      - '3000:3000'
+    command: npx -y playwright@1.65.0 run-server --port 3000 --host 0.0.0.0

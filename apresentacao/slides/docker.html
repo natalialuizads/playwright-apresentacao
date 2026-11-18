@@ -1,0 +1,37 @@
+<section id="docker" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ambientes · Docker</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">A suíte num container</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:920px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>FROM mcr.microsoft.com/playwright:v1.<span style="color:#F2B482">65.0</span>-noble</p>
+<p>WORKDIR /app</p>
+<p>COPY <span style="color:#C49BEA">package</span>.json <span style="color:#C49BEA">package</span>-lock.json ./</p>
+<p>RUN npm ci</p>
+<p>COPY . .</p>
+<p>ENV CI=<span style="color:#F2B482">1</span></p>
+<p>CMD [<span style="color:#9CD08F">"npx"</span>, <span style="color:#9CD08F">"playwright"</span>, <span style="color:#9CD08F">"test"</span>]</p>
+</div><div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">docker</span> build <span style="color:#8DB6E8">-f</span> <span style="color:#E8C56A">Dockerfile</span>.e2e <span style="color:#8DB6E8">-t</span> tatu-e2e .</p>
+<p><span style="color:#F2B482">docker</span> run <span style="color:#8DB6E8">--rm</span> <span style="color:#8DB6E8">--init</span> <span style="color:#8DB6E8">--ipc=host</span> \</p>
+<p>&#160;&#160;<span style="color:#8DB6E8">--env-file</span> .env \</p>
+<p>&#160;&#160;<span style="color:#8DB6E8">-v</span> <span style="color:#9CD08F">"$PWD/playwright-report:/app/playwright-report"</span> \</p>
+<p>&#160;&#160;tatu-e2e</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>--ipc=host:</b> o Chromium não fica sem memória.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>--init:</b> cuida dos processos filhos do navegador.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>--env-file:</b> as variáveis entram sem ir para a imagem.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>-v:</b> o relatório sai do container.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Java:</b> mcr.microsoft.com/playwright/java, com JDK e Maven.</p>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:20px 28px">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:26px;line-height:1.4"><b>A tag da imagem é a versão do @playwright/test.</b> Atualizou um, atualize o outro, ou o navegador não é encontrado.</p>
+</div>
+<aside>A imagem oficial do Playwright já traz os navegadores e as bibliotecas do sistema, então o Dockerfile é curto: copia o package-lock, instala, copia o resto e roda. Instalar as dependências antes de copiar o código deixa essa camada em cache. Com CI igual a 1, o config liga retries e sobe os servidores do zero, e o webServer sobe o BFF de mentira e o ng serve dentro do container. No docker run: --ipc=host evita que o Chromium fique sem memória, --init cuida dos processos filhos, --env-file passa as variáveis sem gravá-las na imagem, e o volume traz o relatório para fora. O cuidado número um: a tag da imagem precisa ser a mesma versão do @playwright/test do package.json. Para Java existe a imagem playwright/java. O projeto tem o Dockerfile.e2e e um docker-compose com os dois modos.</aside>
+</section>

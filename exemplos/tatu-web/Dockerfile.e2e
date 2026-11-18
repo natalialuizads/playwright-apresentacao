@@ -1,0 +1,25 @@
+# Imagem para rodar a suíte e2e num container, igual em qualquer máquina e no CI.
+#
+#   docker build -f Dockerfile.e2e -t tatu-e2e .
+#   docker run --rm --init --ipc=host --env-file .env \
+#     -v "$PWD/playwright-report:/app/playwright-report" tatu-e2e
+#
+# A imagem oficial já traz os navegadores e as bibliotecas do sistema.
+# A versão dela PRECISA ser a mesma do @playwright/test no package.json;
+# se não for, o Playwright não encontra o navegador.
+FROM mcr.microsoft.com/playwright:v1.65.0-noble
+
+WORKDIR /app
+
+# Dependências primeiro: a camada fica em cache enquanto o package-lock não muda
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+# CI=1: retries, forbidOnly e webServer sempre novo (veja playwright.config.ts)
+ENV CI=1
+
+# O webServer do config sobe o BFF de mentira e o ng serve dentro do container.
+# Para testar um ambiente já no ar, passe BASE_URL no docker run.
+CMD ["npx", "playwright", "test", "--project=chromium"]

@@ -1,6 +1,6 @@
 # tatu-web: Angular + Playwright
 
-Front do Banco Tatu em Angular 22, com uma suíte Playwright que cobre login, mocks de rede, HAR, fixtures, Page Objects, login reaproveitado, Shadow DOM, locators e ações, tags, testes de API, acessibilidade (axe) e regressão visual.
+Front do Banco Tatu em Angular 22, com uma suíte Playwright que cobre login, mocks de rede, HAR, fixtures, Page Objects, login reaproveitado, Shadow DOM, locators e ações, tags, testes de API, acessibilidade (axe), regressão visual, microfrontends, relatórios, dados pela API com limpeza, BDD, testes de CLI, Docker e variáveis de ambiente.
 
 ## Requisitos
 
@@ -32,6 +32,10 @@ Se algum dos dois já estiver rodando, ele reaproveita.
 | `npm run e2e:smoke` | Só os testes marcados com `@smoke` |
 | `npm run e2e:visual` | Só a regressão visual (veja a seção abaixo) |
 | `npm run e2e:debug` | Roda com o Inspector, passo a passo |
+| `npm run e2e:lighthouse` | Lighthouse da tela de login, com o relatório anexado (projeto `lighthouse`) |
+| `npx playwright test --grep @perf` | Web Vitals, chamadas mais lentas, CPU lenta e trace de CPU |
+| `npm run e2e:bdd` | Cenários em Gherkin, em português (`bdd/pix.feature`) |
+| `npx playwright test --grep @cli` | Só os testes de CLI (`e2e/14-cli.spec.ts`) |
 | `npm run vigia` | Monitoramento sintético: entra, espera o saldo e mede o tempo (com o app no ar) |
 | `npm run e2e:local` | Usa o Google Chrome instalado na máquina, sem `playwright install` (veja abaixo) |
 | `npm run e2e:ci` | Configuração de pipeline: relatórios html, junit e json |
@@ -55,6 +59,102 @@ São três arquivos, e os dois últimos herdam do primeiro:
 | `playwright.local.config.ts` | Sua máquina: troca só de onde vem o navegador |
 
 Quando o mesmo campo aparece em mais de um lugar, ganha o mais específico: flag da linha de comando, depois `test.use()` no arquivo de teste, depois o `use` do projeto, depois o `use` geral do config.
+
+## Dados de teste e limpeza
+
+O mock BFF tem endpoints só de teste para criar uma cliente isolada por teste (`/api/teste/clientes`). A fixture `novoCliente` cria pela API e apaga no fim, mesmo quando o teste falha; a `entrarComo` abre o app já logado como ela. Veja `e2e/15-dados-e-limpeza.spec.ts`:
+
+- prepara pela API e confere na tela;
+- age pela tela e confere no backend;
+- monta um cenário de borda (saldo zero) sem clicar nada.
+
+Num BFF de verdade, o equivalente é um endpoint ligado só no ambiente de teste ou um script de massa de dados.
+
+## BDD com Gherkin
+
+```bash
+npm run e2e:bdd
+```
+
+O `playwright-bdd` transforma `bdd/pix.feature` (em português: `Funcionalidade`, `Cenário`, `Dado`, `Quando`, `Então`, `Esquema do Cenário`) em testes do Playwright, usando os passos de `bdd/passos.ts`. Paralelismo, trace e relatório funcionam igual. Os passos recebem as mesmas fixtures dos outros testes.
+
+## Organização numa suíte real
+
+Aqui os arquivos são numerados para seguir a apresentação. Numa suíte de produto, organize por funcionalidade:
+
+```
+e2e/
+  pix/              pix.spec.ts, pix-agendado.spec.ts
+  extrato/          extrato.spec.ts
+  login/            login.spec.ts, auth.setup.ts
+  pages/            Page Objects (ou components/ para pedaços reaproveitados)
+  fixtures/         index.ts com test.extend; uma fixture por assunto
+  dados/            fábricas de dados (novoCliente, novoPix) e massas fixas
+  apoio/            clientes de API, matchers (expect.extend), utilidades
+playwright.config.ts
+```
+
+## Login com Azure AD (MSAL)
+
+O `referencias/msal-azure-ad.setup.ts` é um setup completo para apps que entram pelo Azure AD (Entra ID) com MSAL. Ele não roda aqui, porque precisa de um tenant. O ponto principal: o MSAL guarda os tokens no `sessionStorage`, que o `storageState` não salva; o setup grava à parte e o fixture restaura com `addInitScript`. O `e2e/17-storage-e-abas.spec.ts` mostra a mesma técnica rodando.
+
+## IA: skill e MCP
+
+- `.claude/skills/testes-e2e/SKILL.md`: as regras de teste deste projeto para um agente de código seguir (locators, fixtures, dados pela API, como consertar sem afrouxar asserção).
+- `.mcp.json` (Claude Code) e `.vscode/mcp.json` (VS Code): ligam o Playwright MCP, para o agente abrir o app e ler a tela.
+
+## Variáveis de ambiente
+
+O `playwright.config.ts` lê o `.env` da pasta, se existir, com o `process.loadEnvFile()` do Node (sem dependência). O que já estiver definido no terminal, no CI ou no Docker ganha do arquivo.
+
+```bash
+cp .env.exemplo .env          # ajuste os valores; o .env não vai para o git
+```
+
+| Variável | Efeito |
+|---|---|
+| `TATU_CPF`, `TATU_SENHA` | Credenciais usadas pelo `auth.setup.ts` |
+| `BASE_URL` | Testa um ambiente já no ar e desliga o `webServer` |
+| `CI` | Liga retries, `forbidOnly` e sobe os servidores do zero |
+| `PW_NAVEGADOR_REMOTO` | Usa um navegador num container (veja "Docker") |
+| `PW_CANAL`, `PW_EXECUTAVEL`, `PW_LENTO` | Navegador local (`npm run e2e:local`) |
+
+```bash
+BASE_URL=https://homologacao.exemplo npm run e2e     # Linux e macOS
+$env:BASE_URL="https://homologacao.exemplo"; npm run e2e   # PowerShell
+```
+
+No CI, as mesmas variáveis vêm do cofre de segredos da ferramenta, nunca de arquivo versionado.
+
+## Docker
+
+Dois jeitos, os dois em `docker-compose.e2e.yml`:
+
+**A suíte inteira num container.** A imagem oficial já traz os navegadores; o `webServer` sobe o BFF de mentira e o `ng serve` lá dentro.
+
+```bash
+docker build -f Dockerfile.e2e -t tatu-e2e .
+docker run --rm --init --ipc=host --env-file .env \
+  -v "$PWD/playwright-report:/app/playwright-report" tatu-e2e
+
+# ou
+docker compose -f docker-compose.e2e.yml run --rm e2e
+```
+
+**Só o navegador num container**, os testes na sua máquina. Útil em macOS e Windows para gerar screenshots iguais aos do CI (Linux):
+
+```bash
+docker compose -f docker-compose.e2e.yml --profile navegador up -d navegador
+PW_NAVEGADOR_REMOTO=ws://127.0.0.1:3000/ npm run e2e:visual
+```
+
+O config usa `connectOptions` com `exposeNetwork: '<loopback>'`, que deixa o navegador do container acessar o `localhost` da sua máquina.
+
+Cuidados:
+
+- A tag da imagem (`v1.65.0-noble`) precisa ser a mesma versão do `@playwright/test`. Atualizou um, atualize o outro.
+- `--ipc=host` evita que o Chromium fique sem memória; `--init` cuida dos processos filhos.
+- A imagem roda como root, o que desliga o sandbox do Chromium. Para sites de terceiros, use `--user pwuser` e o perfil seccomp da documentação.
 
 ## Navegador local
 
@@ -161,6 +261,13 @@ Para usar o backend Java no lugar do mock, suba o `tatu-api` (`mvn spring-boot:r
 | `e2e/11-microfrontends.spec.ts` | Shell e remote simulados com `page.route`: remote fora do ar (fallback), contrato do Web Component, Shadow DOM do componente de outro time e BFF na borda. Roda sem servidor |
 | `e2e/12-relatorio.spec.ts` | Relatório que conta a história: `annotation`, `tag`, `test.step`, `testInfo.attach` (JSON e imagem) |
 | `e2e/13-usos-inesperados.spec.ts` | Usos que ninguém pensa: zero erro no console, CPF fora da URL e domínios permitidos, chamadas duplicadas à API, `toMatchAriaSnapshot`, `setOffline`, `page.clock` (sessão expirando e horário de corte) e `page.pdf` com capturas para o manual |
+| `e2e/14-cli.spec.ts` | Testar uma CLI: código de saída, stdout em JSON, stderr, arquivo criado em pasta temporária, variáveis de ambiente e uma CLI que sobe servidor |
+| `e2e/15-dados-e-limpeza.spec.ts` | Preparar pela API e conferir na tela; agir na tela e conferir no backend; fixture com limpeza garantida |
+| `e2e/16-vindo-do-cypress.spec.ts` | Custom commands do Cypress no Playwright: fixture, função, `expect.extend`, `testIdAttribute: 'data-cy'` |
+| `e2e/17-storage-e-abas.spec.ts` | `localStorage` e `sessionStorage` (`page.localStorage`, `page.sessionStorage`), o que o `storageState` salva e o que não salva, redirecionamento de rota protegida e nova aba |
+| `e2e/18-performance.spec.ts` | Gargalos: LCP e CLS, chamadas mais lentas com `request.timing()`, CPU 4x mais lenta via CDP e trace de CPU para o DevTools |
+| `e2e/19-lighthouse.spec.ts` | Lighthouse pela porta de depuração do Chromium, com notas mínimas e o relatório anexado |
+| `e2e/20-prints-e-gravacao.spec.ts` | Prints (página inteira, pedaço, `mask`) e vídeo com `page.screencast`, cliques anotados e capítulos |
 
 ## Estrutura
 
@@ -170,13 +277,18 @@ e2e/
   fixtures.ts            test estendido: bff, login, extrato, pix
   pages/                 Page Objects
   hars/extrato.har       respostas gravadas do /api/extrato
-  01..13-*.spec.ts       os testes, em ordem didática
+  01..20-*.spec.ts       os testes, em ordem didática
 mock-bff/server.mjs      BFF de mentira, sem dependências
 playwright.config.ts     baseURL, projetos setup/chromium/visual, webServer
 playwright.ci.config.ts  relatórios para pipeline (html, junit, json)
 playwright.local.config.ts  navegador instalado na máquina (channel ou executável)
 ci/github-actions-e2e.yml   pipeline com shards e relatório único
 scripts/vigia.mjs        monitoramento sintético, sem test runner
+bdd/                     pix.feature (Gherkin em português) e os passos
+playwright.bdd.config.ts config do BDD (playwright-bdd)
+Dockerfile.e2e           suíte num container (imagem oficial do Playwright)
+docker-compose.e2e.yml   suíte no container ou só o navegador
+.env.exemplo             variáveis de ambiente documentadas
 docs/                    clipes de execução (mp4)
 proxy.conf.json          /api -> http://localhost:8080 no ng serve
 src/app/

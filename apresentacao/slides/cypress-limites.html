@@ -1,0 +1,19 @@
+<section id="cypress-limites" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · comparação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">O que o Cypress faz e o Playwright não</h2>
+</div>
+<table style="width:100%;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:50%">No Cypress</th><th style="width:50%">No Playwright</th></tr>
+<tr><td>Teste de componente Angular oficial</td><td>Experimental e sem Angular oficial</td></tr>
+<tr><td>Acesso direto ao app: cy.window() e stubs com Sinon na página</td><td>page.evaluate, addInitScript e exposeFunction; sem Sinon embutido</td></tr>
+<tr><td>Painel pago: replay, análise de instáveis, balanceamento</td><td>Sem painel oficial: relatório HTML, blob e ferramentas de terceiros</td></tr>
+<tr><td>Comandos encadeados e plugins próprios do Cypress</td><td>async e await; qualquer biblioteca do npm</td></tr>
+<tr><td>Runner interativo com o app ao lado</td><td>Modo UI e trace fazem o mesmo papel</td></tr>
+</table>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:20px 28px">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:26px;line-height:1.4"><b>O inverso pesa mais:</b> várias abas e origens, WebKit, paralelismo grátis e Java. Para teste de componente Angular, o Cypress ainda é a escolha.</p>
+</div>
+<aside>Leitura honesta do outro lado. Teste de componente: o Cypress tem suporte oficial para Angular; no Playwright isso é experimental e não tem Angular oficial, então para componente isolado o Cypress, ou o próprio Jest ou Vitest com Testing Library, ainda é o caminho. Acesso ao app: como o Cypress roda dentro do navegador, ele pega o objeto window, troca uma função da aplicação por um stub do Sinon e confere chamadas; no Playwright isso é possível com page.evaluate, addInitScript e exposeFunction, mas dá mais trabalho e é menos comum. Painel: o Cypress Cloud dá replay, análise de testes instáveis e balanceamento entre máquinas; no Playwright você monta com o relatório HTML, o merge de blobs e ferramentas de terceiros. Estilo: tem quem prefira os comandos encadeados. O runner interativo, que muita gente cita, tem equivalente no modo UI e no Trace Viewer.</aside>
+</section>

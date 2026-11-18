@@ -14,9 +14,22 @@ import { defineConfig, devices } from '@playwright/test';
  *   flag da linha de comando > test.use() no arquivo > use do projeto > use daqui
  */
 
-const FRONT = 'http://localhost:4200';
-const BFF = 'http://localhost:8080';
+// Variáveis de ambiente. O .env da pasta é lido se existir (veja .env.exemplo);
+// o que já estiver no ambiente (terminal, CI, Docker) ganha do arquivo.
+try {
+  process.loadEnvFile();
+} catch {
+  // sem .env: segue só com o ambiente
+}
+
 const CI = !!process.env['CI'];
+// BASE_URL aponta para um ambiente já no ar (homologação, um container).
+// Sem ela, o Playwright sobe o app local pelo webServer.
+const AMBIENTE = process.env['BASE_URL'];
+const FRONT = AMBIENTE ?? 'http://localhost:4200';
+const BFF = 'http://localhost:8080';
+// Navegador rodando em outro lugar (um container com playwright run-server).
+const NAVEGADOR_REMOTO = process.env['PW_NAVEGADOR_REMOTO'];
 
 export default defineConfig({
   // 1. O que roda
@@ -39,6 +52,11 @@ export default defineConfig({
     trace: 'on-first-retry', // grava o trace só quando repete uma falha
     screenshot: 'only-on-failure',
     // locale: 'pt-BR', timezoneId: 'America/Sao_Paulo', viewport: { width: 1280, height: 720 }
+
+    // O navegador fica no container; '<loopback>' deixa ele enxergar o localhost desta máquina.
+    ...(NAVEGADOR_REMOTO
+      ? { connectOptions: { wsEndpoint: NAVEGADOR_REMOTO, exposeNetwork: '<loopback>' } }
+      : {}),
   },
 
   // 5. Em quais variações
@@ -51,7 +69,7 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'], storageState: 'e2e/.auth/cliente.json' },
       dependencies: ['setup'],
-      grepInvert: /@visual/,
+      grepInvert: /@visual|@lighthouse/,
     },
 
     // Regressão visual: só roda quando pedido (npm run e2e:visual)
@@ -62,6 +80,9 @@ export default defineConfig({
       grep: /@visual/,
     },
 
+    // Lighthouse: lento, só quando pedido (npm run e2e:lighthouse)
+    { name: 'lighthouse', grep: /@lighthouse/ },
+
     // Outros navegadores, quando fizer sentido:
     // { name: 'firefox', use: { ...devices['Desktop Firefox'] }, dependencies: ['setup'] },
     // { name: 'mobile', use: { ...devices['Pixel 7'] }, dependencies: ['setup'] },
@@ -69,7 +90,8 @@ export default defineConfig({
 
   // 6. O que sobe antes: o BFF (o mock em Node, ou o Java se já estiver na 8080)
   // e o ng serve. Na sua máquina, reaproveita o que já estiver rodando.
-  webServer: [
+  // Com BASE_URL, o app já está no ar e nada é iniciado.
+  webServer: AMBIENTE ? undefined : [
     {
       command: 'node mock-bff/server.mjs',
       url: `${BFF}/api/health`,

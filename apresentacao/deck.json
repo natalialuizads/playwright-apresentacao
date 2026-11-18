@@ -22,6 +22,7 @@
     "a-dor",
     "sem-sleep",
     "agenda",
+    "div-conceitos",
     "o-que-e",
     "piramide",
     "browser-context-page",
@@ -35,22 +36,25 @@
     "demo-trace",
     "vs-cypress",
     "vs-cypress-codigo",
+    "cypress-limites",
+    "cypress-custom",
     "div-angular",
     "setup-angular",
+    "config-anatomia",
+    "config-camadas",
     "primeiro-teste",
     "demo-terminal",
     "demo-login",
-    "config-anatomia",
-    "config-camadas",
-    "browser-local",
-    "browser-rede",
+    "page-object",
+    "login-uma-vez",
+    "storage",
+    "msal",
+    "abas",
     "mock-onde",
     "mock-api",
     "demo-mocks",
     "mock-avancado",
     "mock-armadilhas",
-    "page-object",
-    "login-uma-vez",
     "shadow-o-que-e",
     "shadow-pratica",
     "dicas-angular",
@@ -60,18 +64,39 @@
     "api-java",
     "ui-java",
     "mock-java",
+    "route-vs-wiremock",
     "spring-java",
+    "div-organizar",
+    "pastas",
+    "escrita",
+    "preparar-api",
+    "limpeza",
+    "bdd",
     "quiz",
     "nao-fazer",
     "boas-praticas-codigo",
+    "div-pipeline",
+    "browser-local",
+    "browser-rede",
+    "variaveis",
+    "docker",
+    "docker-navegador",
+    "ci",
     "relatorio-gerar",
     "relatorio-contar",
+    "prints-gravacao",
     "relatorios",
     "relatorio-pipeline",
+    "div-alem",
     "axe",
-    "ci",
+    "lighthouse",
+    "performance",
     "usos-qualidade",
     "usos-alem",
+    "testar-cli",
+    "ia-ecossistema",
+    "ia-skill-mcp",
+    "ia-texto-vira-teste",
     "novidades",
     "exemplos",
     "recap",
@@ -83,24 +108,32 @@
       "start": "cover"
     },
     "s2": {
-      "description": "Conceitos: o que é, como pensa um teste Playwright e a comparação com o Cypress",
-      "start": "o-que-e"
+      "description": "Conceitos: como o Playwright pensa, ferramentas e a comparação com o Cypress",
+      "start": "div-conceitos"
     },
     "s3": {
-      "description": "Frontend em Angular: setup, primeiro teste, configuração, navegador local, mocks, Page Objects, login, Shadow DOM e microfrontends",
+      "description": "Frontend em Angular: setup, configuração, primeiro teste, login, storage, abas, mocks, Shadow DOM e microfrontends",
       "start": "div-angular"
     },
     "s4": {
-      "description": "Backend em Java: JUnit 5, testes de API, de UI, mocks com WireMock e Spring Boot",
+      "description": "Backend em Java: JUnit 5, API, tela, WireMock e Spring Boot",
       "start": "div-java"
     },
     "s5": {
-      "description": "Dia a dia: desafio, o que não fazer, boas práticas, relatórios (gerar, ler e publicar), acessibilidade, CI, usos que ninguém pensa e novidades",
-      "start": "quiz"
+      "description": "Organizar e escrever: pastas, escrita, dados pela API, limpeza, BDD e o que não fazer",
+      "start": "div-organizar"
     },
     "s6": {
-      "description": "Resumo e próximos passos",
-      "start": "recap"
+      "description": "Ambientes, pipeline e relatórios: navegador local, rede, variáveis, Docker, CI, relatórios, prints e vídeo",
+      "start": "div-pipeline"
+    },
+    "s7": {
+      "description": "Além do básico: acessibilidade, Lighthouse, performance, usos inesperados, CLI e IA",
+      "start": "div-alem"
+    },
+    "s8": {
+      "description": "Projetos de exemplo, resumo e próximos passos",
+      "start": "exemplos"
     }
   },
   "title": "Playwright: o robô que clica por você"

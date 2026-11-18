@@ -9,3 +9,6 @@ resultados/
 blob-report/
 e2e/.auth/
 .DS_Store
+.features-gen/
+vigia-falha.png
+.env

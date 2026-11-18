@@ -1,0 +1,32 @@
+<section id="pastas" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Organizar · pastas</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Arquitetura de pastas: por funcionalidade</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:820px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:26px 30px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>e2e/</p>
+<p>&#160;&#160;pix/          pix.spec.ts  pix-agendado.spec.ts</p>
+<p>&#160;&#160;extrato/      extrato.spec.ts</p>
+<p>&#160;&#160;login/        login.spec.ts  auth.setup.ts</p>
+<p>&#160;&#160;pages/        <span style="color:#E8C56A">PixPage</span>.ts  <span style="color:#E8C56A">ExtratoPage</span>.ts</p>
+<p>&#160;&#160;components/   <span style="color:#E8C56A">Menu</span>.ts  <span style="color:#E8C56A">CartaoSaldo</span>.ts</p>
+<p>&#160;&#160;fixtures/     index.ts  dados.ts  bff.ts</p>
+<p>&#160;&#160;dados/        fabricas.ts  massas/</p>
+<p>&#160;&#160;apoio/        matchers.ts  api.ts</p>
+<p><span style="color:#F2B482">playwright</span>.config.ts</p>
+<p><span style="color:#F2B482">playwright</span>.ci.config.ts</p>
+<p>.env.exemplo</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Por funcionalidade</b>, não por tipo: pix/ junto, não "testes-de-formulario".</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Page Object</b> para tela usada por vários specs; <b>component</b> para pedaço que se repete.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Fixtures num lugar só</b>, uma por assunto, juntas com mergeTests.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Dados em fábricas</b>, não em JSON copiado de teste em teste.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>5.</b> <b>Configs na raiz:</b> base, CI e local herdando uma da outra.</p>
+</div>
+</div>
+<aside>A regra principal: organize por funcionalidade do produto, como o próprio app. Quem mexe no Pix encontra os testes do Pix numa pasta só. Page Objects ficam numa pasta própria e só existem para telas usadas por vários testes; pedaços que se repetem em várias telas, como o menu ou o cartão de saldo, viram components. As fixtures ficam juntas, uma por assunto, e o index junta todas com mergeTests, então o spec importa test de um lugar só. Dados de teste vêm de fábricas, funções que criam um cliente ou um Pix com valores padrão, e não de JSON copiado. Os arquivos de config ficam na raiz. No projeto de exemplo os specs são numerados porque seguem a apresentação; o README mostra esta estrutura para uma suíte de produto.</aside>
+</section>

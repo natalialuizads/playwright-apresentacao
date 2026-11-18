@@ -1,0 +1,54 @@
+<section id="ia-ecossistema" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Além do básico · IA</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Playwright na era da IA</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Playwright MCP</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">O agente (Claude, Copilot) dirige o navegador pela árvore de acessibilidade, sem precisar de visão.</p>
+<div style="background:#1E232E;border-radius:16px;padding:16px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> <span style="color:#E8C56A">@playwright</span>/mcp<span style="color:#E8C56A">@latest</span></p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Playwright CLI para agentes</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Comandos curtos e snapshots em arquivo: gasta menos contexto do que o MCP.</p>
+<div style="background:#1E232E;border-radius:16px;padding:16px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npm</span> i <span style="color:#8DB6E8">-g</span> <span style="color:#E8C56A">@playwright</span>/cli</p>
+<p><span style="color:#F2B482">playwright</span>-cli open localhost:<span style="color:#F2B482">4200</span></p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Test Agents</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Planner planeja, generator escreve o teste, healer conserta o que quebrou.</p>
+<div style="background:#1E232E;border-radius:16px;padding:16px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">npx</span> playwright init-agents <span style="color:#8DB6E8">--loop=vscode</span></p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">"Copy prompt" no relatório</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Copia o erro com o contexto da página, pronto para colar no assistente.</p>
+
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:20px 28px">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:26px;line-height:1.4"><b>A IA escreve o rascunho; quem aprova a asserção é gente.</b> Um healer pode afrouxar um expect ou pular um teste para ficar verde.</p>
+</div>
+<aside>Quatro peças. O Playwright MCP é um servidor que dá ao agente de IA ferramentas de navegador: clicar, navegar, ler a página; ele trabalha com a árvore de acessibilidade, não com screenshots, então o modelo não precisa de visão, e locators por papel, que já usamos, são exatamente o que ele entende. A Playwright CLI para agentes faz o mesmo com comandos curtos e salva os snapshots em arquivo, gastando bem menos contexto do modelo. Os Test Agents, que chegaram na versão 1.56, são três: o planner explora o app e escreve um plano em Markdown, o generator transforma o plano em teste conferindo os seletores ao vivo, e o healer roda a suíte e propõe correções. E o relatório HTML e o modo UI têm o botão Copy prompt, que copia o erro com o contexto da página para colar no assistente. O cuidado: o healer pode deixar o teste verde afrouxando uma asserção ou pulando o teste. Revisão humana continua obrigatória.</aside>
+</section>

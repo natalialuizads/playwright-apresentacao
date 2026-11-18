@@ -1,0 +1,36 @@
+<section id="limpeza" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · limpeza</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Como limpar cenários</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:860px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>novoCliente: <span style="color:#C49BEA">async</span> ({ request }, use) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> criadas: string[] = [];</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">use</span>(<span style="color:#C49BEA">async</span> (dados) =&gt; {      <span style="color:#8C95A8">// o teste roda aqui</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">const</span> r = <span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">post</span>(<span style="color:#9CD08F">'/api/teste/clientes'</span>,</p>
+<p>&#160;&#160;&#160;&#160;&#160;&#160;{ data: dados });</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">const</span> cliente = <span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">json</span>();</p>
+<p>&#160;&#160;&#160;&#160;criadas.<span style="color:#7FB5F0">push</span>(cliente.token);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">return</span> cliente;</p>
+<p>&#160;&#160;});</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">for</span> (<span style="color:#C49BEA">const</span> token <span style="color:#C49BEA">of</span> criadas)      <span style="color:#8C95A8">// roda mesmo se falhar</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">delete</span>(<span style="color:#9CD08F">`/api/teste/clientes/${token}`</span>);</p>
+<p>},</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Navegador:</b> nada a fazer. Cada teste ganha context novo, sem cookie nem storage.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Dado do teste:</b> a fixture cria e apaga, depois do use().</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Dado da suíte:</b> projeto de teardown, que roda no fim de tudo.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Ambiente:</b> reset do banco de teste no pipeline, antes da suíte.</p><div style="background:#1E232E;border-radius:16px;padding:16px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>projects: [{ name: <span style="color:#9CD08F">'setup'</span>, teardown: <span style="color:#9CD08F">'limpeza'</span> },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'limpeza'</span>, testMatch: /limpeza\.ts/ }]</p>
+</div><p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>A regra:</b> cada teste cria o seu dado. Limpar é garantia, não dependência.</p>
+</div>
+</div>
+<aside>Limpeza em quatro camadas. O navegador já é limpo: cada teste ganha um context novo, sem cookie, sem localStorage, então não precisa de afterEach para deslogar. O dado que o teste cria no backend é responsabilidade da fixture: o código antes do use prepara, o código depois do use limpa, e ele roda mesmo quando o teste falha. É melhor que afterEach porque a limpeza fica junto da criação e só roda para quem usou. O que vale para a suíte inteira, como uma massa de dados criada uma vez, vai num projeto de teardown, ligado ao setup pela propriedade teardown. E o ambiente de teste é resetado pelo pipeline antes da suíte, nunca no meio. A regra que sustenta tudo: cada teste cria o próprio dado com valores únicos, então mesmo que uma limpeza falhe, nenhum outro teste quebra por isso.</aside>
+</section>

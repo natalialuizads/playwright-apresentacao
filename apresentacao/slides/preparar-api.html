@@ -1,0 +1,36 @@
+<section id="preparar-api" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · dados</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Chamar a API antes e validar na tela? Sim</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'prepara pela API, confere na tela'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> ({ page, novoCliente, entrarComo }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Arrange: pela API, em milissegundos</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> bia = <span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">novoCliente</span>({ nome: <span style="color:#9CD08F">'Bia'</span>, saldo: <span style="color:#F2B482">250.5</span>,</p>
+<p>&#160;&#160;&#160;&#160;extrato: [{ descricao: <span style="color:#9CD08F">'Conta de luz'</span>, valor: -<span style="color:#F2B482">180</span> }] });</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">entrarComo</span>(bia);</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// Act e Assert: pela tela, que é o que está em teste</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/inicio'</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByTestId</span>(<span style="color:#9CD08F">'saldo'</span>)).<span style="color:#7FB5F0">toMostrarReais</span>(<span style="color:#F2B482">250.5</span>);</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'link'</span>, { name: <span style="color:#9CD08F">'Extrato'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'row'</span>, { name: /<span style="color:#E8C56A">Conta</span> de luz/ }))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toMostrarReais</span>(<span style="color:#F2B482">180</span>);</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="background:#2E3546;border-radius:14px;padding:16px 22px"><p style="font-size:26px;font-weight:600;color:#F5F2EC">1. Prepara pela API</p><p style="font-size:22px;color:#C9C4B8">cliente, saldo, lançamentos</p></div>
+<x-shape kind="arrow-down" style="width:28px;height:28px;background:#9AA0AC;align-self:center"></x-shape>
+<div style="background:#B4471B;border-radius:14px;padding:16px 22px"><p style="font-size:26px;font-weight:600;color:#F5F2EC">2. Age pela tela</p><p style="font-size:22px;color:#F7E3D8">o fluxo que está em teste</p></div>
+<x-shape kind="arrow-down" style="width:28px;height:28px;background:#9AA0AC;align-self:center"></x-shape>
+<div style="background:#2C5F9E;border-radius:14px;padding:16px 22px"><p style="font-size:26px;font-weight:600;color:#F5F2EC">3. Confere na tela, e no backend se importa</p><p style="font-size:22px;color:#DCE6F2">saldo caiu? lançamento existe?</p></div>
+</div><p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>A condição:</b> o que está em teste vai pela tela. Só o resto vem pela API.</p>
+</div>
+</div>
+<aside>Sim, é boa prática, com uma condição. Tudo que não é o foco do teste deve ser preparado pela API: criar a cliente, colocar saldo, lançar uma conta no extrato. Pela tela, isso levaria segundos e quebraria por motivos que não têm nada a ver com o teste. O que está sendo testado vai pela tela, porque é a tela que está em teste. O contrário também vale: agir pela tela e conferir no backend, por exemplo enviar um Pix pela interface e checar pela API que o saldo caiu e o lançamento existe. E cenários de borda, como saldo zero, ficam triviais: é um campo na criação. Os três casos estão no 15-dados-e-limpeza.spec.ts.</aside>
+</section>

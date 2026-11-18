@@ -1,0 +1,20 @@
+<section id="route-vs-wiremock" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Java · mocks</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">page.route ou WireMock?</h2>
+</div>
+<table style="width:100%;font-size:26px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%"></th><th style="width:36%">page.route (Playwright)</th><th style="width:42%">WireMock</th></tr>
+<tr><td>Onde corta</td><td>Entre o navegador e o BFF</td><td>Entre o BFF e outro serviço</td></tr>
+<tr><td>O que enxerga</td><td>Só o que o navegador chama</td><td>Qualquer cliente HTTP, de qualquer linguagem</td></tr>
+<tr><td>Vida</td><td>Um teste, dentro do processo</td><td>Um servidor; pode ser compartilhado</td></tr>
+<tr><td>Gravar e repetir</td><td>routeFromHAR</td><td>Recording e proxy</td></tr>
+<tr><td>Estado entre chamadas</td><td>Você programa no handler</td><td>Scenarios com estados</td></tr>
+<tr><td>Use para</td><td>Testar a tela</td><td>Testar o backend</td></tr>
+</table>
+<div style="display:flex;gap:20px;align-items:center;background:#F7E3D8;border-radius:16px;padding:20px 28px">
+<x-icon name="Warning" style="color:#B4471B;width:36px;height:36px"></x-icon>
+<p style="flex:1;font-size:26px;line-height:1.4"><b>Não competem:</b> o Playwright não vê a chamada que o BFF faz para o serviço de terceiro. A tela usa page.route; o BFF usa WireMock.</p>
+</div>
+<aside>Os dois mockam HTTP, mas em pontos diferentes do fio. O page.route intercepta dentro do navegador: só vale para o que a página chama, vive durante um teste e é perfeito para colocar a tela em qualquer estado. O WireMock é um servidor HTTP de mentira: o seu backend aponta para ele no lugar do serviço de terceiro, então serve para qualquer cliente, em qualquer linguagem, e pode ficar de pé para uma suíte inteira. Os dois gravam e repetem respostas: no Playwright com HAR, no WireMock com recording. Para fluxos com estado, como a primeira chamada falhar e a segunda passar, o WireMock tem scenarios; no Playwright você conta as chamadas no handler. Na prática você usa os dois: page.route nos testes do Angular e WireMock nos testes do Spring Boot, como no CotacaoWireMockIT.</aside>
+</section>

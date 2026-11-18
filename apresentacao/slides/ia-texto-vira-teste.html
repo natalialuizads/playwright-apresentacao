@@ -1,0 +1,53 @@
+<section id="ia-texto-vira-teste" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Além do básico · IA</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">A pessoa escreve, vira cenário</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:28px;font-weight:600;line-height:1.2">Clicou</h3>
+</div>
+<p style="font-size:22px;line-height:1.4;color:#161A22"><b>Entra:</b> cliques no app (Codegen)</p>
+<p style="font-size:22px;line-height:1.4;color:#4A4F5C"><b>Sai:</b> código do teste para revisar</p>
+<div style="height:6px;border-radius:3px;background:#9AA0AC"></div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:28px;font-weight:600;line-height:1.2">Escreveu em Gherkin</h3>
+</div>
+<p style="font-size:22px;line-height:1.4;color:#161A22"><b>Entra:</b> Dado, Quando, Então</p>
+<p style="font-size:22px;line-height:1.4;color:#4A4F5C"><b>Sai:</b> teste que roda, via passos (BDD)</p>
+<div style="height:6px;border-radius:3px;background:#2C5F9E"></div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:22px 26px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:28px;font-weight:600;line-height:1.2">Escreveu em texto livre</h3>
+</div>
+<p style="font-size:22px;line-height:1.4;color:#161A22"><b>Entra:</b> um plano em Markdown</p>
+<p style="font-size:22px;line-height:1.4;color:#4A4F5C"><b>Sai:</b> teste gerado pelos agentes de IA</p>
+<div style="height:6px;border-radius:3px;background:#B4471B"></div>
+</div>
+</div>
+<div style="display:flex;gap:20px;align-items:center">
+<div style="flex:1"><div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># specs/pix.md</span></p>
+<p><span style="color:#8C95A8">## Pix acima do saldo</span></p>
+<p>1. Entrar como cliente com saldo de R$ 100</p>
+<p>2. Enviar Pix de R$ 500 para mae@tatu.com.br</p>
+<p>3. Ver o aviso <span style="color:#9CD08F">"Saldo insuficiente"</span></p>
+</div></div>
+<x-shape kind="arrow-right" style="width:80px;height:40px;background:#B4471B"></x-shape>
+<div style="flex:1"><div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#7FB5F0">test</span>(<span style="color:#9CD08F">'Pix acima do saldo'</span>, <span style="color:#C49BEA">async</span> ({ page }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// ...gerado e conferido ao vivo pelo generator</span></p>
+<p>&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'alert'</span>))</p>
+<p>&#160;&#160;&#160;&#160;.<span style="color:#7FB5F0">toHaveText</span>(<span style="color:#9CD08F">'Saldo insuficiente'</span>);</p>
+<p>});</p>
+</div></div>
+</div>
+<aside>Três jeitos de transformar o que uma pessoa faz ou escreve em teste. O primeiro já existe há anos: o Codegen grava os cliques e escreve o código. O segundo é o BDD: a pessoa escreve em Gherkin, em português, e os passos já programados executam; ela só usa frases que existem. O terceiro é o novo: a pessoa escreve um plano em Markdown, em texto livre, como um caso de teste manual, e o generator dos Test Agents abre o app, encontra os elementos e escreve o teste, conferindo cada seletor ao vivo. Em qualquer dos três, o resultado é código que alguém do time revisa antes de entrar na suíte, principalmente as asserções, que são a parte que diz se o teste prova alguma coisa.</aside>
+</section>

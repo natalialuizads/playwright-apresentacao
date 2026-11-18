@@ -1,0 +1,21 @@
+# Testes do tatu-api (unitários, API e tela) num container.
+#
+#   docker build -f Dockerfile.e2e -t tatu-api-e2e .
+#   docker run --rm --init --ipc=host -v "$PWD/target:/app/target" tatu-api-e2e
+#
+# A imagem Java do Playwright traz JDK, Maven e os navegadores. A versão dela
+# precisa ser a mesma do playwright.version no pom.xml.
+FROM mcr.microsoft.com/playwright/java:v1.59.0-noble
+
+WORKDIR /app
+
+# Os navegadores já estão na imagem: não baixa de novo
+ENV PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1
+
+# Dependências primeiro, para ficarem em cache
+COPY pom.xml ./
+RUN mvn -B -q dependency:go-offline
+
+COPY src ./src
+
+CMD ["mvn", "-B", "verify"]

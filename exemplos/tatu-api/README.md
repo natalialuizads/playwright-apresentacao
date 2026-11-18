@@ -52,6 +52,21 @@ mvn exec:java -e -D exec.classpathScope=test \
   -D exec.args="codegen --target java http://localhost:8080"
 ```
 
+## Docker
+
+```bash
+docker build -f Dockerfile.e2e -t tatu-api-e2e .
+docker run --rm --init --ipc=host -v "$PWD/target:/app/target" tatu-api-e2e
+```
+
+A imagem `mcr.microsoft.com/playwright/java` traz JDK, Maven e os navegadores. A tag dela precisa ser a mesma versão do `playwright.version` do `pom.xml`.
+
+## Variáveis de ambiente
+
+- `TATU_BASE_URL`: o `ContratoAmbienteIT` roda contra um ambiente já no ar.
+- `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`: não baixa navegador (use com `-Dcanal=chrome` ou dentro da imagem oficial).
+- No código: `System.getenv("TATU_BASE_URL")`. Para opções do Maven, `-Dpropriedade=valor` chega via `System.getProperty`, como o `-Dheaded` e o `-Dcanal`.
+
 ## Rodar a aplicação
 
 ```bash

@@ -1,0 +1,35 @@
+<section id="cypress-custom" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · vindo do Cypress</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Custom commands existem? Viram fixtures</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:880px;display:flex;flex-direction:column;gap:20px">
+<table style="width:100%;font-size:23px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:46%">No Cypress</th><th style="width:54%">No Playwright</th></tr>
+<tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px">Cypress.Commands.add('login')</td><td>Fixture: o teste pede, o runner entrega e limpa</td></tr>
+<tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px">Cypress.Commands.add('enviarPix')</td><td>Função comum ou método de Page Object</td></tr>
+<tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px">Asserção própria (chai.use)</td><td>expect.extend</td></tr>
+<tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px">cy.session()</td><td>storageState no projeto setup</td></tr>
+<tr><td style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px">cy.get('[data-cy=pagar]')</td><td>testIdAttribute: 'data-cy' + getByTestId('pagar')</td></tr>
+</table>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// cy.login() vira fixture</span></p>
+<p><span style="color:#C49BEA">const</span> test = base.<span style="color:#7FB5F0">extend</span>({</p>
+<p>&#160;&#160;logada: <span style="color:#C49BEA">async</span> ({ novoCliente, entrarComo, page }, use) =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">const</span> eva = <span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">novoCliente</span>({ saldo: <span style="color:#F2B482">42</span> });</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">entrarComo</span>(eva);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/inicio'</span>);</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">use</span>(eva);</p>
+<p>&#160;&#160;},</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// asserção própria vira expect.extend</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(saldo).<span style="color:#7FB5F0">toMostrarReais</span>(<span style="color:#F2B482">42</span>);</p>
+</div><p style="font-size:24px;line-height:1.4;color:#4A4F5C">Exemplos rodando em e2e/16-vindo-do-cypress.spec.ts.</p>
+</div>
+</div>
+<aside>Quem vem do Cypress procura o arquivo commands.js. No Playwright, cada tipo de comando tem um destino. O login vira fixture: o teste declara que quer a cliente logada e o runner prepara antes e limpa depois, com tipo e só para quem pede, em vez de um comando global. Comandos que são sequências de ações viram funções comuns ou métodos de Page Object. Asserções próprias viram expect.extend; no exemplo, toMostrarReais confere um valor em reais e funciona com not. O cy.session corresponde ao storageState do projeto setup. E para migrar seletores data-cy sem mexer no app, configure testIdAttribute: data-cy e use getByTestId.</aside>
+</section>

@@ -1,0 +1,27 @@
+<section id="prints-gravacao" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ao vivo · prints e gravação</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Prints e vídeos feitos pelo próprio teste</h2>
+</div>
+<div style="display:flex;gap:56px;align-items:start">
+<img src="/_blob/e11ce4894dee5ceff8bc6f9014e921ac" data-video="/_blob/f8b9452c89d4ba67c0b65150b1f66a58" alt="Vídeo gravado pelo teste com page.screencast: capítulos sobre a tela e cada ação anotada no rodapé" style="width:900px;height:506px;object-fit:cover;border-radius:16px;border:1px solid #DDD7CB">
+<div style="flex:1;display:flex;flex-direction:column;gap:28px">
+<div style="background:#1E232E;border-radius:16px;padding:20px 24px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// prints</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">screenshot</span>({ fullPage: <span style="color:#C49BEA">true</span> });</p>
+<p><span style="color:#C49BEA">await</span> tabela.<span style="color:#7FB5F0">screenshot</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">screenshot</span>({ mask: [saldo] });</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// vídeo de um trecho, com legenda</span></p>
+<p><span style="color:#C49BEA">await</span> page.screencast.<span style="color:#7FB5F0">start</span>({ path: <span style="color:#9CD08F">'pix.webm'</span> });</p>
+<p><span style="color:#C49BEA">await</span> page.screencast.<span style="color:#7FB5F0">showActions</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.screencast.<span style="color:#7FB5F0">showChapter</span>(<span style="color:#9CD08F">'Pix'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// no config: grava sozinho quando falha</span></p>
+<p>screenshot: <span style="color:#9CD08F">'only-on-failure'</span>,</p>
+<p>video: <span style="color:#9CD08F">'retain-on-failure'</span>,</p>
+</div>
+</div>
+</div>
+<aside>Prints: page.screenshot com fullPage pega a página inteira; locator.screenshot pega só um pedaço; mask cobre dado sensível, como saldo e CPF, antes de o print ir para o relatório. Gravação: no config, video retain-on-failure grava todos os testes e guarda só o vídeo dos que falharam, junto com o screenshot e o trace. E as versões recentes trouxeram o page.screencast: o próprio teste grava um trecho, com showActions anotando cada clique e showChapter colocando um título sobre a tela. Este clipe foi gravado assim, pelo teste, sem ferramenta de captura. Serve para demo, para manual e para mostrar um fluxo a quem não roda teste.</aside>
+</section>

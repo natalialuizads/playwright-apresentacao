@@ -28,6 +28,8 @@ const MIDIA = {
   '/_blob/8fda833a4be798a2c02bedea349e9cdb': 'midia/relatorio.mp4',
   '/_blob/86e859bddf9bd39d992ee54eaeef3c25': 'midia/relatorio.png',
   '/_blob/75dd92a023094f7e7eba2f3e60702575': 'midia/relatorio-teste.png',
+  '/_blob/f8b9452c89d4ba67c0b65150b1f66a58': 'midia/gravacao.mp4',
+  '/_blob/e11ce4894dee5ceff8bc6f9014e921ac': 'midia/gravacao.png',
 };
 
 const ICONES = {

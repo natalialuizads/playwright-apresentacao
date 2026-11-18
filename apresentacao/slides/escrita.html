@@ -1,0 +1,95 @@
+<section id="escrita" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · testes que duram</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Como escrever um teste que outra pessoa entende</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Nome é comportamento</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">test('pix 2')</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">test('Pix acima do saldo avisa')</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Um comportamento por teste</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">login + Pix + extrato + sair</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">só o Pix; login vem da fixture</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Prepare fora da tela</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">clicar 6 telas para ter saldo</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">novoCliente({ saldo: 0 })</p>
+</div>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Um caminho só</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">if (await aviso.isVisible()) ...</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">dois testes, um para cada caso</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">05</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Confira o que se vê</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">expect(store.state.saldo)</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">expect(saldo).toMostrarReais(70)</p>
+</div>
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:28px 30px;display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;font-weight:600;color:#B4471B">06</p>
+<h3 style="font-size:32px;font-weight:600;line-height:1.2">Dado próprio, sem ordem</h3>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#9A3412">Evite</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#9A3412">test('usa a conta criada antes')</p>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<p style="font-size:20px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:#2F7A3A">Prefira</p>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;color:#2F7A3A">cada teste cria e apaga o seu</p>
+</div>
+</div>
+</div>
+<aside>Seis regras para um teste que outra pessoa lê e confia. O nome descreve o comportamento, como uma frase de requisito; quando falhar, o nome já diz o que quebrou. Um comportamento por teste: o teste do Pix não testa login, o login vem pronto da fixture. Prepare fora da tela: o que não é o foco do teste vem pela API ou por uma fábrica. Um caminho só: if, for e try dentro do teste escondem qual cenário rodou de fato; se há dois casos, são dois testes. Confira o que o usuário vê, pelo papel e pelo texto, não o estado interno do componente. E cada teste cria o próprio dado e não depende da ordem, para rodar em paralelo.</aside>
+</section>

@@ -1,0 +1,35 @@
+<section id="storage" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · storage</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">localStorage, sessionStorage e o que o login salva</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:900px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// ler e escrever, sem page.evaluate</span></p>
+<p><span style="color:#C49BEA">await</span> page.localStorage.<span style="color:#7FB5F0">getItem</span>(<span style="color:#9CD08F">'tatu.token'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.sessionStorage.<span style="color:#7FB5F0">setItem</span>(<span style="color:#9CD08F">'msal.idtoken'</span>, <span style="color:#9CD08F">'x'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// guardar o sessionStorage (o storageState não guarda)</span></p>
+<p><span style="color:#C49BEA">const</span> itens = <span style="color:#C49BEA">await</span> page.sessionStorage.<span style="color:#7FB5F0">items</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// restaurar antes do app rodar, em todo teste</span></p>
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">addInitScript</span>(({ itens, origem }) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">if</span> (location.origin !== origem) <span style="color:#C49BEA">return</span>;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">for</span> (<span style="color:#C49BEA">const</span> { name, value } <span style="color:#C49BEA">of</span> itens)</p>
+<p>&#160;&#160;&#160;&#160;sessionStorage.<span style="color:#7FB5F0">setItem</span>(name, value);</p>
+<p>}, { itens, origem });</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>O que o storageState() salva:</b></p><table style="width:100%;font-size:25px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:50%">Onde</th><th style="width:50%">Salva?</th></tr>
+<tr><td>Cookies</td><td>Sim</td></tr>
+<tr><td>localStorage</td><td>Sim</td></tr>
+<tr><td>IndexedDB</td><td>Com indexedDB: true</td></tr>
+<tr><td>sessionStorage</td><td><b>Não</b>: guarde à parte</td></tr>
+</table><p style="font-size:24px;line-height:1.4;color:#4A4F5C">O sessionStorage é por aba e some quando ela fecha. Por isso fica de fora.</p><p style="font-size:24px;line-height:1.4;color:#4A4F5C">Exemplos em e2e/17-storage-e-abas.spec.ts.</p>
+</div>
+</div>
+<aside>O login reaproveitado depende do storageState, então vale saber o que ele leva. Cookies e localStorage, sim; IndexedDB, se você pedir com indexedDB true, que é onde Firebase e alguns SDKs guardam o token. O sessionStorage, não: ele é de uma aba só e some quando ela fecha. Desde as versões recentes, page.localStorage e page.sessionStorage leem e escrevem direto, sem page.evaluate. Quando o seu login vive no sessionStorage, como o MSAL do Azure AD por padrão, o caminho é ler os itens no setup, gravar num arquivo, e restaurar em todo teste com addInitScript, que roda antes de qualquer script do app.</aside>
+</section>

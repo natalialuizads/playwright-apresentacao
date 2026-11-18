@@ -1,0 +1,40 @@
+<section id="docker-navegador" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ambientes · Docker</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Só o navegador no container</h2>
+</div>
+<div style="display:flex;align-items:center;gap:20px">
+<div style="flex:1;background:#2E3546;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:30px;font-weight:600;color:#F5F2EC">Sua máquina</p>
+<p style="font-size:23px;line-height:1.4;color:#C9C4B8">Os testes, o ng serve e o BFF</p>
+</div>
+<div style="width:300px;display:flex;flex-direction:column;align-items:center;gap:6px">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;color:#B4471B">ws://127.0.0.1:3000</p>
+<x-shape kind="arrow-right" style="width:140px;height:44px;background:#B4471B"></x-shape>
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;color:#4A4F5C">exposeNetwork: &#x27;&lt;loopback&gt;&#x27;</p>
+</div>
+<div style="flex:1;background:#2C5F9E;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:6px">
+<p style="font-size:30px;font-weight:600;color:#F5F2EC">Container</p>
+<p style="font-size:23px;line-height:1.4;color:#DCE6F2">Só o navegador, em Linux, igual ao do CI</p>
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="background:#1E232E;border-radius:16px;padding:20px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p>use: {</p>
+<p>&#160;&#160;connectOptions: {</p>
+<p>&#160;&#160;&#160;&#160;wsEndpoint: process.env.PW_NAVEGADOR_REMOTO,</p>
+<p>&#160;&#160;&#160;&#160;exposeNetwork: <span style="color:#9CD08F">'&lt;loopback&gt;'</span>,  <span style="color:#8C95A8">// o container vê o seu localhost</span></p>
+<p>&#160;&#160;},</p>
+<p>}</p>
+</div>
+<div style="background:#1E232E;border-radius:16px;padding:20px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#F2B482">docker</span> compose <span style="color:#8DB6E8">-f</span> docker-compose.e2e.yml \</p>
+<p>&#160;&#160;<span style="color:#8DB6E8">--profile</span> navegador up <span style="color:#8DB6E8">-d</span> navegador</p>
+<p>PW_NAVEGADOR_REMOTO=ws:<span style="color:#8C95A8">//127.0.0.1:3000/ \</span></p>
+<p>&#160;&#160;<span style="color:#F2B482">npm</span> run e2e:visual</p>
+</div>
+</div>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Para quê:</b> screenshots da regressão visual iguais aos do CI no macOS e no Windows, sem rodar a suíte inteira no container.</p>
+<aside>O segundo jeito: a suíte continua na sua máquina, só o navegador roda no container, com o comando playwright run-server. O config conecta por WebSocket com connectOptions, e o exposeNetwork com loopback deixa o navegador do container acessar o localhost da sua máquina, onde estão o ng serve e o BFF. Para que serve: a regressão visual compara pixels, e fonte de macOS ou Windows é diferente da de Linux. Com o navegador no container, o screenshot que você gera localmente é igual ao do CI. Conferimos o fluxo com run-server e PW_NAVEGADOR_REMOTO.</aside>
+</section>

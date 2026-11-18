@@ -1,0 +1,36 @@
+<section id="bdd" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · BDD</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Dá para escrever BDD? Dá, em português</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:860px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># language: pt</span></p>
+<p><span style="color:#C49BEA">Funcionalidade:</span> Pix</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">Contexto:</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">Dado</span> que sou uma cliente com saldo de R$ 100</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">Cenário:</span> Pix dentro do saldo</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">Quando</span> eu envio um Pix de R$ 30 para <span style="color:#9CD08F">"mae@tatu.com.br"</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">Então</span> vejo o comprovante</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">E</span> meu saldo passa a ser R$ 70</p>
+<p>&#160;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">Cenário:</span> Pix acima do saldo</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">Quando</span> eu envio um Pix de R$ 500 para <span style="color:#9CD08F">"mae@tatu.com.br"</span></p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">Então</span> vejo o aviso <span style="color:#9CD08F">"Saldo insuficiente"</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>bdd/pix.feature</b> vira teste do Playwright pelo playwright-bdd: paralelo, trace e relatório iguais.</p><div style="background:#1E232E;border-radius:16px;padding:18px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#E8C56A">Quando</span>(<span style="color:#9CD08F">'eu envio um Pix de R$ {int} para {string}'</span>,</p>
+<p>&#160;&#160;<span style="color:#C49BEA">async</span> ({ pix }, valor, chave) =&gt; {</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> pix.<span style="color:#7FB5F0">abrir</span>();</p>
+<p>&#160;&#160;&#160;&#160;<span style="color:#C49BEA">await</span> pix.<span style="color:#7FB5F0">preencherEEnviar</span>(chave, valor);</p>
+<p>&#160;&#160;});</p>
+</div><p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Java:</b> Cucumber com Playwright Java.</p><p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Vale a pena</b> quando o negócio lê ou escreve os cenários. Se só dev lê, é uma camada a mais.</p>
+</div>
+</div>
+<aside>Dá, e em português: o Gherkin aceita Funcionalidade, Cenário, Dado, Quando, Então e Esquema do Cenário com tabela de exemplos. O pacote playwright-bdd, da comunidade, transforma cada cenário num teste do Playwright, então você não perde paralelismo, trace nem relatório; cada frase é ligada a uma função de passo que recebe as mesmas fixtures dos outros testes. Em Java, o caminho é o Cucumber com o Playwright Java. O cuidado: BDD é uma ferramenta de conversa. Vale quando produto, negócio ou QA leem e escrevem os cenários. Se só desenvolvedores vão ler, os passos viram uma camada extra para manter, e um teste comum com test.step bem nomeado entrega a mesma legibilidade. O exemplo roda com npm run e2e:bdd.</aside>
+</section>

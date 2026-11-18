@@ -1,0 +1,31 @@
+<section id="lighthouse" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Além do básico · Lighthouse</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Lighthouse dentro do teste</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:26px 30px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:22px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">import</span> lighthouse <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'lighthouse'</span>;</p>
+<p><span style="color:#C49BEA">import</span> desktop <span style="color:#C49BEA">from</span> <span style="color:#9CD08F">'lighthouse/core/config/desktop-config.js'</span>;</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">const</span> navegador = <span style="color:#C49BEA">await</span> chromium.<span style="color:#7FB5F0">launch</span>({</p>
+<p>&#160;&#160;args: [<span style="color:#9CD08F">'--remote-debugging-port=9222'</span>] });</p>
+<p><span style="color:#C49BEA">const</span> r = <span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">lighthouse</span>(<span style="color:#9CD08F">`${baseURL}/login`</span>,</p>
+<p>&#160;&#160;{ port: <span style="color:#F2B482">9222</span>, output: <span style="color:#9CD08F">'html'</span> }, desktop);</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">await</span> testInfo.<span style="color:#7FB5F0">attach</span>(<span style="color:#9CD08F">'lighthouse.html'</span>,</p>
+<p>&#160;&#160;{ body: r.report, contentType: <span style="color:#9CD08F">'text/html'</span> });</p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#7FB5F0">nota</span>(r, <span style="color:#9CD08F">'accessibility'</span>)).<span style="color:#7FB5F0">toBeGreaterThanOrEqual</span>(<span style="color:#F2B482">90</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>O Lighthouse conecta</b> no Chromium pela porta de depuração; o Playwright abre e controla.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Notas mínimas</b> viram expect: o PR que derruba a acessibilidade falha.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>O relatório do Lighthouse</b> vai anexado ao relatório do Playwright.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Projeto separado:</b> é lento, roda com npm run e2e:lighthouse.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Axe ou Lighthouse?</b> Axe por tela, em todo teste; Lighthouse por página, de vez em quando.</p>
+</div>
+</div>
+<aside>O Lighthouse é a auditoria do Chrome: performance, acessibilidade, boas práticas e SEO. Ele se conecta a um Chromium pela porta de depuração; o Playwright abre o navegador com essa porta e chama o Lighthouse pela biblioteca, que roda dentro do teste. As notas viram asserções, então o PR que derrubar a nota de acessibilidade abaixo de 90 falha, e o relatório HTML do Lighthouse vai anexado ao do Playwright. Como é lento, fica num projeto separado, chamado por npm run e2e:lighthouse. Diferença para o axe: o axe roda rápido, em cada estado de tela, dentro dos testes comuns; o Lighthouse avalia a página inteira, com performance, e faz sentido em alguns fluxos, no build de produção. O exemplo está no 19-lighthouse.spec.ts.</aside>
+</section>

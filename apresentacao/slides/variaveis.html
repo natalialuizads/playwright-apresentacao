@@ -1,0 +1,35 @@
+<section id="variaveis" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ambientes · variáveis</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Um config, vários ambientes</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:980px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.config.ts</span></p>
+<p><span style="color:#C49BEA">try</span> { process.<span style="color:#7FB5F0">loadEnvFile</span>(); } <span style="color:#C49BEA">catch</span> {}  <span style="color:#8C95A8">// lê o .env, se existir</span></p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">const</span> AMBIENTE = process.env.BASE_URL;</p>
+<p><span style="color:#C49BEA">export</span> <span style="color:#C49BEA">default</span> <span style="color:#7FB5F0">defineConfig</span>({</p>
+<p>&#160;&#160;use: { baseURL: AMBIENTE ?? <span style="color:#9CD08F">'http://localhost:4200'</span> },</p>
+<p>&#160;&#160;<span style="color:#8C95A8">// com BASE_URL, o app já está no ar: não sobe nada</span></p>
+<p>&#160;&#160;webServer: AMBIENTE ? <span style="color:#C49BEA">undefined</span> : { command: <span style="color:#9CD08F">'npm start'</span> },</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// e2e/auth.setup.ts</span></p>
+<p><span style="color:#C49BEA">await</span> login.<span style="color:#7FB5F0">entrar</span>(process.env.TATU_CPF, process.env.TATU_SENHA);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Quem ganha:</b> o terminal, o CI e o Docker ganham do .env.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>.env fora do git;</b> o .env.exemplo documenta cada variável.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>No CI:</b> os segredos vêm do cofre da ferramenta.</p>
+<p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>Java:</b> System.getenv("TATU_BASE_URL"); opções do Maven com -D.</p>
+<div style="background:#1E232E;border-radius:16px;padding:16px 22px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p>BASE_URL=https:<span style="color:#8C95A8">//homologacao.exemplo \</span></p>
+<p>&#160;&#160;<span style="color:#F2B482">npx</span> playwright test</p>
+</div>
+</div>
+</div>
+<aside>O config é código, então lê variáveis de ambiente como qualquer programa Node. O process.loadEnvFile, nativo do Node 20.12 em diante, lê o .env da pasta sem instalar nada; se a mesma variável já existir no terminal, no CI ou no Docker, ela ganha do arquivo, o que conferimos no projeto. A BASE_URL troca o alvo: sem ela, o webServer sobe o app local; com ela, a suíte roda contra homologação ou um container, e nada é iniciado. Credenciais nunca ficam no código: o setup lê TATU_CPF e TATU_SENHA. O .env fica fora do git e o .env.exemplo documenta tudo. No Java, System.getenv lê o ambiente, e as opções do Maven chegam com -D, como o -Dcanal e o -Dheaded.</aside>
+</section>

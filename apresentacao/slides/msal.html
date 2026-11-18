@@ -1,0 +1,31 @@
+<section id="msal" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · login corporativo</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Login com Azure AD (MSAL)</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:26px 30px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:21px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// setup: login real, uma vez</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">goto</span>(<span style="color:#9CD08F">'/'</span>);  <span style="color:#8C95A8">// o app manda para o Azure AD</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'input[type="email"]'</span>).<span style="color:#7FB5F0">fill</span>(USUARIO);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: /<span style="color:#E8C56A">Avançar</span>|<span style="color:#E8C56A">Next</span>/ }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">locator</span>(<span style="color:#9CD08F">'input[type="password"]'</span>).<span style="color:#7FB5F0">fill</span>(SENHA);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: /<span style="color:#E8C56A">Entrar</span>|<span style="color:#E8C56A">Sign</span> <span style="color:#C49BEA">in</span>/ }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">waitForURL</span>(<span style="color:#9CD08F">`${baseURL}/**`</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">context</span>().<span style="color:#7FB5F0">storageState</span>({ path: <span style="color:#9CD08F">'.auth/azure.json'</span> });</p>
+<p><span style="color:#7FB5F0">writeFileSync</span>(<span style="color:#9CD08F">'.auth/azure-session.json'</span>,</p>
+<p>&#160;&#160;JSON.<span style="color:#7FB5F0">stringify</span>(<span style="color:#C49BEA">await</span> page.sessionStorage.<span style="color:#7FB5F0">items</span>()));</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Usuário só de teste, sem MFA</b>, com acesso condicional só no ambiente de teste.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>MSAL usa sessionStorage:</b> grave à parte e restaure com addInitScript, ou use cacheLocation: 'localStorage' no build de teste.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Credenciais do cofre do CI</b>, por variável de ambiente.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Token expira:</b> o setup roda a cada execução da suíte.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>O resto dos testes:</b> um provedor falso no lugar do MSAL; só um ou dois passam pelo Azure de verdade.</p>
+</div>
+</div>
+<aside>Apps com Azure AD, hoje Entra ID, usam o MSAL, e o login passa pela tela da Microsoft. O padrão é o mesmo do login reaproveitado: um projeto setup entra uma vez de verdade e salva o estado. Quatro cuidados. Um: use um usuário só de teste, sem MFA, com uma política de acesso condicional que dispense o segundo fator só para ele e só no ambiente de teste; isso se combina com o time de identidade. Dois: o MSAL guarda os tokens no sessionStorage por padrão, e o storageState não salva sessionStorage; então o setup grava os itens à parte e uma fixture restaura em todo teste, ou o build de teste usa cacheLocation localStorage. Três: credenciais vêm do cofre do CI. Quatro: o token expira, em geral em uma hora, então o setup roda a cada execução. E para não depender da Microsoft em todo teste, o app pode ter um modo de teste com um provedor de identidade falso; só um ou dois testes passam pelo Azure de verdade. O arquivo completo está em referencias/msal-azure-ad.setup.ts.</aside>
+</section>
