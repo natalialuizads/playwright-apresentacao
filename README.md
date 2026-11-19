@@ -14,7 +14,7 @@ cd playwright-apresentacao
 ## O que tem aqui
 
 ```text
-apresentacao/   os 92 slides, o visualizador (index.html), as notas do apresentador e os clipes
+apresentacao/   os 93 slides, o visualizador (index.html), as notas do apresentador e os clipes
 exemplos/
   tatu-web/     Angular 22 + Playwright (TypeScript)
   tatu-api/     Spring Boot 3.5 + Playwright Java + WireMock

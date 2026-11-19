@@ -33,6 +33,7 @@
     "fixtures",
     "ferramentas",
     "vscode",
+    "demo-vscode",
     "demo-ui",
     "demo-trace",
     "vs-cypress",
