@@ -33,6 +33,13 @@ import { Conta, Cotacao } from '../core/modelos';
         <a routerLink="/pix">Pix</a>
         <button type="button" (click)="sair()">Sair</button>
       </nav>
+
+      <nav class="atalhos" aria-label="Mais serviços">
+        <a routerLink="/documentos">Documentos</a>
+        <a routerLink="/cartao">Cartão</a>
+        <a routerLink="/servicos">Serviços</a>
+        <a routerLink="/cotacao">Cotação ao vivo</a>
+      </nav>
     </main>
   `,
 })

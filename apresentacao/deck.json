@@ -32,6 +32,7 @@
     "assertions",
     "fixtures",
     "ferramentas",
+    "vscode",
     "demo-ui",
     "demo-trace",
     "vs-cypress",
@@ -50,6 +51,12 @@
     "storage",
     "msal",
     "abas",
+    "iframe",
+    "otp",
+    "arquivos-upload",
+    "arquivos-download",
+    "permissoes",
+    "websocket",
     "mock-onde",
     "mock-api",
     "demo-mocks",
@@ -75,9 +82,11 @@
     "quiz",
     "nao-fazer",
     "boas-praticas-codigo",
+    "instaveis",
     "div-pipeline",
     "browser-local",
     "browser-rede",
+    "navegadores",
     "variaveis",
     "docker",
     "docker-navegador",
@@ -108,11 +117,11 @@
       "start": "cover"
     },
     "s2": {
-      "description": "Conceitos: como o Playwright pensa, ferramentas e a comparação com o Cypress",
+      "description": "Conceitos: como o Playwright pensa, ferramentas, VS Code e a comparação com o Cypress",
       "start": "div-conceitos"
     },
     "s3": {
-      "description": "Frontend em Angular: setup, configuração, primeiro teste, login, storage, abas, mocks, Shadow DOM e microfrontends",
+      "description": "Frontend em Angular: setup, configuração, primeiro teste, login, storage, abas, iframe e OTP, arquivos, permissões, WebSocket, mocks, Shadow DOM e microfrontends",
       "start": "div-angular"
     },
     "s4": {
@@ -120,11 +129,11 @@
       "start": "div-java"
     },
     "s5": {
-      "description": "Organizar e escrever: pastas, escrita, dados pela API, limpeza, BDD e o que não fazer",
+      "description": "Organizar e escrever: pastas, escrita, dados pela API, limpeza, BDD, o que não fazer e testes instáveis",
       "start": "div-organizar"
     },
     "s6": {
-      "description": "Ambientes, pipeline e relatórios: navegador local, rede, variáveis, Docker, CI, relatórios, prints e vídeo",
+      "description": "Ambientes, pipeline e relatórios: navegador local, rede, celular e outros navegadores, variáveis, Docker, CI, relatórios, prints e vídeo",
       "start": "div-pipeline"
     },
     "s7": {

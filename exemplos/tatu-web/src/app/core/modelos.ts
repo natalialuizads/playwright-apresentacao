@@ -28,3 +28,14 @@ export interface PixResposta {
   id: string;
   status: string;
 }
+
+export interface DocumentoRecebido {
+  protocolo: string;
+  nome: string;
+  tamanho: number;
+}
+
+export interface CompraCartao {
+  id: string;
+  desafioUrl: string;
+}

@@ -1,0 +1,36 @@
+<section id="arquivos-upload" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · arquivos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Upload: input, seletor e arrastar e soltar</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// arquivo criado na hora: nada de PDF de exemplo no repositório</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Arquivo'</span>, { exact: <span style="color:#C49BEA">true</span> }).<span style="color:#7FB5F0">setInputFiles</span>({</p>
+<p>&#160;&#160;name: <span style="color:#9CD08F">'renda.pdf'</span>, mimeType: <span style="color:#9CD08F">'application/pdf'</span>,</p>
+<p>&#160;&#160;buffer: <span style="color:#E8C56A">Buffer</span>.<span style="color:#7FB5F0">from</span>(<span style="color:#9CD08F">'%PDF-1.4 comprovante'</span>),</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// botão que abre o seletor do sistema</span></p>
+<p><span style="color:#C49BEA">const</span> seletor = page.<span style="color:#7FB5F0">waitForEvent</span>(<span style="color:#9CD08F">'filechooser'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Escolher do computador'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> (<span style="color:#C49BEA">await</span> seletor).<span style="color:#7FB5F0">setFiles</span>(<span style="color:#9CD08F">'holerite.png'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// arrastar e soltar</span></p>
+<p><span style="color:#C49BEA">const</span> dados = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluateHandle</span>(() =&gt; { <span style="color:#C49BEA">const</span> d = <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">DataTransfer</span>();</p>
+<p>&#160;&#160;d.items.<span style="color:#7FB5F0">add</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">File</span>([<span style="color:#9CD08F">'%PDF'</span>], <span style="color:#9CD08F">'a.pdf'</span>, { <span style="color:#C49BEA">type</span>: <span style="color:#9CD08F">'application/pdf'</span> }));</p>
+<p>&#160;&#160;<span style="color:#C49BEA">return</span> d; });</p>
+<p><span style="color:#C49BEA">await</span> areaDeSoltar.<span style="color:#7FB5F0">dispatchEvent</span>(<span style="color:#9CD08F">'drop'</span>, { dataTransfer: dados });</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Buffer em vez de arquivo:</b> o teste cria o que precisa, do tamanho que precisa.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>O accept não vale</b> para o setInputFiles: dá para testar a validação de formato.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Limite de tamanho:</b> Buffer.alloc(1024 * 1024 + 1).</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>setInputFiles([])</b> limpa o campo.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Pegadinha:</b> num Linux sem locale UTF-8, caminho com acento deixa o campo vazio, sem erro.</p>
+</div>
+</div>
+<aside>Três jeitos de um arquivo entrar na tela. Se existe um input de arquivo, setInputFiles resolve, e o melhor é criar o arquivo na hora, com name, mimeType e buffer: nada de PDF de exemplo versionado, e dá para fazer um arquivo de exatamente 1 MB e um byte para testar o limite. O atributo accept do input não vale para o setInputFiles, então a validação de formato do app também é testável. Se um botão abre o seletor do sistema, espere o evento filechooser antes do clique e chame setFiles. Se é uma área de arrastar e soltar, monte um DataTransfer dentro da página e dispare o evento drop. Uma pegadinha que encontramos montando o exemplo: num Linux sem locale UTF-8, comum em agente de CI, um caminho com acento faz o campo ficar vazio, sem nenhum erro. Exemplos no 21-arquivos.spec.ts.</aside>
+</section>

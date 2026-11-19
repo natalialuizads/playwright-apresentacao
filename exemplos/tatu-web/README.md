@@ -32,6 +32,7 @@ Se algum dos dois já estiver rodando, ele reaproveita.
 | `npm run e2e:smoke` | Só os testes marcados com `@smoke` |
 | `npm run e2e:visual` | Só a regressão visual (veja a seção abaixo) |
 | `npm run e2e:debug` | Roda com o Inspector, passo a passo |
+| `npm run e2e:navegadores` | A suíte em Chromium, Firefox, WebKit, Android (Pixel 7) e iPhone (exige `npx playwright install chromium firefox webkit`) |
 | `npm run e2e:lighthouse` | Lighthouse da tela de login, com o relatório anexado (projeto `lighthouse`) |
 | `npx playwright test --grep @perf` | Web Vitals, chamadas mais lentas, CPU lenta e trace de CPU |
 | `npm run e2e:bdd` | Cenários em Gherkin, em português (`bdd/pix.feature`) |
@@ -59,6 +60,32 @@ São três arquivos, e os dois últimos herdam do primeiro:
 | `playwright.local.config.ts` | Sua máquina: troca só de onde vem o navegador |
 
 Quando o mesmo campo aparece em mais de um lugar, ganha o mais específico: flag da linha de comando, depois `test.use()` no arquivo de teste, depois o `use` do projeto, depois o `use` geral do config.
+
+## Arquivos, iframe, celular, permissões e WebSocket
+
+O app tem telas só para os exemplos, ligadas em "Mais serviços" no início:
+
+| Tela | O que testa |
+|---|---|
+| `/extrato` (Exportar CSV) | Download: salvar e conferir o conteúdo |
+| `/documentos` | Upload: input, seletor de arquivos, arrastar e soltar, formato e tamanho |
+| `/cartao` | iframe de outra origem (3DS do emissor) e código por SMS |
+| `/servicos` | Permissões: copiar chave Pix, agência mais próxima, avisos |
+| `/cotacao` | WebSocket com reconexão |
+
+O SMS da compra no cartão fica numa caixa de teste do mock BFF (`GET /api/teste/sms?referencia=<id da compra>`). Num ambiente real, o equivalente é a API de teste do provedor de SMS ou de e-mail (Mailpit, sandbox). Para autenticador (TOTP), o teste gera o código a partir do segredo da conta de teste, com uma biblioteca como `otpauth`.
+
+Num Linux sem locale UTF-8, comum em agentes de CI, o navegador não encontra arquivo em caminho com acento: o `setInputFiles` deixa o campo vazio, sem erro. Por isso o teste de upload do disco tem título sem acento (a pasta do teste nasce do título).
+
+## Teste instável
+
+```bash
+npx playwright test e2e/26-instaveis.spec.ts --repeat-each=30 --workers=4   # caça a falha
+npx playwright test --fail-on-flaky-tests                                    # no CI, instável também quebra
+npx playwright test --last-failed                                            # só o que falhou
+```
+
+`test.fail()` marca um teste que falha de propósito (avisa se começar a passar) e `test.fixme()` pula um teste que ainda não pode rodar, deixando registrado no relatório.
 
 ## Dados de teste e limpeza
 
@@ -268,6 +295,12 @@ Para usar o backend Java no lugar do mock, suba o `tatu-api` (`mvn spring-boot:r
 | `e2e/18-performance.spec.ts` | Gargalos: LCP e CLS, chamadas mais lentas com `request.timing()`, CPU 4x mais lenta via CDP e trace de CPU para o DevTools |
 | `e2e/19-lighthouse.spec.ts` | Lighthouse pela porta de depuração do Chromium, com notas mínimas e o relatório anexado |
 | `e2e/20-prints-e-gravacao.spec.ts` | Prints (página inteira, pedaço, `mask`) e vídeo com `page.screencast`, cliques anotados e capítulos |
+| `e2e/21-arquivos.spec.ts` | Upload (arquivo criado na hora, `filechooser`, arrastar e soltar, validações) e download (salvar e conferir o conteúdo do CSV) |
+| `e2e/22-iframe-e-otp.spec.ts` | Compra no cartão com 3DS: iframe de outra origem e código por SMS lido de uma caixa de teste |
+| `e2e/23-celular.spec.ts` | Celular (Pixel 7): telas sem rolagem lateral, toque e user agent |
+| `e2e/24-permissoes.spec.ts` | Permissões: área de transferência, localização (concedida, trocada e negada) e notificações |
+| `e2e/25-websocket.spec.ts` | WebSocket: servidor de verdade, servidor de mentira com `routeWebSocket`, queda com reconexão e mensagem alterada |
+| `e2e/26-instaveis.spec.ts` | Teste instável: a causa clássica (`isVisible` sem esperar), a correção, `test.fail` e `test.fixme` |
 
 ## Estrutura
 
@@ -277,7 +310,7 @@ e2e/
   fixtures.ts            test estendido: bff, login, extrato, pix
   pages/                 Page Objects
   hars/extrato.har       respostas gravadas do /api/extrato
-  01..20-*.spec.ts       os testes, em ordem didática
+  01..26-*.spec.ts       os testes, em ordem didática
 mock-bff/server.mjs      BFF de mentira, sem dependências
 playwright.config.ts     baseURL, projetos setup/chromium/visual, webServer
 playwright.ci.config.ts  relatórios para pipeline (html, junit, json)
@@ -286,6 +319,7 @@ ci/github-actions-e2e.yml   pipeline com shards e relatório único
 scripts/vigia.mjs        monitoramento sintético, sem test runner
 bdd/                     pix.feature (Gherkin em português) e os passos
 playwright.bdd.config.ts config do BDD (playwright-bdd)
+playwright.navegadores.config.ts  Firefox, WebKit, Android e iPhone
 Dockerfile.e2e           suíte num container (imagem oficial do Playwright)
 docker-compose.e2e.yml   suíte no container ou só o navegador
 .env.exemplo             variáveis de ambiente documentadas

@@ -1,0 +1,32 @@
+<section id="permissoes" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · permissões</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Copiar, localização e notificações</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:980px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// área de transferência</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'clipboard-read'</span>, <span style="color:#9CD08F">'clipboard-write'</span>] });</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Copiar chave'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluate</span>(() =&gt; navigator.clipboard.<span style="color:#7FB5F0">readText</span>()))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'ana@tatu.com.br'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// localização: concedida, e depois em outra cidade</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'geolocation'</span>],</p>
+<p>&#160;&#160;geolocation: { latitude: -<span style="color:#F2B482">23.5629</span>, longitude: -<span style="color:#F2B482">46.6544</span> } });</p>
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setGeolocation</span>({ latitude: -<span style="color:#F2B482">22.9068</span>, longitude: -<span style="color:#F2B482">43.1729</span> });</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// notificações</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'notifications'</span>] });</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Sem permissão, o navegador nega:</b> teste também a mensagem de recusa.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Copiar e colar:</b> leia a área de transferência e confira o que foi copiado.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Localização:</b> a tela muda com a cidade, sem sair da cadeira.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Por teste ou por arquivo</b> com test.use; no meio do teste com grantPermissions.</p>
+</div>
+</div>
+<aside>Alguns recursos pedem permissão ao navegador: área de transferência, localização, notificações, câmera. Num teste, ninguém clica em Permitir, então o Playwright concede por você com a opção permissions, por arquivo ou por describe com test.use, ou no meio do teste com grantPermissions. Sem permissão, o navegador nega, como um usuário que clicou em Bloquear, e isso também deve ser testado: a tela precisa dizer o que fazer. No exemplo, o botão Copiar chave Pix é conferido lendo de volta a área de transferência; a agência mais próxima muda quando o teste troca a localização de São Paulo para o Rio com setGeolocation; e os avisos de Pix só ficam ativos com a permissão de notificações. Tudo no 24-permissoes.spec.ts.</aside>
+</section>

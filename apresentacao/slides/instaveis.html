@@ -1,0 +1,34 @@
+<section id="instaveis" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · instáveis</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Teste instável: caçar, entender, marcar</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># caçar: repete até a falha aparecer e abre o trace dela</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test pix.spec.ts <span style="color:#8DB6E8">--repeat-each=30</span> <span style="color:#8DB6E8">--workers=4</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># no CI: o que só passou no retry também quebra</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--fail-on-flaky-tests</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># de novo, só o que falhou</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--last-failed</span></p>
+</div><div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// a causa clássica: isVisible() não espera</span></p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#C49BEA">await</span> status.<span style="color:#7FB5F0">isVisible</span>()).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);   <span style="color:#8C95A8">// instável</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(status).<span style="color:#7FB5F0">toBeVisible</span>();            <span style="color:#8C95A8">// espera</span></p>
+<p>&#160;</p>
+<p>test.<span style="color:#7FB5F0">fail</span>(<span style="color:#C49BEA">true</span>, <span style="color:#9CD08F">'bug PIX-201: valor some no iOS'</span>);</p>
+<p>test.<span style="color:#7FB5F0">fixme</span>(<span style="color:#9CD08F">'Pix agendado: aguardando a funcionalidade'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Quase sempre é espera:</b> isVisible, textContent ou count lidos na hora.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Ou é dado:</b> dois testes mexendo no mesmo cliente.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Ou é ordem:</b> um teste depende do que o outro deixou.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Retry esconde, não conserta.</b> Instável é bug: tem dono e prazo.</p>
+</div>
+</div>
+<aside>Teste instável é o que passa e falha sem ninguém mudar nada. Primeiro, cace: --repeat-each roda o mesmo teste trinta vezes, em paralelo, até a falha aparecer, e o trace da repetição que falhou mostra o porquê. No CI, --fail-on-flaky-tests faz o teste que só passou no retry quebrar o pipeline, para o problema não ficar escondido. As causas mais comuns são três. Espera: isVisible, textContent ou count leem a tela na hora, sem esperar; troque pelo expect, que espera. Dado: dois testes usando o mesmo cliente. Ordem: um teste depende do que o anterior deixou. Enquanto não dá para consertar, marque: test.fail diz que o teste falha e sabemos por quê, e avisa se começar a passar; test.fixme pula o teste mas deixa registrado no relatório. O exemplo está no 26-instaveis.spec.ts.</aside>
+</section>

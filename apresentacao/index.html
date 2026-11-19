@@ -75,12 +75,12 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">01</p>
 <p style="font-size:32px;font-weight:600;width:420px">Conceitos</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Como o Playwright pensa, ferramentas e a comparação com o Cypress.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Como o Playwright pensa, ferramentas, VS Code e o Cypress.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">02</p>
 <p style="font-size:32px;font-weight:600;width:420px">Frontend Angular</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Config, primeiro teste, Page Objects, mocks, Shadow DOM e microfrontends.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Config, login, abas, iframe, arquivos, tempo real, mocks e microfrontends.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">03</p>
@@ -90,12 +90,12 @@
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">04</p>
 <p style="font-size:32px;font-weight:600;width:420px">Organizar e escrever</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Pastas, testes que duram, dados pela API, limpeza e BDD.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Pastas, testes que duram, dados, limpeza, BDD e instáveis.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">05</p>
 <p style="font-size:32px;font-weight:600;width:420px">Ambientes e pipeline</p>
-<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Navegador local, variáveis, Docker, CI e relatórios.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C;flex:1">Navegador local, celular, variáveis, Docker, CI e relatórios.</p>
 </div>
 <div style="display:flex;gap:32px;align-items:baseline;padding:16px 0;border-top:1px solid #DDD7CB">
 <p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:26px;color:#B4471B;width:60px">06</p>
@@ -388,6 +388,66 @@
 </div>
 </div>
 <aside>Demo ao vivo sugerida: abrir o Codegen na aplicação local, gravar um login de 20 segundos e mostrar que ele já escolhe getByRole e getByLabel. Depois rodar com --ui. No Java, o Codegen roda pelo Maven: mvn exec:java -e -D exec.mainClass=com.microsoft.playwright.CLI -D exec.args="codegen localhost:4200".</aside>
+</section>
+<section id="vscode" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Conceitos · no editor</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">A extensão do VS Code</h2>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">01</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Rodar e depurar</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">O play ao lado de cada teste. Breakpoint e Debug Test, como em qualquer código.</p>
+
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">02</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Show browser</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">O navegador fica aberto; clicar num locator no código acende o elemento na tela.</p>
+
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">03</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Pick locator</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Clica no elemento e a extensão sugere o locator, por papel e nome.</p>
+
+</div>
+</div>
+<div style="display:flex;gap:24px">
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">04</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Record new e at cursor</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Grava cliques num teste novo ou a partir da linha onde está o cursor.</p>
+
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">05</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Trace viewer</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Abre o trace do teste que acabou de rodar, dentro do editor.</p>
+
+</div>
+<div style="flex:1;background:#FBFAF6;border:1px solid #DDD7CB;border-radius:16px;padding:24px 28px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;gap:16px;align-items:baseline">
+<p style="font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;font-weight:600;color:#B4471B">06</p>
+<h3 style="font-size:30px;font-weight:600;line-height:1.2">Projetos e configs</h3>
+</div>
+<p style="font-size:23px;line-height:1.4;color:#4A4F5C">Marca os projetos (chromium, android) e troca o config pela engrenagem.</p>
+
+</div>
+</div>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>Fix with AI:</b> no teste que falhou, o ícone de brilho pede uma correção ao Copilot. Revise antes de aceitar.</p>
+<aside>Para quem escreve teste todo dia, a extensão oficial do VS Code é o lugar mais rápido. Cada teste ganha um botão de play; com breakpoint, Debug Test para na linha, como qualquer código. Com Show browser, o navegador fica aberto entre execuções e, clicando num locator no código, o elemento acende na tela: é o jeito mais rápido de saber se o locator está certo. Pick locator faz o caminho contrário: você clica no elemento e recebe o locator. Record new grava um teste novo, e Record at cursor grava a partir da linha onde você está. O trace do teste que acabou de rodar abre no próprio editor. Na barra lateral você escolhe os projetos, como chromium e android, e pela engrenagem troca entre os configs, como o local e o de navegadores. E no teste que falhou aparece o Fix with AI, que pede uma correção ao Copilot; como sempre, revise antes de aceitar.</aside>
 </section>
 <section id="demo-ui" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -975,6 +1035,200 @@
 </div>
 </div>
 <aside>Três situações de navegação. Redirecionamento: rota protegida sem sessão vai para o login; o toHaveURL espera a navegação terminar, sem sleep. Nova aba ou popup: um link com target blank ou um window.open abre outra página; o page.waitForEvent popup devolve essa page, e você testa nela como em qualquer outra. A espera precisa ser registrada antes do clique, por isso a promise vem primeiro e o await depois. A aba nova é do mesmo contexto, então já está logada. O login em popup do MSAL segue o mesmo padrão: pega o popup, preenche e espera ele fechar. E se a aba é de outra origem, como o portal de um parceiro, não muda nada; no Cypress isso exigiria cy.origin. O exemplo roda no 17-storage-e-abas.spec.ts.</aside>
+</section>
+<section id="iframe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · iframe</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">iframe de outra origem: o 3DS do cartão</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> resposta = page.<span style="color:#7FB5F0">waitForResponse</span>(<span style="color:#9CD08F">'**/api/cartao/compras'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: /^<span style="color:#E8C56A">Pagar</span>/ }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">const</span> { id } = <span style="color:#C49BEA">await</span> (<span style="color:#C49BEA">await</span> resposta).<span style="color:#7FB5F0">json</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// entra no iframe do emissor (outra origem)</span></p>
+<p><span style="color:#C49BEA">const</span> emissor = page.<span style="color:#7FB5F0">getByTitle</span>(<span style="color:#9CD08F">'Verificação do banco emissor'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">contentFrame</span>();</p>
+<p><span style="color:#C49BEA">await</span> emissor.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Código recebido por SMS'</span>).<span style="color:#7FB5F0">fill</span>(codigo);</p>
+<p><span style="color:#C49BEA">await</span> emissor.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Confirmar'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// a loja recebe o aviso do iframe (postMessage)</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'status'</span>)).<span style="color:#7FB5F0">toHaveText</span>(<span style="color:#9CD08F">'Compra aprovada'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>contentFrame()</b> ou <b>frameLocator()</b>: os locators funcionam dentro do iframe.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Outra origem não muda nada.</b> No Cypress, iframe de outra origem é o ponto fraco.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Ache o iframe pelo title</b>, que também é o que o leitor de tela anuncia.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Onde aparece:</b> 3DS do cartão, captcha, chat, mapa, widget de parceiro.</p>
+</div>
+</div>
+<aside>Pagamento com cartão quase sempre tem um iframe: o banco emissor abre o desafio 3DS dentro da página da loja, vindo de outro domínio. Para o Playwright, isso não muda nada. page.getByTitle localiza o iframe pelo title, o mesmo texto que o leitor de tela anuncia, e contentFrame entra nele; a partir daí, getByLabel e getByRole funcionam como em qualquer página. O frameLocator faz o mesmo com um seletor. No exemplo, a loja do Banco Tatu cria a compra, o emissor abre o desafio na porta 8080, outra origem, e quando o cliente confirma o iframe avisa a página por postMessage. Captcha, chat de atendimento, mapa e widget de parceiro seguem o mesmo padrão. O teste completo está no 22-iframe-e-otp.spec.ts.</aside>
+</section>
+<section id="otp" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · login com código</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Código por SMS, e-mail ou autenticador (OTP)</h2>
+</div>
+<table style="width:100%;font-size:24px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">O código vem por</th><th style="width:42%">Como o teste pega</th><th style="width:36%">Cuidado</th></tr>
+<tr><td>SMS ou e-mail</td><td>Caixa de teste: API do provedor (sandbox) ou Mailpit</td><td>Filtre pela referência ou pelo destinatário do teste</td></tr>
+<tr><td>Autenticador (TOTP)</td><td>Gere o código no teste a partir do segredo da conta de teste</td><td>otpauth: new TOTP({ secret }).generate()</td></tr>
+<tr><td>Código fixo</td><td>Só no ambiente de teste, só para usuários de teste</td><td>Combine com segurança; nunca em produção</td></tr>
+</table>
+<div style="display:flex;gap:40px;align-items:center">
+<div style="width:960px"><div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// espera o SMS chegar e lê o código</span></p>
+<p><span style="color:#C49BEA">await</span> expect.<span style="color:#7FB5F0">poll</span>(<span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> r = <span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">`/api/teste/sms?referencia=${id}`</span>);</p>
+<p>&#160;&#160;texto = r.<span style="color:#7FB5F0">ok</span>() ? (<span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">json</span>()).texto : <span style="color:#9CD08F">''</span>;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">return</span> texto;</p>
+<p>}).<span style="color:#7FB5F0">toMatch</span>(/\d{<span style="color:#F2B482">6</span>}/);</p>
+<p><span style="color:#C49BEA">const</span> codigo = /(\d{<span style="color:#F2B482">6</span>})/.<span style="color:#7FB5F0">exec</span>(texto)![<span style="color:#F2B482">1</span>];</p>
+</div></div>
+<div style="flex:1"><p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>expect.poll</b> repete a consulta até o SMS chegar, sem sleep. A <b>referência</b> evita pegar o código de outro teste rodando em paralelo.</p></div>
+</div>
+<aside>Código de uso único aparece em login com MFA e em confirmação de transação. Desligar o MFA no ambiente de teste é uma saída, mas existem formas de testar o fluxo de verdade. Se o código vem por SMS ou e-mail, o ambiente de teste aponta o envio para uma caixa de teste: a API de sandbox do provedor de SMS, ou um servidor de e-mail de teste como o Mailpit. O teste consulta essa caixa pela API, sempre filtrando pela referência da transação ou pelo destinatário, para não pegar o código de outro teste rodando em paralelo. Se é um app autenticador, o teste guarda o segredo da conta de teste e gera o código na hora com uma biblioteca como otpauth. A terceira opção, um código fixo, só vale no ambiente de teste, só para usuários de teste, e precisa ser combinada com o time de segurança. No exemplo, a compra no cartão manda o código para a caixa de SMS do mock BFF, e o teste espera com expect.poll até ele chegar.</aside>
+</section>
+<section id="arquivos-upload" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · arquivos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Upload: input, seletor e arrastar e soltar</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:1000px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:19px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// arquivo criado na hora: nada de PDF de exemplo no repositório</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Arquivo'</span>, { exact: <span style="color:#C49BEA">true</span> }).<span style="color:#7FB5F0">setInputFiles</span>({</p>
+<p>&#160;&#160;name: <span style="color:#9CD08F">'renda.pdf'</span>, mimeType: <span style="color:#9CD08F">'application/pdf'</span>,</p>
+<p>&#160;&#160;buffer: <span style="color:#E8C56A">Buffer</span>.<span style="color:#7FB5F0">from</span>(<span style="color:#9CD08F">'%PDF-1.4 comprovante'</span>),</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// botão que abre o seletor do sistema</span></p>
+<p><span style="color:#C49BEA">const</span> seletor = page.<span style="color:#7FB5F0">waitForEvent</span>(<span style="color:#9CD08F">'filechooser'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Escolher do computador'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">await</span> (<span style="color:#C49BEA">await</span> seletor).<span style="color:#7FB5F0">setFiles</span>(<span style="color:#9CD08F">'holerite.png'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// arrastar e soltar</span></p>
+<p><span style="color:#C49BEA">const</span> dados = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluateHandle</span>(() =&gt; { <span style="color:#C49BEA">const</span> d = <span style="color:#C49BEA">new</span> <span style="color:#E8C56A">DataTransfer</span>();</p>
+<p>&#160;&#160;d.items.<span style="color:#7FB5F0">add</span>(<span style="color:#C49BEA">new</span> <span style="color:#E8C56A">File</span>([<span style="color:#9CD08F">'%PDF'</span>], <span style="color:#9CD08F">'a.pdf'</span>, { <span style="color:#C49BEA">type</span>: <span style="color:#9CD08F">'application/pdf'</span> }));</p>
+<p>&#160;&#160;<span style="color:#C49BEA">return</span> d; });</p>
+<p><span style="color:#C49BEA">await</span> areaDeSoltar.<span style="color:#7FB5F0">dispatchEvent</span>(<span style="color:#9CD08F">'drop'</span>, { dataTransfer: dados });</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Buffer em vez de arquivo:</b> o teste cria o que precisa, do tamanho que precisa.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>O accept não vale</b> para o setInputFiles: dá para testar a validação de formato.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Limite de tamanho:</b> Buffer.alloc(1024 * 1024 + 1).</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>setInputFiles([])</b> limpa o campo.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Pegadinha:</b> num Linux sem locale UTF-8, caminho com acento deixa o campo vazio, sem erro.</p>
+</div>
+</div>
+<aside>Três jeitos de um arquivo entrar na tela. Se existe um input de arquivo, setInputFiles resolve, e o melhor é criar o arquivo na hora, com name, mimeType e buffer: nada de PDF de exemplo versionado, e dá para fazer um arquivo de exatamente 1 MB e um byte para testar o limite. O atributo accept do input não vale para o setInputFiles, então a validação de formato do app também é testável. Se um botão abre o seletor do sistema, espere o evento filechooser antes do clique e chame setFiles. Se é uma área de arrastar e soltar, monte um DataTransfer dentro da página e dispare o evento drop. Uma pegadinha que encontramos montando o exemplo: num Linux sem locale UTF-8, comum em agente de CI, um caminho com acento faz o campo ficar vazio, sem nenhum erro. Exemplos no 21-arquivos.spec.ts.</aside>
+</section>
+<section id="arquivos-download" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · arquivos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Download: baixar e conferir o que veio</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> download = page.<span style="color:#7FB5F0">waitForEvent</span>(<span style="color:#9CD08F">'download'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Exportar CSV'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">const</span> arquivo = <span style="color:#C49BEA">await</span> download;</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">expect</span>(arquivo.<span style="color:#7FB5F0">suggestedFilename</span>()).<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'extrato-tatu.csv'</span>);</p>
+<p><span style="color:#C49BEA">const</span> caminho = testInfo.<span style="color:#7FB5F0">outputPath</span>(arquivo.<span style="color:#7FB5F0">suggestedFilename</span>());</p>
+<p><span style="color:#C49BEA">await</span> arquivo.<span style="color:#7FB5F0">saveAs</span>(caminho);</p>
+<p><span style="color:#C49BEA">await</span> testInfo.<span style="color:#7FB5F0">attach</span>(<span style="color:#9CD08F">'extrato-tatu.csv'</span>, { path: caminho });</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// confira o CONTEÚDO, não só se o arquivo existe</span></p>
+<p><span style="color:#C49BEA">const</span> linhas = (<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">readFile</span>(caminho, <span style="color:#9CD08F">'utf8'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">replace</span>(/^\uFEFF/, <span style="color:#9CD08F">''</span>).<span style="color:#7FB5F0">split</span>(<span style="color:#9CD08F">'\r\n'</span>);</p>
+<p><span style="color:#7FB5F0">expect</span>(linhas[<span style="color:#F2B482">0</span>]).<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'data;descricao;valor'</span>);</p>
+<p><span style="color:#7FB5F0">expect</span>(linhas).<span style="color:#7FB5F0">toContain</span>(<span style="color:#9CD08F">'2026-11-09;Mercado do bairro;-312,40'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Espere o evento antes do clique</b>, como no popup.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>saveAs</b> na pasta do teste; anexe ao relatório para quem investigar.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Confira o conteúdo:</b> cabeçalho, linhas, separador, decimal com vírgula.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Dado pela API:</b> o arquivo segue a cliente criada no teste.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>PDF:</b> extraia o texto com uma biblioteca como pdf-parse e confira o que importa.</p>
+</div>
+</div>
+<aside>Download segue o padrão do popup: espere o evento download antes do clique. O objeto que volta tem o nome sugerido, o caminho temporário e o saveAs, que grava na pasta do teste; anexar o arquivo ao relatório ajuda quem for investigar uma falha. O erro mais comum é parar em o arquivo existe. O teste que vale confere o conteúdo: o cabeçalho, as linhas, o separador e a vírgula decimal. No exemplo, o extrato exportado vem com BOM no começo, um caractere invisível que faz o Excel abrir os acentos certo, e o teste precisa saber disso. Com a cliente criada pela API, o teste também confere que o arquivo segue os dados dela. Para PDF, o caminho é extrair o texto com uma biblioteca como pdf-parse e conferir o que importa, como o valor e a data.</aside>
+</section>
+<section id="permissoes" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · permissões</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Copiar, localização e notificações</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:980px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// área de transferência</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'clipboard-read'</span>, <span style="color:#9CD08F">'clipboard-write'</span>] });</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Copiar chave'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluate</span>(() =&gt; navigator.clipboard.<span style="color:#7FB5F0">readText</span>()))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'ana@tatu.com.br'</span>);</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// localização: concedida, e depois em outra cidade</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'geolocation'</span>],</p>
+<p>&#160;&#160;geolocation: { latitude: -<span style="color:#F2B482">23.5629</span>, longitude: -<span style="color:#F2B482">46.6544</span> } });</p>
+<p><span style="color:#C49BEA">await</span> context.<span style="color:#7FB5F0">setGeolocation</span>({ latitude: -<span style="color:#F2B482">22.9068</span>, longitude: -<span style="color:#F2B482">43.1729</span> });</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// notificações</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>({ permissions: [<span style="color:#9CD08F">'notifications'</span>] });</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Sem permissão, o navegador nega:</b> teste também a mensagem de recusa.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Copiar e colar:</b> leia a área de transferência e confira o que foi copiado.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Localização:</b> a tela muda com a cidade, sem sair da cadeira.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Por teste ou por arquivo</b> com test.use; no meio do teste com grantPermissions.</p>
+</div>
+</div>
+<aside>Alguns recursos pedem permissão ao navegador: área de transferência, localização, notificações, câmera. Num teste, ninguém clica em Permitir, então o Playwright concede por você com a opção permissions, por arquivo ou por describe com test.use, ou no meio do teste com grantPermissions. Sem permissão, o navegador nega, como um usuário que clicou em Bloquear, e isso também deve ser testado: a tela precisa dizer o que fazer. No exemplo, o botão Copiar chave Pix é conferido lendo de volta a área de transferência; a agência mais próxima muda quando o teste troca a localização de São Paulo para o Rio com setGeolocation; e os avisos de Pix só ficam ativos com a permissão de notificações. Tudo no 24-permissoes.spec.ts.</aside>
+</section>
+<section id="websocket" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · tempo real</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">WebSocket: cotação ao vivo</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:940px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// o teste é o servidor</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;ws.<span style="color:#7FB5F0">send</span>(JSON.<span style="color:#7FB5F0">stringify</span>({ moeda: <span style="color:#9CD08F">'USD'</span>, valor: <span style="color:#F2B482">5.6</span> }));</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// o servidor cai: a tela reconecta?</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">if</span> (++conexoes === <span style="color:#F2B482">1</span>) ws.<span style="color:#7FB5F0">close</span>({ code: <span style="color:#F2B482">1011</span> });</p>
+<p>&#160;&#160;<span style="color:#C49BEA">else</span> ws.<span style="color:#7FB5F0">send</span>(<span style="color:#7FB5F0">tique</span>(<span style="color:#F2B482">5.7</span>));</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// servidor de verdade, mensagem alterada no meio</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> servidor = ws.<span style="color:#7FB5F0">connectToServer</span>();</p>
+<p>&#160;&#160;servidor.<span style="color:#7FB5F0">onMessage</span>((m) =&gt; ws.<span style="color:#7FB5F0">send</span>(<span style="color:#7FB5F0">trocarValor</span>(m, <span style="color:#F2B482">9.99</span>)));</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>routeWebSocket</b> é o page.route do tempo real.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Sem servidor:</b> a tela mostra o valor que o teste mandar, na hora.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Queda e reconexão:</b> o cenário mais difícil de reproduzir à mão.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>connectToServer:</b> o servidor real responde e o teste mexe no meio.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Para MFEs com tempo real:</b> cotação, chat, status de transação, notificações.</p>
+</div>
+</div>
+<aside>Telas em tempo real usam WebSocket, e o routeWebSocket faz por elas o que o page.route faz pelo HTTP. No primeiro uso, o teste é o servidor: a tela recebe exatamente o valor que o teste mandar, sem servidor rodando. No segundo, o teste derruba a conexão e confere que a tela avisa e reconecta sozinha, que é o cenário mais difícil de reproduzir à mão. No terceiro, connectToServer liga no servidor de verdade e o teste altera as mensagens no caminho. No exemplo, a página de cotação ao vivo recebe um valor por segundo do mock BFF. Os quatro cenários estão no 25-websocket.spec.ts.</aside>
 </section>
 <section id="mock-onde" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:40px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -1892,6 +2146,40 @@
 </div>
 <aside>O espelho do slide anterior: cada hábito com o trecho de código que o resume. Papel primeiro, dados criados pela API, passos nomeados com test.step, etiquetas para rodar só o essencial, retries com trace e mocks só nas bordas do sistema. Todos esses trechos estão no projeto tatu-web e rodam na suíte.</aside>
 </section>
+<section id="instaveis" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Escrever · instáveis</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Teste instável: caçar, entender, marcar</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8"># caçar: repete até a falha aparecer e abre o trace dela</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test pix.spec.ts <span style="color:#8DB6E8">--repeat-each=30</span> <span style="color:#8DB6E8">--workers=4</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># no CI: o que só passou no retry também quebra</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--fail-on-flaky-tests</span></p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8"># de novo, só o que falhou</span></p>
+<p><span style="color:#F2B482">npx</span> playwright test <span style="color:#8DB6E8">--last-failed</span></p>
+</div><div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// a causa clássica: isVisible() não espera</span></p>
+<p><span style="color:#7FB5F0">expect</span>(<span style="color:#C49BEA">await</span> status.<span style="color:#7FB5F0">isVisible</span>()).<span style="color:#7FB5F0">toBe</span>(<span style="color:#C49BEA">true</span>);   <span style="color:#8C95A8">// instável</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(status).<span style="color:#7FB5F0">toBeVisible</span>();            <span style="color:#8C95A8">// espera</span></p>
+<p>&#160;</p>
+<p>test.<span style="color:#7FB5F0">fail</span>(<span style="color:#C49BEA">true</span>, <span style="color:#9CD08F">'bug PIX-201: valor some no iOS'</span>);</p>
+<p>test.<span style="color:#7FB5F0">fixme</span>(<span style="color:#9CD08F">'Pix agendado: aguardando a funcionalidade'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Quase sempre é espera:</b> isVisible, textContent ou count lidos na hora.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Ou é dado:</b> dois testes mexendo no mesmo cliente.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Ou é ordem:</b> um teste depende do que o outro deixou.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Retry esconde, não conserta.</b> Instável é bug: tem dono e prazo.</p>
+</div>
+</div>
+<aside>Teste instável é o que passa e falha sem ninguém mudar nada. Primeiro, cace: --repeat-each roda o mesmo teste trinta vezes, em paralelo, até a falha aparecer, e o trace da repetição que falhou mostra o porquê. No CI, --fail-on-flaky-tests faz o teste que só passou no retry quebrar o pipeline, para o problema não ficar escondido. As causas mais comuns são três. Espera: isVisible, textContent ou count leem a tela na hora, sem esperar; troque pelo expect, que espera. Dado: dois testes usando o mesmo cliente. Ordem: um teste depende do que o anterior deixou. Enquanto não dá para consertar, marque: test.fail diz que o teste falha e sabemos por quê, e avisa se começar a passar; test.fixme pula o teste mas deixa registrado no relatório. O exemplo está no 26-instaveis.spec.ts.</aside>
+</section>
 <section id="div-pipeline" data-section="Ambientes, pipeline e relatórios: navegador local, rede corporativa, variáveis, Docker, CI e relatórios" data-transition="fade" style="background:#161A22;color:#F5F2EC;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:32px">
 <p style="font-size:24px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#F2905F">Parte 5</p>
 <h2 style="font-size:104px;font-weight:600;line-height:1.05;color:#F5F2EC">Ambientes, pipeline e relatórios</h2>
@@ -1977,6 +2265,41 @@
 </div>
 </div>
 <aside>Em empresa grande, a primeira barreira costuma ser a rede, não o teste. Se o download dos navegadores é bloqueado, há quatro saídas. Na sua máquina, a mais simples é o channel chrome, que já vimos. Para o CI, o melhor é um mirror interno: a variável PLAYWRIGHT_DOWNLOAD_HOST aponta o download para o Artifactory ou o Nexus da empresa, e todo agente fica com a mesma versão. Se o proxy usa um certificado próprio, o install falha com self signed certificate; NODE_EXTRA_CA_CERTS resolve. PLAYWRIGHT_BROWSERS_PATH define uma pasta de navegadores compartilhada, boa para cache no agente. No Java, o Playwright baixa o navegador na primeira execução; PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD igual a 1, junto com o canal chrome, evita qualquer download.</aside>
+</section>
+<section id="navegadores" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ambientes · navegadores</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Celular, Firefox e Safari</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:980px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.navegadores.config.ts</span></p>
+<p>projects: [</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'chromium'</span>, use: { ...devices[<span style="color:#9CD08F">'Desktop Chrome'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'firefox'</span>,  use: { ...devices[<span style="color:#9CD08F">'Desktop Firefox'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'webkit'</span>,   use: { ...devices[<span style="color:#9CD08F">'Desktop Safari'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'android'</span>,  use: { ...devices[<span style="color:#9CD08F">'Pixel 7'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'iphone'</span>,   use: { ...devices[<span style="color:#9CD08F">'iPhone 15'</span>] } },</p>
+<p>]</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// um teste só no celular</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>(devices[<span style="color:#9CD08F">'Pixel 7'</span>]);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'link'</span>, { name: <span style="color:#9CD08F">'Pix'</span> }).<span style="color:#7FB5F0">tap</span>();</p>
+<p><span style="color:#C49BEA">const</span> sobra = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluate</span>(() =&gt;</p>
+<p>&#160;&#160;document.documentElement.scrollWidth - innerWidth);</p>
+<p><span style="color:#7FB5F0">expect</span>(sobra).<span style="color:#7FB5F0">toBeLessThanOrEqual</span>(<span style="color:#F2B482">0</span>);  <span style="color:#8C95A8">// sem rolagem lateral</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>devices</b> traz tela, escala, toque e user agent do aparelho.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>WebKit</b> é o motor do Safari: o mais perto do iPhone que roda no CI.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Firefox e WebKit</b> usam o navegador baixado pelo Playwright, sem channel.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Barato de começar:</b> rodamos a suíte inteira no Pixel 7 e passou.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> chromium em todo PR; os outros à noite.</p>
+</div>
+</div>
+<aside>Cada projeto do config é uma variação da suíte, e o objeto devices traz os aparelhos prontos: tamanho de tela, escala, toque e user agent. Com um config de navegadores, a mesma suíte roda em Chromium, Firefox, WebKit, que é o motor do Safari, e em celulares Android e iPhone emulados. Emulação não é aparelho físico, mas pega a maioria dos problemas: layout que estoura a largura, botão escondido, toque que não funciona. Firefox e WebKit não usam o channel; eles sempre vêm do Playwright, então precisam do npx playwright install. Para começar sem custo, rodamos a suíte inteira do exemplo no Pixel 7 emulado e todos os testes passaram. Uma divisão comum no pipeline: chromium em todo pull request e os outros navegadores numa execução noturna.</aside>
 </section>
 <section id="variaveis" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:36px">
 <div style="display:flex;flex-direction:column;gap:12px">
@@ -2764,7 +3087,7 @@
 <div style="display:flex;gap:48px">
 <div style="flex:1;display:flex;flex-direction:column;gap:16px">
 <h3 style="font-size:36px;font-weight:600">tatu-web</h3>
-<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Angular + Playwright. Vinte arquivos de teste, do login ao Lighthouse, e BDD.</p>
+<p style="font-size:28px;line-height:1.4;color:#4A4F5C">Angular + Playwright. 26 arquivos de teste, do login ao WebSocket, e BDD.</p>
 <div style="background:#1E232E;border-radius:16px;padding:32px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:24px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
 <p><span style="color:#F2B482">npm</span> install</p>
 <p><span style="color:#F2B482">npx</span> playwright install chromium</p>

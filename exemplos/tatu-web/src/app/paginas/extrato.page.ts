@@ -41,6 +41,7 @@ type Estado = 'carregando' | 'erro' | 'ok';
                 }
               </tbody>
             </table>
+            <button type="button" (click)="exportarCsv()">Exportar CSV</button>
           }
         }
       }
@@ -56,6 +57,18 @@ export class ExtratoPage implements OnInit {
 
   ngOnInit(): void {
     this.carregar();
+  }
+
+  /** Gera o CSV no navegador e baixa como extrato-tatu.csv (separador ; e BOM para o Excel abrir os acentos). */
+  exportarCsv(): void {
+    const linhas = this.itens().map((i) => [i.data, i.descricao, i.valor.toFixed(2).replace('.', ',')].join(';'));
+    const csv = '\uFEFF' + ['data;descricao;valor', ...linhas].join('\r\n');
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'extrato-tatu.csv';
+    link.click();
+    URL.revokeObjectURL(url);
   }
 
   carregar(): void {

@@ -1,0 +1,35 @@
+<section id="navegadores" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Ambientes · navegadores</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Celular, Firefox e Safari</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:980px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// playwright.navegadores.config.ts</span></p>
+<p>projects: [</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'chromium'</span>, use: { ...devices[<span style="color:#9CD08F">'Desktop Chrome'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'firefox'</span>,  use: { ...devices[<span style="color:#9CD08F">'Desktop Firefox'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'webkit'</span>,   use: { ...devices[<span style="color:#9CD08F">'Desktop Safari'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'android'</span>,  use: { ...devices[<span style="color:#9CD08F">'Pixel 7'</span>] } },</p>
+<p>&#160;&#160;{ name: <span style="color:#9CD08F">'iphone'</span>,   use: { ...devices[<span style="color:#9CD08F">'iPhone 15'</span>] } },</p>
+<p>]</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// um teste só no celular</span></p>
+<p>test.<span style="color:#7FB5F0">use</span>(devices[<span style="color:#9CD08F">'Pixel 7'</span>]);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'link'</span>, { name: <span style="color:#9CD08F">'Pix'</span> }).<span style="color:#7FB5F0">tap</span>();</p>
+<p><span style="color:#C49BEA">const</span> sobra = <span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">evaluate</span>(() =&gt;</p>
+<p>&#160;&#160;document.documentElement.scrollWidth - innerWidth);</p>
+<p><span style="color:#7FB5F0">expect</span>(sobra).<span style="color:#7FB5F0">toBeLessThanOrEqual</span>(<span style="color:#F2B482">0</span>);  <span style="color:#8C95A8">// sem rolagem lateral</span></p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>devices</b> traz tela, escala, toque e user agent do aparelho.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>WebKit</b> é o motor do Safari: o mais perto do iPhone que roda no CI.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Firefox e WebKit</b> usam o navegador baixado pelo Playwright, sem channel.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Barato de começar:</b> rodamos a suíte inteira no Pixel 7 e passou.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>No pipeline:</b> chromium em todo PR; os outros à noite.</p>
+</div>
+</div>
+<aside>Cada projeto do config é uma variação da suíte, e o objeto devices traz os aparelhos prontos: tamanho de tela, escala, toque e user agent. Com um config de navegadores, a mesma suíte roda em Chromium, Firefox, WebKit, que é o motor do Safari, e em celulares Android e iPhone emulados. Emulação não é aparelho físico, mas pega a maioria dos problemas: layout que estoura a largura, botão escondido, toque que não funciona. Firefox e WebKit não usam o channel; eles sempre vêm do Playwright, então precisam do npx playwright install. Para começar sem custo, rodamos a suíte inteira do exemplo no Pixel 7 emulado e todos os testes passaram. Uma divisão comum no pipeline: chromium em todo pull request e os outros navegadores numa execução noturna.</aside>
+</section>

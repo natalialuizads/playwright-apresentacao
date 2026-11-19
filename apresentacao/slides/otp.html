@@ -1,0 +1,25 @@
+<section id="otp" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · login com código</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Código por SMS, e-mail ou autenticador (OTP)</h2>
+</div>
+<table style="width:100%;font-size:24px;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif">
+<tr><th style="width:22%">O código vem por</th><th style="width:42%">Como o teste pega</th><th style="width:36%">Cuidado</th></tr>
+<tr><td>SMS ou e-mail</td><td>Caixa de teste: API do provedor (sandbox) ou Mailpit</td><td>Filtre pela referência ou pelo destinatário do teste</td></tr>
+<tr><td>Autenticador (TOTP)</td><td>Gere o código no teste a partir do segredo da conta de teste</td><td>otpauth: new TOTP({ secret }).generate()</td></tr>
+<tr><td>Código fixo</td><td>Só no ambiente de teste, só para usuários de teste</td><td>Combine com segurança; nunca em produção</td></tr>
+</table>
+<div style="display:flex;gap:40px;align-items:center">
+<div style="width:960px"><div style="background:#1E232E;border-radius:16px;padding:22px 26px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// espera o SMS chegar e lê o código</span></p>
+<p><span style="color:#C49BEA">await</span> expect.<span style="color:#7FB5F0">poll</span>(<span style="color:#C49BEA">async</span> () =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> r = <span style="color:#C49BEA">await</span> request.<span style="color:#7FB5F0">get</span>(<span style="color:#9CD08F">`/api/teste/sms?referencia=${id}`</span>);</p>
+<p>&#160;&#160;texto = r.<span style="color:#7FB5F0">ok</span>() ? (<span style="color:#C49BEA">await</span> r.<span style="color:#7FB5F0">json</span>()).texto : <span style="color:#9CD08F">''</span>;</p>
+<p>&#160;&#160;<span style="color:#C49BEA">return</span> texto;</p>
+<p>}).<span style="color:#7FB5F0">toMatch</span>(/\d{<span style="color:#F2B482">6</span>}/);</p>
+<p><span style="color:#C49BEA">const</span> codigo = /(\d{<span style="color:#F2B482">6</span>})/.<span style="color:#7FB5F0">exec</span>(texto)![<span style="color:#F2B482">1</span>];</p>
+</div></div>
+<div style="flex:1"><p style="font-size:25px;line-height:1.4;color:#4A4F5C"><b>expect.poll</b> repete a consulta até o SMS chegar, sem sleep. A <b>referência</b> evita pegar o código de outro teste rodando em paralelo.</p></div>
+</div>
+<aside>Código de uso único aparece em login com MFA e em confirmação de transação. Desligar o MFA no ambiente de teste é uma saída, mas existem formas de testar o fluxo de verdade. Se o código vem por SMS ou e-mail, o ambiente de teste aponta o envio para uma caixa de teste: a API de sandbox do provedor de SMS, ou um servidor de e-mail de teste como o Mailpit. O teste consulta essa caixa pela API, sempre filtrando pela referência da transação ou pelo destinatário, para não pegar o código de outro teste rodando em paralelo. Se é um app autenticador, o teste guarda o segredo da conta de teste e gera o código na hora com uma biblioteca como otpauth. A terceira opção, um código fixo, só vale no ambiente de teste, só para usuários de teste, e precisa ser combinada com o time de segurança. No exemplo, a compra no cartão manda o código para a caixa de SMS do mock BFF, e o teste espera com expect.poll até ele chegar.</aside>
+</section>

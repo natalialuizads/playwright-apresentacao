@@ -21,7 +21,8 @@
     "e2e:relatorio": "playwright show-report relatorio",
     "vigia": "node scripts/vigia.mjs",
     "e2e:bdd": "bddgen -c playwright.bdd.config.ts && playwright test -c playwright.bdd.config.ts",
-    "e2e:lighthouse": "playwright test --project=lighthouse"
+    "e2e:lighthouse": "playwright test --project=lighthouse",
+    "e2e:navegadores": "playwright test -c playwright.navegadores.config.ts"
   },
   "private": true,
   "packageManager": "npm@10.9.9",
@@ -47,6 +48,7 @@
     "playwright-bdd": "^9.2.1",
     "prettier": "^3.8.1",
     "typescript": "~6.0.2",
-    "vitest": "^5.0.0"
+    "vitest": "^5.0.0",
+    "ws": "^8.23.0"
   }
 }

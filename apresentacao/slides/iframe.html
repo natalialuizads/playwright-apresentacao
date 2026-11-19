@@ -1,0 +1,31 @@
+<section id="iframe" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · iframe</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">iframe de outra origem: o 3DS do cartão</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> resposta = page.<span style="color:#7FB5F0">waitForResponse</span>(<span style="color:#9CD08F">'**/api/cartao/compras'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: /^<span style="color:#E8C56A">Pagar</span>/ }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">const</span> { id } = <span style="color:#C49BEA">await</span> (<span style="color:#C49BEA">await</span> resposta).<span style="color:#7FB5F0">json</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// entra no iframe do emissor (outra origem)</span></p>
+<p><span style="color:#C49BEA">const</span> emissor = page.<span style="color:#7FB5F0">getByTitle</span>(<span style="color:#9CD08F">'Verificação do banco emissor'</span>)</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">contentFrame</span>();</p>
+<p><span style="color:#C49BEA">await</span> emissor.<span style="color:#7FB5F0">getByLabel</span>(<span style="color:#9CD08F">'Código recebido por SMS'</span>).<span style="color:#7FB5F0">fill</span>(codigo);</p>
+<p><span style="color:#C49BEA">await</span> emissor.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Confirmar'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// a loja recebe o aviso do iframe (postMessage)</span></p>
+<p><span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">expect</span>(page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'status'</span>)).<span style="color:#7FB5F0">toHaveText</span>(<span style="color:#9CD08F">'Compra aprovada'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>contentFrame()</b> ou <b>frameLocator()</b>: os locators funcionam dentro do iframe.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Outra origem não muda nada.</b> No Cypress, iframe de outra origem é o ponto fraco.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Ache o iframe pelo title</b>, que também é o que o leitor de tela anuncia.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Onde aparece:</b> 3DS do cartão, captcha, chat, mapa, widget de parceiro.</p>
+</div>
+</div>
+<aside>Pagamento com cartão quase sempre tem um iframe: o banco emissor abre o desafio 3DS dentro da página da loja, vindo de outro domínio. Para o Playwright, isso não muda nada. page.getByTitle localiza o iframe pelo title, o mesmo texto que o leitor de tela anuncia, e contentFrame entra nele; a partir daí, getByLabel e getByRole funcionam como em qualquer página. O frameLocator faz o mesmo com um seletor. No exemplo, a loja do Banco Tatu cria a compra, o emissor abre o desafio na porta 8080, outra origem, e quando o cliente confirma o iframe avisa a página por postMessage. Captcha, chat de atendimento, mapa e widget de parceiro seguem o mesmo padrão. O teste completo está no 22-iframe-e-otp.spec.ts.</aside>
+</section>

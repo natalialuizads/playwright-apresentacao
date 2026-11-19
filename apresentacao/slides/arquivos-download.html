@@ -1,0 +1,34 @@
+<section id="arquivos-download" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · arquivos</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">Download: baixar e conferir o que veio</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:960px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#C49BEA">const</span> download = page.<span style="color:#7FB5F0">waitForEvent</span>(<span style="color:#9CD08F">'download'</span>);</p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">getByRole</span>(<span style="color:#9CD08F">'button'</span>, { name: <span style="color:#9CD08F">'Exportar CSV'</span> }).<span style="color:#7FB5F0">click</span>();</p>
+<p><span style="color:#C49BEA">const</span> arquivo = <span style="color:#C49BEA">await</span> download;</p>
+<p>&#160;</p>
+<p><span style="color:#7FB5F0">expect</span>(arquivo.<span style="color:#7FB5F0">suggestedFilename</span>()).<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'extrato-tatu.csv'</span>);</p>
+<p><span style="color:#C49BEA">const</span> caminho = testInfo.<span style="color:#7FB5F0">outputPath</span>(arquivo.<span style="color:#7FB5F0">suggestedFilename</span>());</p>
+<p><span style="color:#C49BEA">await</span> arquivo.<span style="color:#7FB5F0">saveAs</span>(caminho);</p>
+<p><span style="color:#C49BEA">await</span> testInfo.<span style="color:#7FB5F0">attach</span>(<span style="color:#9CD08F">'extrato-tatu.csv'</span>, { path: caminho });</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// confira o CONTEÚDO, não só se o arquivo existe</span></p>
+<p><span style="color:#C49BEA">const</span> linhas = (<span style="color:#C49BEA">await</span> <span style="color:#7FB5F0">readFile</span>(caminho, <span style="color:#9CD08F">'utf8'</span>))</p>
+<p>&#160;&#160;.<span style="color:#7FB5F0">replace</span>(/^\uFEFF/, <span style="color:#9CD08F">''</span>).<span style="color:#7FB5F0">split</span>(<span style="color:#9CD08F">'\r\n'</span>);</p>
+<p><span style="color:#7FB5F0">expect</span>(linhas[<span style="color:#F2B482">0</span>]).<span style="color:#7FB5F0">toBe</span>(<span style="color:#9CD08F">'data;descricao;valor'</span>);</p>
+<p><span style="color:#7FB5F0">expect</span>(linhas).<span style="color:#7FB5F0">toContain</span>(<span style="color:#9CD08F">'2026-11-09;Mercado do bairro;-312,40'</span>);</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>Espere o evento antes do clique</b>, como no popup.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>saveAs</b> na pasta do teste; anexe ao relatório para quem investigar.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Confira o conteúdo:</b> cabeçalho, linhas, separador, decimal com vírgula.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>Dado pela API:</b> o arquivo segue a cliente criada no teste.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>PDF:</b> extraia o texto com uma biblioteca como pdf-parse e confira o que importa.</p>
+</div>
+</div>
+<aside>Download segue o padrão do popup: espere o evento download antes do clique. O objeto que volta tem o nome sugerido, o caminho temporário e o saveAs, que grava na pasta do teste; anexar o arquivo ao relatório ajuda quem for investigar uma falha. O erro mais comum é parar em o arquivo existe. O teste que vale confere o conteúdo: o cabeçalho, as linhas, o separador e a vírgula decimal. No exemplo, o extrato exportado vem com BOM no começo, um caractere invisível que faz o Excel abrir os acentos certo, e o teste precisa saber disso. Com a cliente criada pela API, o teste também confere que o arquivo segue os dados dela. Para PDF, o caminho é extrair o texto com uma biblioteca como pdf-parse e conferir o que importa, como o valor e a data.</aside>
+</section>

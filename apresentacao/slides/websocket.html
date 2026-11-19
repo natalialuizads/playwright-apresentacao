@@ -1,0 +1,36 @@
+<section id="websocket" style="background:#F5F2EC;color:#161A22;font-family:'IBM Plex Sans', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<p style="font-size:24px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:#B4471B">Angular · tempo real</p>
+<h2 style="font-size:64px;font-weight:600;line-height:1.1">WebSocket: cotação ao vivo</h2>
+</div>
+<div style="display:flex;gap:48px;align-items:start">
+<div style="width:940px;display:flex;flex-direction:column;gap:20px">
+<div style="background:#1E232E;border-radius:16px;padding:24px 28px;font-family:'JetBrains Mono', 'Courier New', monospace;font-size:20px;line-height:1.45;color:#E8E4DA;white-space:nowrap">
+<p><span style="color:#8C95A8">// o teste é o servidor</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;ws.<span style="color:#7FB5F0">send</span>(JSON.<span style="color:#7FB5F0">stringify</span>({ moeda: <span style="color:#9CD08F">'USD'</span>, valor: <span style="color:#F2B482">5.6</span> }));</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// o servidor cai: a tela reconecta?</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">if</span> (++conexoes === <span style="color:#F2B482">1</span>) ws.<span style="color:#7FB5F0">close</span>({ code: <span style="color:#F2B482">1011</span> });</p>
+<p>&#160;&#160;<span style="color:#C49BEA">else</span> ws.<span style="color:#7FB5F0">send</span>(<span style="color:#7FB5F0">tique</span>(<span style="color:#F2B482">5.7</span>));</p>
+<p>});</p>
+<p>&#160;</p>
+<p><span style="color:#8C95A8">// servidor de verdade, mensagem alterada no meio</span></p>
+<p><span style="color:#C49BEA">await</span> page.<span style="color:#7FB5F0">routeWebSocket</span>(<span style="color:#9CD08F">'**/ws/cotacao'</span>, (ws) =&gt; {</p>
+<p>&#160;&#160;<span style="color:#C49BEA">const</span> servidor = ws.<span style="color:#7FB5F0">connectToServer</span>();</p>
+<p>&#160;&#160;servidor.<span style="color:#7FB5F0">onMessage</span>((m) =&gt; ws.<span style="color:#7FB5F0">send</span>(<span style="color:#7FB5F0">trocarValor</span>(m, <span style="color:#F2B482">9.99</span>)));</p>
+<p>});</p>
+</div>
+</div>
+<div style="flex:1;display:flex;flex-direction:column;gap:18px">
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>1.</b> <b>routeWebSocket</b> é o page.route do tempo real.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>2.</b> <b>Sem servidor:</b> a tela mostra o valor que o teste mandar, na hora.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>3.</b> <b>Queda e reconexão:</b> o cenário mais difícil de reproduzir à mão.</p>
+<p style="font-size:26px;line-height:1.4;color:#4A4F5C"><b>4.</b> <b>connectToServer:</b> o servidor real responde e o teste mexe no meio.</p>
+<p style="font-size:24px;line-height:1.4;color:#4A4F5C"><b>Para MFEs com tempo real:</b> cotação, chat, status de transação, notificações.</p>
+</div>
+</div>
+<aside>Telas em tempo real usam WebSocket, e o routeWebSocket faz por elas o que o page.route faz pelo HTTP. No primeiro uso, o teste é o servidor: a tela recebe exatamente o valor que o teste mandar, sem servidor rodando. No segundo, o teste derruba a conexão e confere que a tela avisa e reconecta sozinha, que é o cenário mais difícil de reproduzir à mão. No terceiro, connectToServer liga no servidor de verdade e o teste altera as mensagens no caminho. No exemplo, a página de cotação ao vivo recebe um valor por segundo do mock BFF. Os quatro cenários estão no 25-websocket.spec.ts.</aside>
+</section>
